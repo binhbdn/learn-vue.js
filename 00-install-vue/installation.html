@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js nstallation</title>
+    <!-- Dùng thẻ <script> trực tiếp -->
+    <script src="js/vue.js"></script><!-- development -->
+    <script src="js/vue.min.js"></script><!-- production -->
+    <!-- CDN -->
+    <!-- For prototyping or learning purposes, you can use the latest version with: -->
+    <script src="https://unpkg.com/vue@next"></script>
+    <!-- For production, we recommend linking to a specific version number and build to avoid unexpected breakage from newer versions. -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+    <!-- Bạn có thể xem mã nguồn của package trên npm tại https://cdn.jsdelivr.net/npm/vue/. -->
+    <!-- Ngoài ra, bạn cũng có thể sử dụng unpkg hoặc cdnjs (cdnjs cần nhiều thời gian để đồng bộ nên có thể nó chưa phải phiên bản mới nhất). -->
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.js"></script>
+</head>
+<body>
+    NPM
+    # latest stable
+    $ npm install vue@next
+
+    CLI
+    yarn global add @vue/cli
+    # OR
+    npm install -g @vue/cli
+    Then in the Vue projects, run
+    vue upgrade --next
+
+    Vite
+    With NPM:
+    $ npm init vite-app <project-name>
+    $ cd <project-name>
+    $ npm install
+    $ npm run dev
+    Or with Yarn:
+    $ yarn create vite-app <project-name>
+    $ cd <project-name>
+    $ yarn
+    $ yarn dev
+</body>
+</html>
