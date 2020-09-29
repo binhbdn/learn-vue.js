@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Conditionals and Loops - App2</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+    <div id="list-rendering">
+        <ol>
+            <li v-for="todo in todos">
+                {{ todo.text }}
+            </li>
+        </ol>
+    </div>
+    <script>
+        const ListRendering = {
+            data() {
+                return {
+                    todos: [
+                        { text: 'Learn JavaScript' },
+                        { text: 'Learn Vue' },
+                        { text: 'Build something awesome' }
+                    ]
+                }
+            }
+        }
+
+        Vue.createApp(ListRendering).mount('#list-rendering')
+    </script>
+</body>
+</html>
