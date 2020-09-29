@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Conditionals and Loops - App1</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+    <div id="conditional-rendering">
+        <span v-if="seen">Now you see me</span>
+    </div>
+    <script>
+        const ConditionalRendering = {
+            data() {
+                return {
+                    seen: true
+                }
+            }
+        }
+
+        Vue.createApp(ConditionalRendering).mount('#conditional-rendering')
+    </script>
+    <!-- hãy thử nhập ConditionalRendering.seen = false vào console -->
+</body>
+</html>
