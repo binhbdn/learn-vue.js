@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Declarative Rendering - App2</title>
+    <!-- bản phát triển (development), bao gồm những cảnh báo hữu ích trong console -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- bản production, được tối ưu về dung lượng và tốc độ -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+</head>
+<body>
+    <div id="app-2">
+        <span v-bind:title="message">
+            Rê chuột lên đây một vài giây để xem thuộc tính `title` được bind!
+        </span>
+    </div>
+    <script>
+        var app2 = new Vue({
+            el: '#app-2',
+            data: {
+                message: 'Bạn đã mở trang này vào ' + new Date().toLocaleString()
+            }
+        })
+    </script>
+    <!-- Bây giờ nếu bạn mở console JavaScript lần nữa và nhập vào app2.message = 'Cái gì đó khác',
+        bạn sẽ thấy HTML được bind – trong trường hợp này là thuộc tính title – được cập nhật tương ứng. -->
+</body>
+</html>
