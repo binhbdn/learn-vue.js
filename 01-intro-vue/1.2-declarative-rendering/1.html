@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Declarative Rendering - App1</title>
+    <!-- bản phát triển (development), bao gồm những cảnh báo hữu ích trong console -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- bản production, được tối ưu về dung lượng và tốc độ -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+</head>
+<body>
+    <div id="app">
+        {{ message }}
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                message: 'Do you wanna build a Vue app?'
+            }
+        })
+    </script>
+
+<!-- hãy mở console của trình duyệt và gán cho app.message một giá trị khác,
+    ví dụ app.message = 'OK bye' -->
+</body>
+</html>
