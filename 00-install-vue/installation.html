@@ -4,15 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vue.js nstallation</title>
+    <!-- Direct <script> Include -->
     <!-- Dùng thẻ <script> trực tiếp -->
     <script src="js/vue.js"></script><!-- development -->
     <script src="js/vue.min.js"></script><!-- production -->
     <!-- CDN -->
     <!-- For prototyping or learning purposes, you can use the latest version with: -->
-    <script src="https://unpkg.com/vue@next"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script><!-- v2.x -->
+    <script src="https://unpkg.com/vue@next"></script><!-- v3.x -->
     <!-- For production, we recommend linking to a specific version number and build to avoid unexpected breakage from newer versions. -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+    <!-- You can browse the source of the NPM package at cdn.jsdelivr.net/npm/vue -->
     <!-- Bạn có thể xem mã nguồn của package trên npm tại https://cdn.jsdelivr.net/npm/vue/. -->
+    <!-- Vue is also available on unpkg and cdnjs (cdnjs takes some time to sync so the latest release may not be available yet). -->
     <!-- Ngoài ra, bạn cũng có thể sử dụng unpkg hoặc cdnjs (cdnjs cần nhiều thời gian để đồng bộ nên có thể nó chưa phải phiên bản mới nhất). -->
     <script src="https://unpkg.com/vue"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.js"></script>
@@ -20,6 +25,9 @@
 <body>
     NPM
     # latest stable
+    v2.x :
+    $ npm install vue
+    v3.x :
     $ npm install vue@next
 
     CLI
@@ -28,6 +36,14 @@
     npm install -g @vue/cli
     Then in the Vue projects, run
     vue upgrade --next
+    
+    # cài đặt vue-cli
+    $ npm install --global vue-cli
+    # tạo một dự án mới với template "webpack"
+    $ vue init webpack my-project
+    # cài đặt các thư viện phụ thuộc và bắt tay vào việc!
+    $ cd my-project
+    $ npm run dev
 
     Vite
     With NPM:
