@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Composing with Components - App1a</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    
+</head>
+<body>
+    <div id="app-7a">
+        <ol>
+            <!--
+            Ở đây chúng ta cung cấp một object "todo" cho mỗi component
+            "todo-item". Bằng cách này nội dung của từng component trở nên động.
+            Mỗi component cũng sẽ nhận một thuộc tính "key". Chúng ta sẽ
+            nói thêm về thuộc tính này sau.
+            -->
+            <todo-item
+            v-for="item in groceryList"
+            v-bind:todo="item"
+            v-bind:key="item.id"
+            ></todo-item>
+        </ol>
+    </div>
+    <script src="1a.js"></script>
+</body>
+</html>
