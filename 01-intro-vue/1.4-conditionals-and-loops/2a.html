@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Conditionals and Loops - App2a</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
+    <div id="list-rendering">
+        <ol>
+            <li v-for="todo in todos">
+                {{ todo.text }}
+            </li>
+        </ol>
+    </div>
+    <script>
+        var ListRendering = new Vue({
+            el: '#list-rendering',
+            data: {
+                todos: [
+                    { text: 'Học JavaScript' },
+                    { text: 'Học Vue' },
+                    { text: 'Xây dựng cái gì đó hay ho' }
+                ]
+            }
+        })
+    </script>
+</body>
+</html>
