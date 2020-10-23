@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Handling User Input - App1a</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
+    <div id="event-handling">
+        <p>{{ message }}</p>
+        <button v-on:click="reverseMessage">Reverse Message</button>
+    </div>
+    <script>
+        var EventHandling = new Vue({
+            el: '#event-handling',
+            data: {
+                message: 'qua lại khách chờ sông lặng sóng'
+            },
+            methods: {
+                reverseMessage: function () {
+                    this.message =  this.message
+                                        .split(' ')
+                                        .reverse()
+                                        .join(' ')
+                }
+            }
+        })
+    </script>
+</body>
+</html>
