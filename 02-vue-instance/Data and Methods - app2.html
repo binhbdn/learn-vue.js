@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Data and Methods - app2</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
+    <p>The only exception to this being the use of Object.freeze(), which prevents existing properties from being changed, which also means the reactivity system can’t track changes.</p>
+    <p>Ngoại lệ duy nhất ở đây là việc sử dụng Object.freeze(). Object.freeze() ngăn không cho những thuộc tính sẵn có bị chỉnh sửa, cũng có nghĩa là hệ thống reactivity không thể theo dõi các thay đổi xảy ra.</p>
+    <div id='app2'>
+        <h1 style="color: red;"><span v-pre  style="color: blue;">{{foo}} render to </span>{{foo}}</h1>
+        <!-- this will no longer update `foo`! -->
+        <button v-on:click="foo = 'changed'">Change it</button>
+        <!-- foo sẽ không được cập nhật! -->
+        <button @click="foo = 'đã cập nhật'">Cập nhật đi chứ</button>
+    </div>
+    <script src="Data and Methods - app2.js"></script>
+    <pre>
+    // Test on console
+
+    // Press above buttons
+    // Comment out "Object.freeze(obj)" in "Data and Methods - app2.js", save and press the buttons again!
+    </pre>
+</body>
+</html>
