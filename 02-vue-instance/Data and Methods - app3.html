@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Data and Methods - app3</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
+    <p>In addition to data properties, Vue instances expose a number of useful instance properties and methods. These are prefixed with <code>$</code> to differentiate them from user-defined properties.</p>
+    <p>Ngoài <code>data</code>, một đối tượng Vue cũng hỗ trợ một số thuộc tính và phương thức đối tượng (instance properties &amp; methods) hữu dụng khác. Các thuộc tính và phương thức này được bắt đầu bằng kí hiệu <code>$</code> để phân biệt với thuộc tính và phương thức do người dùng định nghĩa.</p>
+    <div id='example'>
+        <h1 style="color: red;"><span v-pre  style="color: blue;">{{a}} render to </span>{{a}}</h1>
+    </div>
+    <script src="Data and Methods - app3.js"></script>
+    <pre>
+    // Test on console
+
+    vm.$data === data // => true
+    vm.$el === document.getElementById('example') // => true
+    
+    // $watch is an instance method
+    // $watch là một phương thức của đối tượng Vue
+    vm.$watch('a', function (newValue, oldValue) {
+        // This callback will be called when `vm.a` changes
+        // Hàm callback này sẽ được gọi khi `vm.a` thay đổi
+        alert('a changed from ' + oldValue + ' to ' + newValue);
+    })
+    </pre>
+</body>
+</html>
