@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Instance Lifecycle Hooks</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
+    <p>Each Vue instance goes through a series of initialization steps when it’s created - for example, it needs to set up data observation, compile the template, mount the instance to the DOM, and update the DOM when data changes. Along the way, it also runs functions called <strong>lifecycle hooks</strong>, giving users the opportunity to add their own code at specific stages.</p>
+    <p>Khi được khởi tạo, một đối tượng Vue sẽ đi qua nhiều bước khác nhau - cài đặt quan sát dữ liệu (data observation), biên dịch template, gắn kết vào DOM, cập nhật DOM khi dữ liệu thay đổi v.v. Trong suốt tiến trình này, nó cũng sẽ thực thi một số hàm gọi là <strong>lifecycle hook</strong>, giúp người dùng thêm code của mình vào các giai đoạn (stage) cụ thể trong vòng đời của đối tượng.</p>
+    <p>For example, the <code>created</code> hook can be used to run code after an instance is created:</p>
+    <p>Ví dụ, hook <code>created</code> có thể được dùng để thực thi code sau khi một đối tượng được khởi tạo:</p>
+    <br>
+    <div id='app5'>
+        <h1 style="color: red;"><span v-pre  style="color: blue;">{{a}} render to </span>{{a}}</h1>
+    </div>
+    <p>There are also other hooks which will be called at different stages of the instance’s lifecycle, such as <code>mounted</code>, <code>updated</code>, and <code>destroyed</code>. All lifecycle hooks are called with their <code>this</code> context pointing to the Vue instance invoking it.</p>
+    <p>Các hook khác như <code>mounted</code>, <code>updated</code>, và <code>destroyed</code> cũng được gọi vào các giai đoạn khác nhau trong vòng đời của đối tượng. Tất cả các hook này đều được thực thi với ngữ cảnh <code>this</code> trỏ đến đối tượng Vue hiện hành.</p>
+    <script src="Instance Lifecycle Hooks.js"></script>
+    <pre>
+    // check logs on console
+    </pre>
+</body>
+</html>
