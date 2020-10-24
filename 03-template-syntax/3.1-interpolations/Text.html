@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Interpolations - Text</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
+    <p>The most basic form of data binding is text interpolation using the “Mustache” syntax (double curly braces):</p>
+    <p>Hình thức ràng buộc dữ liệu cơ bản nhất là nội suy văn bản (text interpolation) sử dụng cú pháp “mustache” (“ria mép” – hai dấu ngoặc nhọn):</p>
+    <pre>
+        <code><span">&lt;<span>span</span>&gt;</span>Message: {{ msg }}<span>&lt;/<span>span</span>&gt;</span></code>
+    </pre>
+    <div id='app1'>
+        <h1><span v-pre>Message: {{msg}} render to Message: </span><span style="color:red;">{{msg}}</span></h1>
+        <h1><span v-once>Use v-once, This will never change: Message: {{ msg }}</span></h1>
+        <h1>Try <code style="color:red;">vm.msg='other'</code> in console"</h1>
+    </div>
+    <script src="Text.js"></script>
+</body>
+</html>
