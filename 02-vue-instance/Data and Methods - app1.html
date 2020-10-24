@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Data and Methods - app1</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    
+</head>
+<body>
+    <p>
+        When a Vue instance is created, it adds all the properties found in its data object to Vue’s reactivity system. When the values of those properties change, the view will “react”, updating to match the new values.
+    </p>
+    <p>When this data changes, the view will re-render. Khi dữ liệu thay đổi, view sẽ render lại. </p>
+    <div id='app1'>
+        <h1 style="color: red;"><span v-pre>{{a}} render to </span>{{a}}</h1>
+        <h1 style="color: blue;"><span v-pre>{{b}} render to </span>{{b}}</h1>
+    </div>
+    <script src="Data and Methods - app1.js"></script>
+    <pre>
+    // Test on console
+
+    // Getting the property on the instance
+    // returns the one from the original data
+    // Truy xuất đến thuộc tính của đối tượng 
+    // trả về giá trị của object "data" đã khởi tạo 
+    vm.a == data.a // => true
+
+    // Setting the property on the instance
+    // also affects the original data
+    // Thay đổi thuộc tính của vm cũng
+    // ảnh hưởng đến dữ liệu ban đầu
+    vm.a = 2
+    data.a // => 2
+
+    // ... and vice-versa
+    // ... và ngược lại
+    data.a = 3
+    vm.a // => 3
+
+    // not trigger any view updates
+    // không kích hoạt thay đổi trên view
+    data.b = 4
+    </pre>
+
+</body>
+</html>
