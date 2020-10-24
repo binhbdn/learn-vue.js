@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Interpolations - Attributes</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <style>
+        code, #id-red {
+            color: red;
+        }
+        #id-blue {
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <p>Mustaches cannot be used inside HTML attributes. Instead, use a v-bind directive</p>
+    <p>Cú pháp mustache không dùng được bên trong các thuộc tính HTML. Thay vào đó, bạn hãy dùng directive v-bind</p>
+    <div id='app3a'>
+        <h1 v-bind:id="dynamicId">v-bind:id="dynamicId". On console: try vm.dynamicId='id-blue'></h1>
+        <h1>
+            &lt;button v-bind:disabled="isButtonDisabled"&gt;Button&lt;/button&gt;
+        </h1>
+        <button v-bind:disabled="isButtonDisabled">Button</button>
+        <p>If <code>isButtonDisabled</code> has the value of <code>null</code>, <code>undefined</code>, or <code>false</code>, the <code>disabled</code> attribute will not even be included in the rendered <code>&lt;button&gt;</code> element.</p>
+    </div>
+    <div id="app3b">
+        <p>Giá trị của <code>isButtonDisabled</code>: {{isButtonDisabled}}</p>
+        <button @click="Change">Đảo ngược giá trị isButtonDisabled</button> <button v-bind:disabled="isButtonDisabled">Hòn Vọng Phu</button>
+    </div>
+    <script src="Attributes.js"></script>
+</body>
+</html>
