@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Creating a Vue Instance</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    
+</head>
+<body>
+    <p>
+        A Vue application consists of a root Vue instance created with new Vue, optionally organized into a tree of nested, reusable components. For example, a todo app’s component tree might look like this:
+    </p>
+    <pre>
+        <code>
+        Root Instance
+        └─ TodoList
+           ├─ TodoItem
+           │  ├─ TodoButtonDelete
+           │  └─ TodoButtonEdit
+           └─ TodoListFooter
+              ├─ TodosButtonClear
+              └─ TodoListStatistics
+        </code>
+    </pre>
+    <script>
+        // Every Vue application starts by creating a new Vue instance with the Vue function:
+        var vm = new Vue({
+            // options
+        })
+    </script>
+</body>
+</html>
