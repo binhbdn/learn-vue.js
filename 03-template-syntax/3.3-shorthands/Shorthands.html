@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Shorthands</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
+    <div id='app1'>
+        <p>full syntax: v-bind:href="url_en" <a v-bind:href="url_en" target="_blank">Vue.js - Shorthands (English)</a></p>
+        <p>v-bind shorthand: :href="url_vn" <a :href="url_vn" target="_blank">Vue.js - Shorthands (Vietnames)</a></p>
+        <p>shorthand with dynamic argument (2.6.0+): :[key]="url_en" <a :[key]="url_en" target="_blank">Vue.js - Shorthands (English)</a></p>
+        <br>
+        <p><button v-on:click="doSomething">full syntax: v-on:click="doSomething"</button></p>
+        <p><button @click="doSomething">v-on shorthand: @click="doSomething"</button></p>
+        <p><button @[event]="doSomething">shorthand with dynamic argument (2.6.0+): @[event]="doSomething"</button></p>
+    </div>
+    <script src="Shorthands.js"></script>
+</body>
+</html>
