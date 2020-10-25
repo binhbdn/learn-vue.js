@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Interpolations - Using JS Expressions</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <style>
+        .red {
+            color: red;
+        }
+        #list-blue {
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <div id='app4'>
+        <p>
+            if number = <span class="red">{{number}}</span> then
+            <span v-pre> {{ number + 1 }} render to: </span>
+            <span class="red">{{ number + 1 }}</span>
+        </p>
+        <p>
+            if ok = <span class="red">{{ok}}</span> then
+            <span v-pre> {{ ok ? 'YES' : 'NO' }} render to: </span>
+            <span class="red">{{ ok ? 'YES' : 'NO' }}</span>
+        </p>
+        <p>
+            if ok = <span class="red">{{ok}}</span> then
+            <span v-pre> {{ !ok ? 'YES' : 'NO' }} render to: </span>
+            <span class="red">{{ !ok ? 'YES' : 'NO' }}</span>
+        </p>
+        <p>
+            if message = <span class="red">{{message}}</span> then
+            <span v-pre> {{ message.split(' ').reverse().join(' ') }} render to: </span>
+            <span class="red">{{ message.split(' ').reverse().join(' ') }}</span>
+        </p>
+        <p>
+            if message = <span class="red">{{message}}</span> then
+            <span v-pre> {{ message.split('').reverse().join('') }} render to: </span>
+            <span class="red">{{ message.split('').reverse().join('') }}</span>
+        </p>
+        <p>
+            if id = <span class="red">{{id}}</span> then
+            <span> {{rawhtml}} </span> render to:
+            <span v-bind:id="'list-' + id">#list-blue have blue color!</span>
+        </p>
+    </div>
+    <p>These expressions will be evaluated as JavaScript in the data scope of the owner Vue instance. One restriction is that each binding can only contain one single expression, so the following will NOT work:</p>
+    <p>Các biểu thức này sẽ được tính toán dưới dạng JavaScript trong scope của đối tượng Vue hiện hành. Một hạn chế ở đây là mỗi ràng buộc chỉ có thể chứa một biểu thức đơn lẻ, vì thế các trường hợp sau sẽ không hoạt động:</p>
+    <pre>
+        this is a statement, not an expression:
+        đây là một khai báo, không phải biểu thức:
+
+        {{ var number = 1 }}
+
+
+        flow control won't work either, use ternary expressions
+        các lệnh quản lí luồng (flow control) cũng sẽ không hoạt động,
+        thay vào đó bạn hãy dùng toán tử ba ngôi (ternary operator):
+
+        {{ if (!ok) { return message } }}
+    </pre>
+    <script src="Using JS Expressions.js"></script>
+</body>
+</html>
