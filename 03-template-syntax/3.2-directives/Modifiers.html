@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Directives - Modifiers</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
+    <div id='app3'>
+        <p>Modifiers are special postfixes denoted by a dot, which indicate that a directive should be bound in some special way. For example, the .prevent modifier tells the v-on directive to call event.preventDefault() on the triggered event:</p>
+        <p>Modifier là các hậu tố (postfix) đặc biệt được đánh dấu bằng một dấu chấm, chỉ rõ rằng một directive phải được ràng buộc theo một cách đặc biệt nào đó. Ví dụ, modifier .prevent hướng dẫn directive v-on gọi event.preventDefault() khi sự kiện được kích hoạt:</p>
+        <form v-on:submit.prevent="onSubmit">
+            <label>Name (<span style="color: red;">*</span>):
+                <input type="text" required>
+            </label>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+    <script src="Modifiers.js"></script>
+</body>
+</html>
