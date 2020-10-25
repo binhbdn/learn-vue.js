@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Computed Properties - Computed Caching vs Methods</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <style>
+        .red {
+            color: red;
+        }
+        .blue {
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <div id="app1">
+        <p>Original message: <span class="blue">"{{ message }}"</span></p>
+        <p>Computed reversed message: <span class="blue">"{{ reversedMessage }}"</span></p>
+        <br>
+        <p>Thông điệp ban đầu: <span class="red">"{{ message_vn }}"</span></p>
+        <p>Thông điệp bị đảo ngược bằng phương thức reversedMessage_vn(): <span class="red">"{{ reversedMessage_vn() }}"</span></p>
+        <p>Thay vì sử dụng computed property, chúng ta cũng có thể dùng một phương thức thay thế. Nếu xét về kết quả cuối cùng thì hai cách tiếp cận này thât ra chỉ là một. Tuy nhiên, sự khác biệt ở đây là computed property được cache lại dựa vào những những thành phần phụ thuộc (dependency). Một computed property chỉ được tính toán lại khi những thành phần phụ thuộc của chúng thay đổi. Điều này có nghĩa: miễn là giá trị của message không thay đổi, thì những truy cập tới computed reversedMessage sẽ ngay lập tức trả về kết quả được tính toán trước đó mà không phải chạy lại hàm một lần nữa.</p>
+      </div>
+    <script src="Computed Caching vs Methods.js"></script>
+</body>
+</html>
