@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Object Syntax</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <style>
+        .w-50 {
+            width: 50%;
+        }
+        .bg-blue {
+            background-color: blue;
+        }
+        .text-danger {
+            color: darkorange;
+        }
+    </style>
+</head>
+<body>
+    <div id="app1">
+        <p class="w-50" v-bind:class="{ 'bg-blue': isBgBlue, 'text-danger': hasError }">
+            Ta có thể truyền một object vào v-bind:class để bật tắt class một cách linh hoạt.
+            Bạn có thể bật tắt nhiều class bằng cách dùng nhiều field (trường) trong object.
+            Thêm vào đó, directive v-bind:class và thuộc tính class thông thường có thể được dùng cùng lúc với nhau.
+        </p>
+        <p :class="classObject1">
+            Object được bind cũng không bắt buộc phải khai báo trong template.
+        </p>
+        <p :class="classObject2">
+            Chúng ta cũng có thể bind vào một computed property (thuộc tính được tính toán) trả về một object.
+        </p>
+    </div>
+    <script src="Object Syntax.js"></script>
+</body>
+</html>
