@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Binding Inline Styles - Object Syntax</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app1">
+        <p :style="{ color: activeColor, 'background-color': activeBgColor, fontSize: fontSize + 'px', paddingBottom: fontSize + 10 + 'px' }">
+            Cú pháp object của v-bind:style rất đơn giản - trông giống như CSS thông thường,
+            chỉ khác ở chỗ nó là một object JavaScript.
+            Bạn có thể dùng camelCase hoặc kebab-case (đặt trong dấu nháy nếu là kebab-case) đối với tên thuộc tính CSS
+        </p>
+        <p :style="styleObject1">
+            Thông thường thì ta nên bind vào một object dành riêng cho style để template được gọn gàng hơn
+        </p>
+        <p :style="styleObject2">
+            Một lần nữa, cú pháp object thường được dùng kết hợp với các computed property trả về object.
+        </p>
+    </div>
+    <script src="Object Syntax.js"></script>
+</body>
+</html>
