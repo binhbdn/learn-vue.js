@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Conditional Rendering - v-if - app3</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app3">
+        <p v-if="Math.random() > 0.5" style="color:red;">Tài</p>
+        <p v-else style="color:blue;">Xỉu</p>
+        <p>Hãy reload lại trang vài lần !!!</p>
+        <p>Để được coi là hợp lệ, phần tử có v-else phải theo ngay sau một phần tử v-if hoặc v-else-if.</p>
+    </div>
+    <script src="app3.js"></script>
+</body>
+</html>

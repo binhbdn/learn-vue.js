@@ -1,0 +1,1 @@
+var vm = new Vue({el: '#app3'})
