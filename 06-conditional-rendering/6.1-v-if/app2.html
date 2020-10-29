@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Conditional Rendering - v-if - app2</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app2">
+        <p>
+            Vì là một directive, v-if phải được dùng trên một phần tử đơn lẻ (single element) như &lt;p> hoặc &lt;div>.
+            Nếu chúng ta muốn bật tắt một nhóm các phần tử thì sao?
+            Chỉ cần dùng v-if trên một phần tử &lt;template> với vai trò wrap (bọc) các phần tử lại thành một nhóm.
+            Kết quả render cuối cùng sẽ không có phần tử &lt;template> này.
+        </p>
+        <template v-if="ok">
+            <h1>Anh chàng chăn lợn</h1>
+            <p>Ơ này, Augustin thân mến ơi</p>
+            <p>Mọi việc đều như ý, như ý, như ý</p>
+          </template>
+        <p style="color:red;">Try on console: vm.ok=false</p>
+    </div>
+    <script src="app2.js"></script>
+</body>
+</html>
