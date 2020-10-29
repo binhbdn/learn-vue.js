@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Conditional Rendering - v-if - app4</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <style>
+        .red {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="app4">
+        <p>
+            Tương tự với v-else, phần tử với v-else-if phải theo ngay sau một phần tử v-if hoặc v-else-if
+        </p>
+        <br>
+        <p v-if="type === 'A'" class="red">A</p>
+        <p v-else-if="type === 'B'" class="red">B</p>
+        <p v-else-if="type === 'C'" class="red">C</p>
+        <p v-else-if="type === 'D'" class="red">D</p>
+        <p v-else class="red">Chiến Sĩ không thể nhớ nổi</p>
+        <br>
+        <p>Try on console:</p>
+        <ul>
+            <li>vm.type='B'</li>
+            <li>vm.type='C'</li>
+            <li>vm.type='D'</li>
+            <li>vm.type='?'</li>
+        </ul>
+    </div>
+    <script src="app4.js"></script>
+</body>
+</html>
