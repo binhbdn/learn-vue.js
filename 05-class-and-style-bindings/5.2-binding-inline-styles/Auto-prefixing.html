@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Binding Inline Styles - Auto-prefixing</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app3">
+        <p :style="baseStyles">
+            Khi bạn sử dụng một thuộc tính CSS còn khá mới và cần vendor prefix trong v-bind:style, ví dụ transform, Vue sẽ tự động phát hiện và thêm prefix thích hợp vào các style được áp dụng.
+        </p>
+    </div>
+    <script src="Auto-prefixing.js"></script>
+</body>
+</html>
