@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Conditional Rendering - v-if - app5</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <style>
+        code {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="app5">
+        <p>
+            Vue cố gắng render các phần tử một cách hiệu quả đến mức có thể, với một trong những cách làm là sử dụng lại thay vì tạo mới từ đầu. Ngoài việc giúp cho Vue thao tác cực kì nhanh, điều này còn mang lại một số lợi ích đáng kể khác. Ví dụ, nếu bạn cho phép người dùng được đăng nhập bằng username hoặc email:
+        </p>
+
+        <template v-if="loginType === 'username'">
+            <label>Username</label>
+            <input placeholder="Nhập username">
+        </template>
+        <template v-else>
+            <label>Email</label>
+            <input placeholder="Nhập địa chỉ email">
+        </template>
+        <button @click="toggleLoginType">Thay đổi kiểu đăng nhập</button>
+
+        <p>
+            thì việc chuyển đổi giá trị của <code>loginType</code> trong đoạn code trên sẽ không xóa đi thông tin mà người dùng đã điền vào.
+            Vì cả hai <code>&lt;template&gt;</code> dùng các phần tử giống nhau, phần tử <code>&lt;input&gt;</code> sẽ không bị thay thế, chỉ có thuộc tính <code>placeholder</code> là thay đổi.
+            Bạn có thể kiểm tra điều này bằng cách điền vào một ít thông tin bất kì rồi bấm vào nút "Thay đổi kiểu đăng nhập".
+        </p>
+
+        <p>
+            Tuy nhiên không phải lúc nào đây cũng là điều bạn mong muốn.
+            Vì thế, Vue cung cấp một thuộc tính gọi là <code>key</code>.
+            Khi dùng <code>key</code> với giá trị độc nhất (unique),
+            về căn bản bạn đang dặn Vue “xem hai phần tử này là hoàn toàn khác nhau và đừng dùng lại”.
+        </p>
+
+        <p>
+            Dưới đây thì hai phần tử <code>&lt;input&gt;</code> sẽ được render lại từ đầu mỗi khi giá trị <code>loginType</code> được thay đổi.
+            Bạn có thể kiểm chứng:
+        </p>
+
+        <template v-if="loginType1 === 'username'">
+            <label>Username</label>
+            <input placeholder="Nhập username" key="username-input">
+        </template>
+        <template v-else>
+            <label>Email</label>
+            <input placeholder="Nhập địa chỉ email" key="email-input">
+        </template>
+        <button @click="toggleLoginType1">Thay đổi kiểu đăng nhập</button>
+
+        <p>
+            Lưu ý rằng các phần tử <code>&lt;label&gt;</code> vẫn được sử dụng lại vì không có thuộc tính <code>key</code>.
+        </p>
+    </div>
+    <script src="app5.js"></script>
+</body>
+</html>
