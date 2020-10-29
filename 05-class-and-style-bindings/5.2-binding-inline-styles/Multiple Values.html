@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Binding Inline Styles - Multiple Values</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app4">
+        <p :style="{ display: ['-webkit-box', '-ms-flexbox', 'flex'] }">
+            Bắt đầu từ phiên bản 2.3.0+ bạn có thể cung cấp một mảng các giá trị (đã có prefix) cho một thuộc tính CSS, như sau:
+        </p>
+        <pre>
+            &lt;p v-bind:style>="{ display: ['-webkit-box', '-ms-flexbox', 'flex'] }"&gt;&lt;/p&gt;
+        </pre>
+        <p>
+            Với kĩ thuật này, Vue sẽ chỉ render ra giá trị cuối cùng trong mảng mà trình duyệt hỗ trợ. Trong ví dụ trên, Vue sẽ render display: flex trên các trình duyệt hỗ trợ flexbox.
+        </p>
+    </div>
+</body>
+</html>
