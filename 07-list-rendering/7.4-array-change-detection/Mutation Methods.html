@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Array Change Detection - Mutation Methods</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../7.0-css/styles.css">
+</head>
+<body>
+    <p>
+        Vue wrap các phương thức biến đổi (mutation method) của một mảng được quan sát (observe) để việc gọi phương thức này cũng sẽ kích hoạt thay đổi trên view
+        Các phương thức được wrap gồm có:
+    </p>
+    <ul>
+        <li><code>push()</code></li>
+        <li><code>pop()</code></li>
+        <li><code>shift()</code></li>
+        <li><code>unshift()</code></li>
+        <li><code>splice()</code></li>
+        <li><code>sort()</code></li>
+        <li><code>reverse()</code></li>
+        </ul>
+    <div id="app1">
+        <ul>
+            <li v-for="(item, index) in items">
+                {{ index }} - {{ item.name }}
+              </li>
+        </ul>
+        <p><button @click="items.push({ name: 'Nước chanh' })">@click="items.push({ name: 'Nước chanh' })"</button></p>
+        <p><button @click="items.pop()">@click="items.pop()"</button></p>
+        <p><button @click="items.shift()">@click="items.shift()"</button></p>
+        <p><button @click="items.unshift({ name: 'Nước cam' })">@click="items.unshift({ name: 'Nước cam' })"</button></p>
+        <p><button @click="items.sort(compare)">@click="items.sort(compare)"</button></p>
+        <p><button @click="items.reverse()">@click="items.reverse()"</button></p>
+    </div>
+    <p>
+        Bạn cũng có thể mở console và thử thay đổi mảng <code>items</code> bằng cách thực thi các phương thức biến đổi, ví dụ <code>vm.items.push({ name: 'Nước chanh' })</code>...
+    </p>
+    <script src="Mutation Methods.js"></script>
+</body>
+</html>
