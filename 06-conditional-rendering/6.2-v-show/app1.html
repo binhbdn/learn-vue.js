@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Conditional Rendering - v-show - app1</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <style>
+        code {
+            color: #f66;
+        }
+        p.tip {
+            border-left-color: #f66;
+            padding: 12px 24px 12px 30px;
+            margin: 2em 0;
+            border-left-width: 4px;
+            border-left-style: solid;
+            background-color: #f8f8f8;
+            position: relative;
+            border-bottom-right-radius: 2px;
+            border-top-right-radius: 2px;
+            line-height: 1.6em;
+            word-spacing: 0.05em;
+        }
+        p.tip:before {
+            content: "!";
+            background-color: #f66;
+            position: absolute;
+            top: 14px;
+            left: -12px;
+            color: #fff;
+            width: 20px;
+            height: 20px;
+            border-radius: 100%;
+            text-align: center;
+            line-height: 20px;
+            font-weight: bold;
+            font-family: "Dosis", "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app1">
+        <h1 v-show="show">Xin chào!</h1>
+        <p>Try on console: <code>vm.show=false</code></p>
+        <p>
+            Điểm khác biệt giữa <code>v-show</code> và <code>v-if</code> là phần tử được đánh dấu với <code>v-show</code> sẽ luôn luôn được render và chứa trong DOM;
+            <code>v-show</code> chỉ bật tắt thuộc tính <code>display</code> của phần tử này.
+        </p>
+        <p class="tip">
+            <code>v-show</code> không hỗ trợ thẻ <code>&lt;template&gt;</code> và cũng không hoạt động với <code>v-else</code>.
+        </p>
+
+    </div>
+    <script src="app1.js"></script>
+</body>
+</html>
