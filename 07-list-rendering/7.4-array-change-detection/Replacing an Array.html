@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Array Change Detection - Replacing an Array</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../7.0-css/styles.css">
+</head>
+<body>
+    <p>
+        Các phương thức biến đổi, như tên gọi cho thấy, <em>biến đổi</em> nội dung của mảng.
+        Chúng ta cũng có những phương thức không biến đổi (non-mutating method) như <code>filter()</code>, <code>concat()</code>, <code>slice()</code>…
+        Thay vì biến đổi nội dung của mảng gốc, các phương thức này <strong>luôn trả về một mảng mới</strong>.
+        Khi làm việc với các phương thức này, bạn có thể thay mảng cũ bằng mảng mới:
+    </p>
+    <div id="app2">
+        <ul>
+            <li v-for="(item, index) in items">
+                {{ index }} - {{ item.name }}
+            </li>
+        </ul>
+        <p><button @click="items=items.filter(function(item){return item.name.match(/à/)})">@click="items=items.filter(function(item){return item.name.match(/à/)})"</button></p>
+    </div>
+    <p>
+        Bạn cũng có thể mở console và thử : 
+        <code>vm.items = vm.items.filter(function (item) {return item.name.match(/à/)})</code>
+    </p>
+    <p>
+        Có thể bạn sẽ nghĩ là làm thế này Vue sẽ bỏ đi toàn bộ DOM có sẵn và render lại từ đầu, nhưng không phải thế.
+        Vue thực hiện một số phỏng đoán thông minh để dùng lại DOM đến mức tối đa, vì thế thay thế một mảng bằng một mảng khác chứa các object chồng nhau là một cách làm rất hiệu quả.
+    </p>
+    <script src="Replacing an Array.js"></script>
+</body>
+</html>
