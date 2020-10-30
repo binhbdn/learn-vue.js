@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - v-for with an Object - app3</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../7.0-css/styles.css">
+</head>
+<body>
+    <div id="app1">
+        <p>
+            Bạn cũng có thể cung cấp tham số thứ hai dùng cho khóa (key) của thuộc tính.
+            Tham số thứ ba chỉ thứ tự của thuộc tính
+        </p>
+        <ul>
+            <li v-for="(value, key, index) in object">
+                {{ index }}. {{ key }}: {{ value }}
+            </li>
+        </ul>
+        <p class="tip">
+            Khi duyệt qua một object, thứ tự các thuộc tính được dựa trên kết quả trả về của <code>Object.keys()</code>.
+            Kết quả này <strong>không đảm bảo</strong> được đồng nhất giữa các engine JavaScript khác nhau.
+        </p>
+    </div>
+    <script src="app1.js"></script>
+</body>
+</html>
