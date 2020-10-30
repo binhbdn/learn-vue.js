@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Maintaining State - app1</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../7.0-css/styles.css">
+</head>
+<body>
+    <div id="app1">
+        <p>
+            Khi cập nhật một danh sách các phần tử được render với <code>v-for</code>,
+            mặc định Vue sẽ sử dụng kĩ thuật “inline patch” (hiểu nôm na là “vá tại chỗ”).
+            Điều này có nghĩa là nếu thứ tự của các item thay đổi, thay vì dịch chuyển các phần tử web theo thứ tự tương ứng,
+            Vue sẽ patch mỗi phần tử tại chỗ và bảo đảm phản ánh đúng những gì cần phải render tại vị trí đó.
+            Cách xử lí này tương tự với <code>track-by="$index"</code> trong Vue 1.x.
+        </p>
+        <p>
+            Kĩ thuật nói trên rất hiệu quả,
+            nhưng chỉ thích hợp <strong>khi danh sách cần render không phụ thuộc vào trạng thái của component con (child component state) hay trạng thái DOM tạm thời (ví dụ như thông tin người dùng nhập vào form)</strong>.
+        </p>
+        <p>
+            Để Vue có thể nhận ra từng node và nhờ đó có thể tái sử dụng và sắp xếp các phần tử,
+            bạn cần cung cấp một thuộc tính <code>key</code> với giá trị độc nhất cho từng item (ví dụ, <code>id</code> sẽ là một giá trị <code>key</code> lí tưởng).
+            <code>key</code> tương đương với <code>track-by</code> trong 1.x, nhưng vì nó là một thuộc tính, bạn cần dùng <code>v-bind</code> để bind nó vào các giá trị động như sau:
+        </p>
+        <ul>
+            <!-- ở đây ta dùng shorthand `:key` thay vì `v-bind:key` -->
+            <li v-for="(item, index) of items" :key="item.id">
+                {{ index }} - {{ item.name }}
+              </li>
+        </ul>
+        <p>
+            Chúng tôi khuyến khích sử dụng <code>key</code> bất cứ khi nào bạn dùng <code>v-for</code>,
+            trừ phi nội dung DOM được duyệt qua quá đơn giản hoặc bạn đang cố ý sử dụng behavior mặc định của Vue để tăng tốc cho ứng dụng.
+        </p>
+        <p>
+            Vì đây là cơ chế chung để Vue nhận dạng các node, <code>key</code> còn có một số cách dùng khác không thật liên quan <code>v-for</code>.
+            Chúng ta sẽ bàn về vấn đề này ở một phần sau.
+        </p>
+        <p class="tip">
+            Don’t use non-primitive values like objects and arrays as <code>v-for</code> keys.
+            Use string or numeric values instead.
+        </p>
+    </div>
+    <script src="app1.js"></script>
+</body>
+</html>
