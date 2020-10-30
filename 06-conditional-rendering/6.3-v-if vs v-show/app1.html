@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Conditional Rendering - v-if vs v-show - app1</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <style>
+        code {
+            color: #f66;
+        }
+    </style>
+</head>
+<body>
+    <div id="app1">
+        <h1 v-show="show">Xin chào!</h1>
+        <p>Try on console: <code>vm.show=false</code></p>
+        <p>
+            <code>v-if</code> là render theo điều kiện “thật sự,”
+            vì nó bảo đảm các event listener và component con bên trong khối điều kiện được hủy và khởi tạo lại trong quá trình bật/tắt.
+        </p>
+        <p>
+            <code>v-if</code> cũng <strong>lười biếng</strong> (lazy): nếu giá trị của điều kiện là <code>false</code> trong lần render đầu tiên,
+            nó sẽ không làm gì cả - khối điều kiện sẽ không được render cho đến khi điều kiện trở thành <code>true</code> lần đầu tiên.
+        </p>
+        <p>
+            Trong khi đó, <code>v-show</code> đơn giản hơn nhiều - phần tử sẽ được render bất kể điều kiện là đúng hay sai, và chỉ được hiện/giấu đi bằng CSS.
+        </p>
+        <p>
+            Nói chung, <code>v-if</code> có phí tổn bật/tắt cao,còn <code>v-show</code> có phí tổn render cao.
+            Vì thế, nếu bạn cần bật/tắt thường xuyên, hãy dùng <code>v-show</code>.
+            Ngược lại, nếu điều kiện ít khi thay đổi trong suốt vòng đời của ứng dụng, hãy dùng <code>v-if</code>.
+        </p>
+    </div>
+    <script src="app1.js"></script>
+</body>
+</html>
