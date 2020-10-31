@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - v-for with a Component - app1</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../7.0-css/styles.css">
+</head>
+<body>
+    <p>Bạn có thể dùng <code>v-for</code> trực tiếp trên một component như một phần tử bình thường:</p>
+    <code>
+        <pre>
+            &lt;my-component v-for="item in items" :key="item.id">&lt;/my-component>
+        </pre>
+    </code>
+    <p>Từ bản 2.2.0 trở đi, thuộc tính <a href="https://vi.vuejs.org/v2/guide/list.html#key"><code>key</code></a> là bắt buộc khi dùng <code>v-for</code> với một component,</p>
+    <p>
+        Tuy nhiên trong ví dụ trên, dữ liệu sẽ không được tự động truyền vào component, vì mỗi commponent có scope (phạm vi) độc lập.
+        Để truyền dữ liệu trên mỗi vòng lặp vào component, chúng ta dùng thêm <code>props</code>:
+    </p>
+    <code>
+        <pre>
+            &lt;my-component
+            v-for="(item, index) in items"
+            v-bind:item="item"
+            v-bind:index="index"
+            v-bind:key="item.id"
+          >&lt;/my-component>
+        </pre>
+    </code>
+    <p>
+        Lí do <code>item</code> không được truyền tự động vào component là bởi vì nếu làm vậy component sẽ bị gắn chặt vào <code>v-for</code>.
+        Bằng cách bắt buộc khai báo nguồn dữ liệu một cách minh bạch (explicit), chúng ta có thể sử dụng lại component trong các tình huống khác.
+    </p>
+    <p>Dưới đây là một ví dụ hoàn chỉnh của một ứng dụng todo:</p>
+
+    <div id="todo-list-example">
+        <input
+            v-model="newTodoText"
+            v-on:keyup.enter="addNewTodo"
+            placeholder="Thêm việc cần làm"
+        >
+<pre style="color:blue; font-weight: bolder;">
+    use &lt;li is="todo-item" ...>&lt;/li>
+</pre>
+        <ul>
+            <li
+                is="todo-item"
+                v-for="(todo, index) in todos"
+                v-bind:key="todo.id"
+                v-bind:title="todo.title"
+                v-on:remove="todos.splice(index, 1)"
+            ></li>
+        </ul>
+<pre style="color:blue; font-weight: bolder;">
+    use &lt;todo-item ...>&lt;/todo-item>
+</pre>
+        <ul>
+            <todo-item
+                v-for="(todo, index) in todos"
+                v-bind:key="todo.id"
+                v-bind:title="todo.title"
+                v-on:remove="todos.splice(index, 1)"
+            ></todo-item>
+        </ul>
+    </div>
+    <p class="tip">
+        Lưu ý thuộc tính <code>is="todo-item"</code>.
+        Điều này là cần thiết trong DOM template, vì chỉ có thẻ <code>&lt;li&gt;</code> là hợp lệ trong <code>&lt;ul&gt;</code>.
+        Cách khai báo <code>&lt;li is="todo-item"&gt;</code> có cùng kết quả như <code>&lt;todo-item&gt;</code>,
+        nhưng tránh được lỗi có thể xảy ra khi trình duyệt parse (phân tích) template.
+        Xem thêm <a href="https://vi.vuejs.org/v2/guide/components.html#Luu-y-ve-viec-parse-DOM-template">Lưu ý về việc parse DOM template</a>.
+    </p>
+    <script src="app1.js"></script>
+</body>
+</html>
