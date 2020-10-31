@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - v-for with a Range - app1</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../7.0-css/styles.css">
+</head>
+<body>
+    <div>
+        <p><code>v-for</code> can also take an integer. In this case it will repeat the template that many times.</p>
+        <p><code>v-for</code> cũng có thể nhận một số nguyên <code>n</code>. Trong trường hợp này, template sẽ được lặp lại <code>n</code> lần:</p>
+        <div id="app1">
+            <span v-for="n in 10">{{ n }} </span>
+        </div>
+    </div>
+    <script>
+        var vm = new Vue({ el: '#app1' })
+    </script>
+</body>
+</html>
