@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Key Modifiers</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <p>Khi lắng nghe các sự kiện bàn phím (keyboard event), chúng ta thường phải kiểm tra mã phím (key code). Vue hỗ trợ thêm key modifier (modifer cho mã phím) cho <code>v-on</code> trong các trường hợp này:</p>
+    <div id="app5">
+        <p>chỉ gọi vm.onSubmit() khi keyCode là 13 (phím Enter)</p>
+        <p><code>&lt;input v-on:keyup.13="onSubmit"></code></p>
+        <p><input v-on:keyup.13="onSubmit"></p>
+        <p>Tất nhiên nếu phải nhớ toàn bộ các mã phím thì rất mệt mỏi, nên Vue cung cấp alias (bí danh) cho các phím thông dụng nhất:</p>
+        <p><code>&lt;input @keyup.enter="onSubmit"></code></p>
+        <p><input @keyup.enter="onSubmit"></p>
+        <p>Sau đây là danh sách của các key modifier được sử dụng phổ biến nhất khi cần thiết để hỗ trợ trình duyệt cũ:</p>
+        <ul>
+            <li><code>.enter</code></li>
+            <li><code>.tab</code></li>
+            <li><code>.delete</code> (captures both “Delete” and “Backspace” keys)</li>
+            <li><code>.esc</code></li>
+            <li><code>.space</code></li>
+            <li><code>.up</code></li>
+            <li><code>.down</code></li>
+            <li><code>.left</code></li>
+            <li><code>.right</code></li>
+        </ul>
+        <p>Bạn cũng có thể <a href="https://vi.vuejs.org/v2/api/#keyCodes">tự định nghĩa alias cho key modifier</a> bằng object toàn cục <code>config.keyCodes</code>:</p>
+        <p>You can also <a href="https://vuejs.org/v2/api/#keyCodes">define custom key modifier aliases</a> via the global <code>config.keyCodes</code> object:</p>
+        <p><code>// enable `v-on:keyup.v`</code></p>
+        <p><code>Vue.config.keyCodes = {v: 86}</code></p>
+        <br>
+        <p><code>&lt;input @keyup.v="test_v_key"></code></p>
+        <p><input @keyup.v="test_v_key" placeholder="Click vào đây và ấn phím 'v'"></p>
+        <h2>Key modifier tự động</h2>
+        <p>Từ phiên bản 2.5.0+, Bạn cũng có thể sử dụng bất kì <a href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values" target="_blank" rel="noopener">tên phím hợp lệ</a> nào để làm modifier bằng cách chuyển sang kebab-case:</p>
+        <p><code>&lt;input @keyup.page-down="onPageDown"></code></p>
+        <p><input @keyup.page-down="onPageDown" placeholder="Click vào đây và ấn phím 'PageDown'" style="width: 500px;"></p>
+        <p>Trong ví dụ trên, hàm <code>onPageDown</code> chỉ được gọi nếu <code>$event.key === 'PageDown'</code>.</p>
+        <p class="tip">Một số ít phím (<code>esc</code> và các phím mũi tên) có giá trị <code>key</code> không thống nhất trên IE9. Nếu cần hỗ trợ IE9, bạn nên dùng các alias như trên đây.</p>
+    </div>
+    <script src="Key Modifiers.js"></script>
+</body>
+</html>
