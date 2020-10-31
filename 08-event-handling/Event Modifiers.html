@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Event Modifiers</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <p>Trong rất nhiều trường hợp, chúng ta cần gọi <code>event.preventDefault()</code> hoặc <code>event.stopPropagation()</code> bên trong một phương thức xử lí sự kiện. Tuy việc này không có gì khó, sẽ tốt hơn nếu các phương thức chỉ phải tập trung giải quyết logic dữ liệu thay vì cáng đáng các sự kiện DOM.</p>
+    <p>Để giải quyết vấn đề này, Vue cung cấp các <strong>event modifier</strong> cho <code>v-on</code>. <code>Event modfier</code> là một hậu tố (postfix) cho directive, được biểu thị bằng một dấu chấm.</p>
+    <ul>
+        <li><code>.stop</code></li>
+        <li><code>.prevent</code></li>
+        <li><code>.capture</code></li>
+        <li><code>.self</code></li>
+        <li><code>.once</code></li>
+    </ul>
+    <div id="app4">
+        <p>Sự kiện click sẽ không được propagate (lan truyền), điều này tương đương với event.stopPropagation() :</p>
+        <p><code>v-on:click.stop="doThis"</code></p>
+        <p><a v-on:click.stop="doThis" href="https://vi.vuejs.org/v2/guide/events.html#Event-modifier">v-on:click.stop="doThis"</a></p>
+        
+        <p>Sự kiện submit sẽ không reload trang, điều này tương đương với event.preventDefault() :</p>
+        <p><code>v-on:submit.prevent="onSubmit"</code></p>
+        <form v-on:submit.prevent="onSubmit">
+            <input type="text" placeholder="Enter your name:">
+            <input type="submit" value="Submit">
+        </form>
+        
+        <p>Ta có thể nối modifier với nhau :</p>
+        <p><code>v-on:click.stop.prevent="doThat"</code></p>
+        <p><a v-on:click.stop.prevent="doThat" href="https://vi.vuejs.org/v2/guide/events.html#Event-modifier">v-on:click.stop.prevent="doThat"</a></p>
+
+        <p>Chỉ có modifier, không có phương thức xử lí :</p>
+        <p><code>v-on:submit.prevent</code></p>
+        <form v-on:submit.prevent>
+            <input type="text" placeholder="Enter your name:">
+            <input type="submit" value="Submit">
+        </form>
+
+        <p>
+            Dùng "capture mode" khi thêm event listener
+            nghĩa là một sự kiện xảy ra với một phần tử bên trong sẽ được xử lí ở đây
+            trước khi được xử lí bởi phần tử đó :
+        </p>
+        <p><code>v-on:click.capture="doThis"</code></p>
+        <div v-on:click.capture="doThis" style="background-color: gray;">
+            <p><a v-on:click.stop.prevent="doThat" href="https://vi.vuejs.org/v2/guide/events.html#Event-modifier">v-on:click.stop.prevent="doThat"</a></p>
+            <p>đọc thêm về <a href="https://javascript.info/bubbling-and-capturing#capturing">event capturing</a></p>
+        </div>
+
+        <p>Chỉ kích hoạt phương thức xử lí nếu event.target là chính phần tử được click, chứ không phải là một phần tử con:</p>
+        <p><code>v-on:click.self="doThis"</code></p>
+        <div v-on:click.self="doThis" style="background-color: gray;padding: 15px;">
+            <p><a v-on:click.stop.prevent="doThat" href="https://vi.vuejs.org/v2/guide/events.html#Event-modifier">v-on:click.stop.prevent="doThat"</a></p>
+        </div>
+
+        <p class="tip">Khi sử dụng nhiều modifier cùng lúc, thứ tự nối là rất quan trọng, vì code sẽ được tạo ra theo đúng thứ tự đó. Ví dụ, <a href="mailto:`@click.prevent.self" target="_blank" rel="noopener">`@click.prevent.self</a><code>sẽ ngăn **toàn bộ click** còn</code>@click.self.prevent` chỉ ngăn các click trên chính phần tử đang được nhắc đến.</p>
+        
+        <p>(có từ phiên bản 2.1.4 trở đi) sự kiện click sẽ chỉ được kích hoạt tối đa một lần:</p>
+        <p><code>v-on:click.once="donateKidney"</code></p>
+        <a v-on:click.once="donateKidney" href="https://vi.vuejs.org/v2/guide/components.html#Su-dung-v-on-voi-cac-su-kien-tuy-bien" target="_blank">v-on:click.once="donateKidney"</a>
+        <p>Không như các modifier khác, vốn chỉ dùng được cho các sự kiện DOM native, modifier <code>.once</code> cũng có thể dùng cho các <a href="components.html#Su-dung-v-on-voi-cac-su-kien-tuy-bien">sự kiện component</a>. Nếu bạn chưa đọc về component, có thể bỏ qua và quay lại sau.</p>
+
+        <p>Từ phiên bản 2.3.0 trở đi, Vue cũng cung cấp modifier <code>.passive</code>, tương ứng với <a href="https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener#Parameters" target="_blank" rel="noopener">tùy chọn <code>passive</code> cho <code>addEventListener</code></a>.</p>
+        <p>hành vi mặc định của sự kiện scroll (cuộn trang) sẽ xảy ra ngay lập tức, thay vì đợi `onScroll` hoàn tất.</p>
+        <p><code>v-on:scroll.passive="onScroll"</code></p>
+        <div v-on:scroll.passive="onScroll" style="background-color: yellow;padding: 15px;width: 500px;height: 200px;overflow: scroll;">
+            <p>Modifier <code>.passive</code> đặc biệt hữu ích để cải thiện hiệu năng của ứng dụng trên các thiết bị di động.</p>
+            <p class="tip">Đừng dùng <code>.passive</code> và <code>.prevent</code> cùng nhau, vì <code>.prevent</code> sẽ không có hiệu lực, và trình duyệt có thể sẽ bật cảnh báo. Nên nhớ rằng <code>.passive</code> thông báo cho trình duyệt biết rằng bạn <em>không muốn</em> ngăn chặn hành vi mặc định của sự kiện.</p>
+        </div>
+    </div>
+    <script src="Event Modifiers.js"></script>
+</body>
+</html>
