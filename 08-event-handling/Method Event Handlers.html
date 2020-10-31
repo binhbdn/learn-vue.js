@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Method Event Handlers</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <p>Trong thực tế, logic để xử lí sự kiện thường phức tạp hơn, vì thế chứa JavaScript trực tiếp trong giá trị của thuộc tính <code>v-on</code> nhiều khi là không khả thi. Đó là lí do <code>v-on</code> cũng có thể nhận tên của một phương thức mà bạn muốn gọi. Ví dụ:</p>
+    <div id="app2">
+        <!-- `greet` là tên của phương thức bạn muốn gọi -->
+        <button v-on:click="greet">Chào mừng</button>
+    </div>
+    <script src="Method Event Handlers.js"></script>
+</body>
+</html>
