@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Methods in Inline Handlers</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <div id="app3">
+        <p>Thay vì bind trực tiếp tên phương thức, ta cũng có thể gọi phương thức trong một câu lệnh JavaScript</p>
+        <button v-on:click="say('Konica')">Hãy nói Konica</button>
+        <button v-on:click="say('Viettel')">Hãy nói theo cách của bạn</button>
+        <p>Đôi khi chúng ta cũng muốn truy xuất đến sự kiện DOM ban đầu từ câu lệnh JavaScript inline. Bạn có thể truyền sự kiện DOM vào phương thức thông qua biến <code>$event</code>:</p>
+        <button v-on:click="warn('Chưa submit được form.', $event)">Submit</button>
+    </div>
+    <script src="Methods in Inline Handlers.js"></script>
+</body>
+</html>
