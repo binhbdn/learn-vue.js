@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - v-for with v-if - app1</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../7.0-css/styles.css">
+</head>
+<body>
+<div id="app1">
+    <p class="tip">
+        Note that it’s <strong>not</strong> recommended to use <code>v-if</code> and <code>v-for</code> together.
+        Refer to <a href="https://vuejs.org/v2/style-guide/#Avoid-v-if-with-v-for-essential">style guide</a> for details.
+    </p>
+    <p>
+        Khi được dùng trên dùng một node, <code>v-for</code> có độ ưu tiên cao hơn <code>v-if</code>,
+        có nghĩa là <code>v-if</code> sẽ được thực thi một cách riêng biệt trên mỗi vòng lặp của <code>v-for</code>.
+        Điều này có thể có ích khi bạn muốn render cho chỉ <em>một số</em> item, như trong ví dụ sau:
+    </p>
+    <ul>
+        <li v-for="todo in todos" v-if="!todo.isComplete">
+            {{ todo.text }}
+        </li>
+    </ul>
+    <p>Ví dụ trên sẽ chỉ render những todo chưa hoàn thành.</p>
+    <p>
+        Ngược lại, nếu bạn muốn bỏ qua việc thực thi vòng lặp <code>v-for</code> theo điều kiện,
+        hãy dùng <code>v-if</code> trên một phần tử wrapper (hoặc <a href="https://vi.vuejs.org/v2/guide/conditional.html#Conditional-Groups-with-v-if-on-lt-template-gt"><code>&lt;template&gt;</code></a>). Ví dụ:
+    </p>
+    <ul v-if="todos.length">
+        <li v-for="todo in todos">
+          {{ todo.text }}
+        </li>
+    </ul>
+    <p v-else>Mọi việc đã hoàn thành.</p>
+
+    <p>
+        hoặc dùng <code>v-if</code> trên một phần tử <a href="https://vi.vuejs.org/v2/guide/conditional.html#Conditional-Groups-with-v-if-on-lt-template-gt"><code>&lt;template&gt;</code></a>. Ví dụ:
+    </p>
+    <template v-if="todos.length">
+        <ul>
+            <li v-for="todo in todos" v-if="!todo.isComplete">
+                {{ todo.text }}
+            </li>
+        </ul>
+    </template>
+    <p v-else>Mọi việc đã hoàn thành.</p>
+</div>
+    <script src="app1.js"></script>
+</body>
+</html>
