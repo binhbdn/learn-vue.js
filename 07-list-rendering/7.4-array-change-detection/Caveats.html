@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Array Change Detection - Caveats</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../7.0-css/styles.css">
+</head>
+<body>
+    <p>Do một số hạn chế của JavaScript, Vue <strong>không thể</strong> phát hiện thấy những thay đổi sau đây đối với mảng:</p>
+    <ol>
+        <li>Khi bạn gán một phần tử trực tiếp vào một index, ví dụ <code>vm.items[index] = newValue</code></li>
+        <li>Khi bạn thay đổi kích thước của mảng, ví dụ <code>vm.items.length = newLength</code></li>
+    </ol>
+    <code>
+        <pre>
+            var vm = new Vue({
+                data: {
+                items: ['a', 'b', 'c']
+                }
+            })
+            vm.items[1] = 'x' // KHÔNG reactive
+            vm.items.length = 2 // cũng KHÔNG reactive
+        </pre>
+    </code>
+    <p>Để khắc phục điểm thứ nhất, bạn có thể dùng một trong hai cách sau đây. Cả hai cách đều đạt được kết quả như <code>vm.items[indexOfItem] = newValue</code>, nhưng đồng thời cũng kích hoạt cập nhật trạng thái trong hệ thống reactivity của Vue:</p>
+    <code>
+        <pre>
+            // Vue.set
+            Vue.set(vm.items, indexOfItem, newValue)
+            vm.$set(vm.items, indexOfItem, newValue)
+            
+            // Array.prototype.splice
+            vm.items.splice(indexOfItem, 1, newValue)
+        </pre>
+    </code>
+    <p>Để khắc phục điểm thứ hai, bạn có thể dùng <code>splice</code>:</p>
+    <code>
+        <pre>
+            vm.items.splice(newLength)
+        </pre>
+    </code>
+    <div>
+        <p>
+            Bạn cũng có thể mở console và thử :<br>
+            <code>Vue.set(vm.items, 0, { name: 'Nước chanh' })</code><br>
+            Bạn cũng có thể sử dụng phương thức đối tượng <a href="https://vuejs.org/v2/api/#vm-set" target="_blank"><code>vm.$set</code></a>, thật ra là alias của phương thức toàn cục <code>Vue.set</code>:<br>
+            <code>vm.$set(vm.items, 0, { name: 'Nước táo' })</code>
+        </p>
+        <p><code>vm.items.splice(4, 1, { name: 'Nước cam' })</code></p>
+        <p><code>vm.items.splice(2)</code></p>
+    </div>
+    <div id="app3">
+        <ul>
+            <li v-for="(item, index) in items">
+                {{ index }} - {{ item.name }}
+            </li>
+        </ul>
+        <p><button @click="vueSet">Vue.set(vm.items, 0, { name: 'Nước chanh' })</button></p>
+        <p><button @click="$set(items, 0, { name: 'Nước táo' })">@click="$set(items, 0, { name: 'Nước táo' })"</button></p>
+        <p><button @click="vmSplice">vm.items.splice(4, 1, { name: 'Nước cam' })</button></p>
+        <p><button @click="items.splice(4, 1, { name: 'Nước bí đao' })">@click="items.splice(4, 1, { name: 'Nước bí đao' })"</button></p>
+        <p><button @click="items.splice(2)">@click="items.splice(2)"</button></p>
+        <ul>
+            <li v-for="(value, key) in userProfile">
+                {{ key }}: {{ value }}
+            </li>
+        </ul>
+        <code>
+            <pre>
+                Bạn cũng có thể mở console và thử :
+                Vue.set(vm.userProfile, 'age', 800)
+                vm.$set(vm.userProfile,'favoriteColor', 'Tím mộng mơ')
+                vm.userProfile = Object.assign({}, vm.userProfile, { age: 800, favoriteColor: 'Tím mộng mơ' })
+            </pre>
+        </code>
+        <p><button @click="$set(userProfile, 'age', 800)">@click="$set(userProfile, 'age', 800)"</button></p>
+        <p><button @click="$set(userProfile, 'favoriteColor', 'Tím mộng mơ')">@click="$set(userProfile, 'favoriteColor', 'Tím mộng mơ')"</button></p>
+        <p>
+            <button @click="userProfile = Object.assign({}, userProfile, { age: 800, favoriteColor: 'Tím mộng mơ' })">
+                @click="userProfile = Object.assign({}, userProfile, { age: 800, favoriteColor: 'Tím mộng mơ' })"
+            </button>
+        </p>
+    </div>
+    <p>Một lần nữa, cũng do hạn chế của JavaScript, <strong>Vue không thể phát hiện việc thêm hay xóa thuộc tính của object</strong>. Ví dụ:</p>
+    <code>
+        <pre>
+            var vm = new Vue({
+                data: {
+                    a: 1
+                }
+            })
+            // `vm.a` reactive
+            
+            vm.b = 2
+            // `vm.b` KHÔNG reactive
+        </pre>
+    </code>
+    <p>Vue không hỗ trợ việc thêm thuộc tính reactive ở cấp root cho một đối tượng Vue đã được khởi tạo. Tuy nhiên, chúng ta có thể thêm thuộc tính reactive vào một object con với phương thức <code>Vue.set(object, key, value)</code>. Ví dụ, nếu chúng ta có:</p>
+    <code>
+        <pre>
+            var vm = new Vue({
+                data: {
+                  userProfile: {
+                    name: 'Bành Tổ'
+                  }
+                }
+            })
+        </pre>
+    </code>
+    <p>Bạn có thể thêm một thuộc tính <code>age</code> vào object <code>userProfile</code> như sau:</p>
+    <code>
+        <pre>
+            Vue.set(vm.userProfile, 'age', 800)
+        </pre>
+    </code>
+    <p>Bạn cũng có thể dùng phương thức đối tượng (instance method) <code>vm.$set</code>, một alias cho phương thức toàn cục <code>Vue.set</code>:</p>
+    <code>
+        <pre>
+            vm.$set(vm.userProfile,'favoriteColor', 'Tím mộng mơ')
+        </pre>
+    </code>
+    <p>Đôi khi bạn cũng muốn thêm vài thuộc tính cùng lúc vào một object có sẵn, sử dụng <code>Object.assign()</code> hoặc <code>_.extend()</code>. Trong những trường hợp này, nên tạo một object mới với các thuộc tính từ hai object kia. Có nghĩa là thay vì:</p>
+    <code>
+        <pre>
+            Object.assign(vm.userProfile, {
+                age: 800,
+                favoriteColor: 'Tím mộng mơ'
+            })
+        </pre>
+    </code>
+    <p>bạn sẽ thêm thuộc tính reactive mới bằng như sau:</p>
+    <code>
+        <pre>
+            vm.userProfile = Object.assign({}, vm.userProfile, {
+                age: 800,
+                favoriteColor: 'Tím mộng mơ'
+            })
+        </pre>
+    </code>
+    <p> Ví dụ sử dụng <code>_.extend()</code>:</p>
+    <ul id="app3a">
+        <li v-for="(value, key) in userProfile">
+            {{ key }}: {{ value }}
+        </li>
+    </ul>
+    <script src="Caveats.js"></script>
+</body>
+</html>
