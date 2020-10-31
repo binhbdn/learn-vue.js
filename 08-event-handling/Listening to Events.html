@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Listening to Events</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <p>Chúng ta có thể dùng directive <code>v-on</code> để lắng nghe các sự kiện DOM và thực thi JavaScript khi những sự kiện này được kích hoạt. Ví dụ:</p>
+    <div id="app1">
+        <button v-on:click="counter += 1">Đếm cừu</button>
+        <p>{{ counter }} con cừu.</p>
+    </div>
+    <script src="Listening to Events.js"></script>
+</body>
+</html>
