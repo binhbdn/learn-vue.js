@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Basic Usage</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <div id="app1">
+        <p>Bạn có thể sử dụng directive <code>v-model</code> để tạo ràng buộc dữ liệu 2 chiều lên các phần tử form input và textarea. Vue sẽ tự động chọn cách phù hợp để cập nhật phần tử này dựa trên kiểu của input. Có một chút ma thuật, <code>v-model</code> là syntax sugar trong việc cập nhật dữ liệu dựa trên các sự kiện input từ người dùng kèm theo một số trường hợp đặc biệt khác.</p>
+        <p class="tip"><code>v-model</code> sẽ bỏ qua giá trị khởi tạo của các thuộc tính <code>value</code>, <code>checked</code> hoặc <code>selected</code> trong mọi phần tử form. Nó luôn luôn xem data trong đối tượng Vue là nguồn đáng tin cậy duy nhất. Bạn nên khai báo các giá trị khởi tạo trong JavaScript, bên trong option <code>data</code> của component.</p>
+        <p class="tip" id="vmodel-ime-tip">Đối với các ngôn ngữ đòi hỏi bộ gõ (<a href="https://en.wikipedia.org/wiki/Input_method" target="_blank" rel="noopener">IME</a>) (tiếng Trung, tiếng Nhật, Tiếng Hàn v.v.), bạn sẽ nhận thấy rằng <code>v-model</code> không thay đổi trong quá trình biên soạn của IME. Nếu bạn muốn nhận các thay đổi này thì phải sử dụng sự kiện <code>input</code>.</p>
+        <p><code>v-model</code> internally uses different properties and emits different events for different input elements:</p>
+        <ul>
+            <li>text and textarea elements use <code>value</code> property and <code>input</code> event;</li>
+            <li>checkboxes and radiobuttons use <code>checked</code> property and <code>change</code> event;</li>
+            <li>select fields use <code>value</code> as a prop and <code>change</code> as an event.</li>
+        </ul>        
+    </div>
+</body>
+</html>
