@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Form Input Bindings - Value Bindings</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <div id="app1">
+        <p>Đối với radio, checkbox và select option, <code>v-model</code> thường ràng buộc giá trị kiểu chuỗi tĩnh (hoặc boolean đối với checkbox):</p>
+        <pre>
+            <!-- `picked` sẽ là chuỗi "a" khi được check -->
+            &lt;input type="radio" v-model="picked" value="a">
+
+            <!-- `toggle` có thể là true hoặc false -->
+            &lt;input type="checkbox" v-model="toggle">
+
+            <!-- `selected` sẽ là chuỗi "abc" khi được chọn -->
+            &lt;select v-model="selected">
+                &lt;option value="abc">ABC</option>
+            &lt;/select>
+        </pre>
+        <p>Nhưng đôi khi chúng ta muốn ràng buộc giá trị với một thuộc tính động trong đối tượng Vue. Chúng ta có thể sử dụng <code>v-bind</code> để làm điều này. Thêm nữa, sử dụng <code>v-bind</code> còn cho phép ràng buộc giá trị của input với các trị không phải kiểu chuỗi.</p>
+    </div>
+</body>
+</html>
