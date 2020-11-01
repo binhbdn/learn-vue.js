@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - System Modifier Keys</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <p>Từ phiên bản 2.1.0 trở đi, bạn có thể sử dụng các modifier sau để chỉ kích hoạt các event listener khi các phím modifier tương ứng được nhấn:</p>
+    <ul>
+        <li><code>.ctrl</code></li>
+        <li><code>.alt</code></li>
+        <li><code>.shift</code></li>
+        <li><code>.meta</code></li>
+    </ul>
+    <blockquote>
+        <p>Trên các bàn phím của hệ Macintosh, meta là phím Command (⌘). Trên bàn phím Windows, meta là phím Windows (⊞). Trên bàn phím Sun Microsystems, meta được đánh dấu bằng một hình thoi (◆). Trên một số loại bàn phím nhất định như bàn phím của MIT và Lisp, meta có nhãn “META”. Trên bàn phím Symbolics, meta có nhãn “META” hoặc “Meta”.</p>
+    </blockquote>
+    <div id="app6">
+        <p>Alt + C </p>
+        <input v-on:keyup.alt.67="warn('Bạn vừa ấn phím Alt + C', $event)" placeholder="test Alt + C">
+
+        <p>Ctrl + Click</p>
+        <input v-on:click.ctrl="warn('Bạn vừa ấn phím Ctrl + click', $event)" placeholder="test Ctrl + click">
+
+        <p class="tip">Các phím modifier có cách hoạt động khác với phím thông thường, và khi dùng với sự kiện <code>keyup</code>, phím modifier phải được nhấn khi sự kiện được phát ra. Nói một cách khác, <code>keyup.ctrl</code> sẽ chỉ được kích hoạt khi bạn thả một phím khi vẫn đang ấn phím <code>ctrl</code>. Sự kiện này sẽ không được kích hoạt nếu bạn chỉ thả một mình phím <code>ctrl</code>.</p>
+        <p>⌘ / ⊞ / ◆</p>
+        <input v-on:keyup.alt.meta="warn('Bạn vừa ấn phím Alt + Meta', $event)" placeholder="test Alt + Meta">
+        
+        <p>Từ 2.5.0+ Modifier <code>.exact</code> (chính xác) có thể được sử dụng kết hợp với các modifier khác để chỉ rõ rằng hàm xử lí sự kiện chỉ nên được thực thi khi <em>chính xác</em> tổ hợp phím/chuột đó được bấm.</p>
+
+        <p>method warn() vẫn sẽ được gọi nếu người dùng nhấn thêm phím Alt hoặc Shift</p>
+        <button @click.ctrl="warn('Bạn vừa ấn phím Ctrl + Click + có thể cả Alt hoặc Shift', $event)">@click.ctrl</button>
+
+        <p> method warn() chỉ được gọi nếu chỉ phím Ctrl được nhấn</p>
+        <button @click.ctrl.exact="warn('Bạn vừa ấn phím Ctrl + Click + KHÔNG ấn Alt / Shift', $event)">@click.ctrl.exact</button>
+
+        <p> this will only fire when no system modifiers are pressed</p>
+        <button @click.exact="warn('Bạn vừa ấn phím Click + KHÔNG ấn Ctrl / Alt / Shift', $event)">@click.exact</button>
+        
+        <p>Modifier cho phím chuột có từ phiên bản 2.2.0 trở đi</p>
+        <ul>
+            <li><code>.left</code></li>
+            <li><code>.right</code></li>
+            <li><code>.middle</code></li>
+        </ul>
+
+        <button @click.right="warn('Bạn vừa ấn phím Right Click', $event)">@click.right</button>
+    </div>
+    <script src="System Modifier Keys.js"></script>
+</body>
+</html>
