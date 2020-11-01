@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Form Input Bindings - Modifier .number</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <div id="app2">
+        <p>Nếu bạn muốn giá trị từ input được tự động chuyển kiểu về kiểu số, bạn có thể thêm modifier <code>number</code> vào <code>v-model</code>:</p>
+        <p><code>v-model.number="age"</code></p>
+        <input v-model.number="age" type="number">
+        <p>age === {{ age }}</p>
+        <p>typeof age ==={{ typeof age }}</p>
+
+        <p><code>v-model="num"</code></p>
+        <input v-model="num" type="number">
+        <p>num === {{ num }}</p>
+        <p>typeof num ==={{ typeof num }}</p>
+        
+        <p>Điều này rất hữu ích, vì kể cả khi input có <code>type="number"</code> thì giá trị được trả về của nó luôn luôn là chuỗi.</p>
+    </div>
+    <script src="number.js"></script>
+</body>
+</html>
