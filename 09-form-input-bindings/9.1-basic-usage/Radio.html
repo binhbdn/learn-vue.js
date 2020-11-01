@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Form Input Bindings - Basic Usage - Radio</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <div id="app5">
+        <input type="radio" id="cac-mon-rau" value="Các món rau" v-model="picked">
+        <label for="cac-mon-rau">Các món rau</label><br>
+        <input type="radio" id="cac-mon-thit" value="Các món thịt" v-model="picked">
+        <label for="cac-mon-thit">Các món thịt</label><br>
+        <span>Đã chọn: {{ picked }}</span>
+    </div>
+    <script src="Radio.js"></script>
+</body>
+</html>
