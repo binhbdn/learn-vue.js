@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Components Basics - A Single Root Element</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>A Single Root Element</h1>
+    <p>Khi xây dựng component <code>&lt;blog-post&gt;</code> cho bài viết, thế nào rồi template của bạn cũng sẽ chứa nhiều thứ hơn là mỗi  <code>title</code>. Ít nhất bạn cũng sẽ có thêm nội dung bài viết: </p>
+    <pre>
+        &lt;h3>{{ post.title }}&lt;/h3>
+        &lt;div v-html="post.content">&lt;/div>
+    </pre>
+    <p>Nhưng nếu bạn sử dụng template này, Vue sẽ thông báo lỗi <strong>Component template should contain exactly one root element</strong> (mỗi component phải có một phần tử gốc đơn lập). Bạn có thể sửa lỗi này bằng cách bọc template trong một phần tử cha, ví dụ:</p>
+    <div id="app5">
+        <blog-post
+        v-for="post in posts"
+        v-bind:key="post.id"
+        v-bind:post="post"
+        ></blog-post>
+    </div>
+    <p>Trên đây, bạn có thể thấy là chúng ta dùng <code>v-bind</code> để truyền động prop. Cách làm này đặc biệt hữu ích khi bạn không biết trước được chính xác nội dung bạn sẽ render, như khi <a href="https://jsfiddle.net/chrisvfritz/sbLgr0ad" target="_blank" rel="noopener">lấy bài viết từ một API</a>.</p>
+    <p>Hiện giờ thì đó là tất cả những gì bạn cần biết về prop, nhưng sau khi đọc xong trang này và hiểu thêm về component, bạn nên quay lại và đọc bản hướng dẫn đầy đủ về <a href="https://vi.vuejs.org/v2/guide/component-props.html">props</a>.</p>
+    <script src="A Single Root Element.js"></script>
+</body>
+</html>
