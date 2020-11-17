@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Components Basics - Reusing Components</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <div id="app1">
+        <button-counter></button-counter>
+        <button-counter></button-counter>
+        <button-counter></button-counter>
+    </div>
+    <p>Để ý là khi bấm các nút trên đây, mỗi nút giữ một giá trị <code>count</code> riêng hoàn toàn tách biệt. Điều này là vì mỗi khi bạn dùng một component, một <strong>đối tượng</strong> của component đó được tạo mới.</p>
+    <p>Chú ý: <strong>tùy chọn <code>data</code> của component phải là một hàm</strong>. Bằng cách này, mỗi đối tượng của component có thể duy trì một bản sao riêng biệt của đối tượng data được trả về</p>
+    <script src="Base Example.js"></script>
+</body>
+</html>
