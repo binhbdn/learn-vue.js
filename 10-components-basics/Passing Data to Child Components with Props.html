@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Components Basics - Passing Data to Child Components with Props</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Truyền dữ liệu xuống component con bằng prop</h1>
+    <p>Prop là các thuộc tính tùy chỉnh mà bạn có thể đăng kí trên một component. Khi một giá trị được truyền vào một prop, nó trở thành một “property” của đối tượng component đó. Để truyền tựa đề (<code>title</code>) vào component bài viết (<code>blog-post</code>), chúng ta sử dụng tùy chọn <code>props</code>:</p>
+    <div id="app4">
+        <blog-post title="Giới thiệu về Vue"></blog-post>
+        <blog-post title="Các khái niệm trong Vue"></blog-post>
+        <blog-post title="Vue căn bản và vô cùng nâng cao"></blog-post>
+        <p>Một component có thể có bao nhiêu prop tùy ý, và prop có thể nhận bất kì giá trị gì. Trong template trên đây, bạn có thể thấy là chúng ta có thể truy xuất giá trị này trên đối tượng component, giống như với <code>data</code>.</p>
+        <p>Một khi prop đã được đăng kí, bạn có thể truyền dữ liệu vào như một thuộc tính tùy chỉnh</p>
+        <p>Tuy nhiên, trong một ứng dụng điển hình, bạn có lẽ sẽ có một mảng các bài viết trong <code>data</code>.</p>
+        <p>và sau đó render một component cho mỗi bài viết:</p>
+        <blog-post
+        v-for="post in posts"
+        v-bind:key="post.id"
+        v-bind:title="post.title"
+        ></blog-post>
+    </div>
+    <p>Trên đây, bạn có thể thấy là chúng ta dùng <code>v-bind</code> để truyền động prop. Cách làm này đặc biệt hữu ích khi bạn không biết trước được chính xác nội dung bạn sẽ render, như khi <a href="https://jsfiddle.net/chrisvfritz/sbLgr0ad" target="_blank" rel="noopener">lấy bài viết từ một API</a>.</p>
+    <p>Hiện giờ thì đó là tất cả những gì bạn cần biết về prop, nhưng sau khi đọc xong trang này và hiểu thêm về component, bạn nên quay lại và đọc bản hướng dẫn đầy đủ về <a href="https://vi.vuejs.org/v2/guide/component-props.html">props</a>.</p>
+    <script src="Props.js"></script>
+    <script>
+        new Vue({
+            el: '#app4',
+            data: {
+                posts: [
+                    { id: 1, title: 'Giới thiệu về Vue' },
+                    { id: 2, title: 'Các khái niệm trong Vue' },
+                    { id: 3, title: 'Vue căn bản và vô cùng nâng cao' }
+                ]
+            }
+        })
+    </script>
+</body>
+</html>
