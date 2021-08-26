@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Components Basics - Emitting a Value With an Event</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Emitting a Value With an Event</h1>
+    <h1>Gửi giá trị khi phát ra sự kiện</h1>
+    <p>
+        Đôi khi bạn cần gửi một giá trị cụ thể nào đó kèm với một sự kiện.
+        Ví dụ, chúng ta có thể cho <code>&lt;blog-post&gt;</code> quyền quyết định mức độ phóng đại của cỡ chũ.
+        Trong những trường hợp này, ta có thể dùng tham số thứ hai của <code>$emit</code>:
+    </p>
+    <pre>
+            &lt;button v-on:click="$emit('enlarge-text', 0.1)"&gt;
+            Phóng to
+            &lt;/button&gt;
+    </pre>
+    <p>
+        Sau đó, khi lắng nghe sự kiện này ở đối tượng cha, chúng ta có thể truy xuất đến giá trị của sự kiện được phát ra với <code>$event</code>:
+    </p>
+    <pre>
+            &lt;blog-post
+            ...
+            v-on:enlarge-text="postFontSize += $event"
+            &gt;&lt;/blog-post&gt;
+    </pre>
+    <div id="app7a">
+        <div :style="{ fontSize: postFontSize + 'em' }">
+            <blog-post
+            v-for="post in posts"
+            :key="post.id"
+            :post="post"
+            @enlarge-text="postFontSize += 0.1"
+            ></blog-post> 
+        </div>
+    </div>
+    <p>-----------------------------</p>
+    <p>Hoặc, nếu đó là một phương thức xử lí sự kiện:</p>
+    <pre>
+            &lt;blog-post
+            ...
+            v-on:enlarge-text="onEnlargeText"
+            &gt;&lt;/blog-post&gt;
+    </pre>
+    <p>thì giá trị sẽ được truyền vào dưới dạng tham số đầu tiên của phương thức đó:</p>
+    <pre>
+            methods: {
+                onEnlargeText: function (enlargeAmount) {
+                    this.postFontSize += enlargeAmount
+                }
+            }
+    </pre>
+    <div id="app7b">
+        <div :style="{ fontSize: postFontSize + 'em' }">
+            <blog-post
+            v-for="post in posts"
+            :key="post.id"
+            :post="post"
+            @enlarge-text="onEnlargeText"
+            ></blog-post> 
+        </div>
+    </div>
+
+    <script src="Emitting a Value With an Event.js"></script>
+</body>
+</html>
