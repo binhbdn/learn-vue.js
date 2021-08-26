@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Components Basics - Listening to Child Components Events</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Listening to Child Components Events</h1>
+    <p>
+        Khi nút Phóng to được bấm, chúng ta muốn yêu cầu đối tượng cha phóng to cỡ chữ của tất cả các bài viết.
+        May thay, các đối tượng Vue cung cấp một hệ thống sự kiện tùy biến để giải quyết vấn đề này.
+        Để phát ra (emit) một sự kiện, chúng ta có thể gọi phương thức
+        <strong><code>$emit</code></strong> cho sẵn và truyền vào tên của sự kiện
+    </p>
+    <pre>
+            &lt;button v-on:click="$emit('enlarge-text')"&gt;
+            Phóng to
+            &lt;/button&gt;
+    </pre>
+    <p>
+        Sau đó trong component <code>&lt;blog-post&gt;</code>, chúng ta có thể lắng nghe sự kiện này bằng <code>v-on</code> giống như với các sự kiện DOM:
+    </p>
+    <pre>
+            &lt;blog-post
+            ...
+            v-on:enlarge-text="postFontSize += 0.1"
+            &gt;&lt;/blog-post&gt;
+    </pre>
+        <div id="app6">
+        <div :style="{ fontSize: postFontSize + 'em' }">
+            <blog-post
+            v-for="post in posts"
+            :key="post.id"
+            :post="post"
+            @enlarge-text="postFontSize += 0.1"
+            ></blog-post> 
+        </div>
+    </div>
+    <script src="Listening to Child Components Events.js"></script>
+</body>
+</html>
