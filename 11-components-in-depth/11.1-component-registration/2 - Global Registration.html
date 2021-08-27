@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Global Component Registration</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Global Component Registration / Đăng kí component ở cấp toàn cục</h1>
+    <p>Để đăng kí component ở cấp toàn cục, hãy sử dụng cú pháp <code>Vue.component</code>:</p>
+    <pre>
+        Vue.component('<code>my-component-name</code>', {
+            // ... các tuỳ biến ...
+        })
+    </pre>
+    <p>Các component được <strong>đăng kí ở cấp toàn cục</strong> có thể sử dụng trong template của bất cứ đối tượng Vue gốc (<code>new Vue</code>) nào. Ví dụ:</p>
+    <pre>
+        JS:
+        Vue.component('component-a', { /* ... */ })
+        Vue.component('component-b', { /* ... */ })
+        Vue.component('component-c', { /* ... */ })
+        
+        <code>new</code> Vue({ el: '#app' })
+
+
+        HTML:
+        &lt;div id="app"&gt;
+            &lt;component-a&gt;&lt;/component-a&gt;
+            &lt;component-b&gt;&lt;/component-b&gt;
+            &lt;component-c&gt;&lt;/component-c&gt;
+        &lt;/div&gt;
+    </pre>
+    <p>Điều này còn áp dụng cho tất cả những components con, tức là tất cả ba component trên đều có thể sử dụng <em>lẫn nhau</em>.</p>
+</body>
+</html>
