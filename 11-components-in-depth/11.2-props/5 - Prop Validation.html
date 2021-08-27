@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Prop Validation</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Prop Validation</h1>
+    <p>Components can specify requirements for their props, such as the types you’ve already seen. If a requirement isn’t met, Vue will warn you in the browser’s JavaScript console. This is especially useful when developing a component that’s intended to be used by others.</p>
+    <p>To specify prop validations, you can provide an object with validation requirements to the value of <code>props</code>, instead of an array of strings. For example:</p>
+    <pre>
+        Vue.component('my-component', {
+            props: {
+              // Basic type check (`null` and `undefined` values will pass any type validation)
+              propA: Number,
+              // Multiple possible types
+              propB: [String, Number],
+              // Required string
+              propC: {
+                type: String,
+                required: true
+              },
+              // Number with a default value
+              propD: {
+                type: Number,
+                default: 100
+              },
+              // Object with a default value
+              propE: {
+                type: Object,
+                // Object or array defaults must be returned from
+                // a factory function
+                default: function () {
+                  return { message: 'hello' }
+                }
+              },
+              // Custom validator function
+              propF: {
+                validator: function (value) {
+                  // The value must match one of these strings
+                  return ['success', 'warning', 'danger'].indexOf(value) !== -1
+                }
+              }
+            }
+        })
+    </pre>
+    <p>When prop validation fails, Vue will produce a console warning (if using the development build).</p>
+    <p class="tip">Note that props are validated <strong>before</strong> a component instance is created, so instance properties (e.g. <code>data</code>, <code>computed</code>, etc) will not be available inside <code>default</code> or <code>validator</code> functions.</p>
+
+    <h2>Type Checks</h2>
+    <p>The <code>type</code> can be one of the following native constructors:</p>
+    <ul>
+        <li>String</li>
+        <li>Number</li>
+        <li>Boolean</li>
+        <li>Array</li>
+        <li>Object</li>
+        <li>Date</li>
+        <li>Function</li>
+        <li>Symbol</li>
+    </ul>
+    <p>In addition, <code>type</code> can also be a custom constructor function and the assertion will be made with an <code>instanceof</code> check. For example, given the following constructor function exists:</p>
+    <pre>
+        function Person (firstName, lastName) {
+            this.firstName = firstName
+            this.lastName = lastName
+        }
+    </pre>
+    <p>You could use:</p>
+    <pre>
+        Vue.component('blog-post', {
+            props: {
+                author: Person
+            }
+        })
+    </pre>
+    <p>to validate that the value of the <code>author</code> prop was created with <code>new Person</code>.</p>
+</body>
+</html>
