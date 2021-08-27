@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Component Names</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Component Names / Tên Component</h1>
+    <p>Tên của component là đối số đầu tiên của <code>Vue.component</code>.</p>
+    <p>Tên của component được đặt theo mục đích sử dụng. Khi sử dụng trực tiếp component trên DOM (trái ngược với trong chuỗi template hay <a href="https://vi.vuejs.org/v2/guide/single-file-components.html">trong một file component</a>), chúng tôi khuyến khích tuân thủ theo <a href="https://www.w3.org/TR/custom-elements/#concepts" target="_blank" rel="noopener">quy định của W3C</a> để đặt tên cho các thẻ (viết thường và phải nối bằng gach ngang). Điều này sẽ giúp tránh khỏi nguy cơ xung đột với các HTML elements hiện tại cũng như trong tương lai.</p>
+    <p>Bạn có hai lựa chọn khi đặt tên cho một component:</p>
+    <h2>Dùng kebab-case</h2>
+    <code>Vue.component('my-component-name', { /* ... */ })</code>
+    <h2>Dùng PascalCase</h2>
+    <code>Vue.component('MyComponentName', { /* ... */ })</code>
+    <p>Khi định nghĩa một component ở dạng PascalCase, bạn có thể sử dụng cả hai cách khi tham chiếu tới phần tử web của nó. Điều này có nghĩa là cả hai cách viết <code>&lt;my-component-name&gt;</code> và <code>&lt;MyComponentName&gt;</code> đều được chấp nhận. Tuy nhiên, cần chú ý là chỉ có các tên của component với kebab-case mới sử dụng được trên DOM (nghĩa là các template không phải dạng chuỗi)</p>
+</body>
+</html>
