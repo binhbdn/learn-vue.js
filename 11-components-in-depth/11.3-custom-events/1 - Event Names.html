@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Event Names</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Event Names</h1>
+    <p>Unlike components and props, event names don’t provide any automatic case transformation. Instead, the name of an emitted event must exactly match the name used to listen to that event. For example, if emitting a camelCased event name:</p>
+    <pre>
+        this.$emit('myEvent')
+    </pre>
+    <p>Listening to the kebab-cased version will have no effect:</p>
+    <pre>
+        &lt;!-- Won't work --&gt;
+        &lt;my-component v-on:my-event="doSomething"&gt;&lt;/my-component&gt;
+    </pre>
+    <p>Unlike components and props, event names will never be used as variable or property names in JavaScript, so there’s no reason to use camelCase or PascalCase. Additionally, <code>v-on</code> event listeners inside DOM templates will be automatically transformed to lowercase (due to HTML’s case-insensitivity), so <code>v-on:myEvent</code> would become <code>v-on:myevent</code> – making <code>myEvent</code> impossible to listen to.</p>
+    <p>For these reasons, we recommend you <strong><code>always use kebab-case for event names</code></strong>.</p>
+</body>
+</html>
