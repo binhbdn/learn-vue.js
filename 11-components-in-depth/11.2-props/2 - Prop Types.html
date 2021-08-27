@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Prop Types</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Prop Types</h1>
+    <p>So far, we’ve only seen props listed as an array of strings:</p>
+    <pre>
+            props: ['title', 'likes', 'isPublished', 'commentIds', 'author']
+    </pre>
+    <p>Usually though, you’ll want every prop to be a specific type of value. In these cases, you can list props as an object, where the properties’ names and values contain the prop names and types, respectively:</p>
+    <pre>
+            props: {
+                title: String,
+                likes: Number,
+                isPublished: Boolean,
+                commentIds: Array,
+                author: Object,
+                callback: Function,
+                contactsPromise: Promise // or any other constructor
+            }
+    </pre>
+    <p>This not only documents your component, but will also warn users in the browser’s JavaScript console if they pass the wrong type. </p>
+    </body>
+</html>
