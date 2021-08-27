@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Non-Prop Attributes</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Non-Prop Attributes</h1>
+    <p>For example, imagine we’re using a 3rd-party <code>bootstrap-date-input</code> component with a Bootstrap plugin that requires a <code>data-date-picker</code> attribute on the <code>input</code>. We can add this attribute to our component instance:</p>
+    <pre>
+        &lt;bootstrap-date-input data-date-picker="activated"&gt;&lt;/bootstrap-date-input&gt;
+    </pre>
+
+    <h2>Replacing/Merging with Existing Attributes</h2>
+    <p>Imagine this is the template for <code>bootstrap-date-input</code>:</p>
+    <pre>
+        &lt;input type="date" class="form-control"&gt;
+    </pre>
+    <p>To specify a theme for our date picker plugin, we might need to add a specific class, like this:</p>
+    <pre>
+        &lt;bootstrap-date-input&gt;
+            data-date-picker="activated"
+            class="date-picker-theme-dark"
+        &gt;&lt;/bootstrap-date-input&gt;
+    </pre>
+    <p>In this case, two different values for <code>class</code> are defined:</p>
+    <ul>
+        <li><code>form-control</code>, which is set by the component in its template</li>
+        <li><code>date-picker-theme-dark</code>, which is passed to the component by its parent</li>
+    </ul>
+    <p>For most attributes, the value provided to the component will replace the value set by the component. So for example, passing <code>type="text"</code> will replace <code>type="date"</code> and probably break it! Fortunately, the <code>class</code> and <code>style</code> attributes are a little smarter, so both values are merged, making the final value: <code>form-control date-picker-theme-dark</code>.</p>
+
+    <h2>Disabling Attribute Inheritance</h2>
+    <p>If you do <strong>not</strong> want the root element of a component to inherit attributes, you can set <code>inheritAttrs: false</code> in the component’s options. For example:</p>
+    <pre>
+        Vue.component('my-component', {
+            inheritAttrs: false,
+            // ...
+        })
+    </pre>
+    <p>This can be especially useful in combination with the <code>$attrs</code> instance property, which contains the attribute names and values passed to a component, such as:</p>
+    <pre>
+        {
+            required: true,
+            placeholder: 'Enter your username'
+        }
+    </pre>
+    <p>With <code>inheritAttrs: false</code> and <code>$attrs</code>, you can manually decide which element you want to forward attributes to, which is often desirable for <a href="https://vuejs.org/v2/style-guide/#Base-component-names-strongly-recommended">base components</a>:</p>
+    <pre>
+        Vue.component('base-input', {
+            inheritAttrs: false,
+            props: ['label', 'value'],
+            template: `
+                &lt;label&gt;
+                    {{ label }}
+                    &lt;input
+                        v-bind="$attrs"
+                        v-bind:value="value"
+                        v-on:input="$emit('input', $event.target.value)"
+                    &gt;
+                &lt;/label&gt;
+            `
+        })
+    </pre>
+    <p class="tip">Note that <code>inheritAttrs: false</code> option does <strong>not</strong> affect <code>style</code> and <code>class</code> bindings.</p>
+    <p>This pattern allows you to use base components more like raw HTML elements, without having to care about which element is actually at its root:</p>
+    <pre>
+        &lt;base-input&gt;
+            label="Username:"
+            v-model="username"
+            required
+            placeholder="Enter your username"
+        &gt;&lt;/base-input&gt;
+    </pre>
+    <h3>vm.$attrs</h3>
+    <p>Khả dụng từ phiên bản 2.4.0+ Bao gồm các binding của parent-scope (ngoại trừ class và style),nó được sử dụng như props.
+        Khi một component không có bất kỳ một khai báo <strong>props</strong> nào, thì nó sẽ chứa toàn bộ các binding của parent-scope(ngoại trừ class và style),
+        và nó có thể đẩy dữ liệu xuống giữa các coponent thông qua <strong>v-bind="$attrs"</strong></p>
+
+    <h3>Thực hành</h3>
+    <div id="app6">
+        <base-input
+            label="Username:"
+            v-model="username"
+            required
+            placeholder="Enter your username"
+        ></base-input>
+    </div>
+    <br><br>
+    <script src="6 - Non-Prop Attributes.js"></script>
+</body>
+</html>
