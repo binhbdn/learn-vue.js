@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - One-Way Data Flow</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>One-Way Data Flow</h1>
+    <p>All props form a <strong>one-way-down binding</strong> between the child property and the parent one: when the parent property updates, it will flow down to the child, but not the other way around. This prevents child components from accidentally mutating the parent’s state, which can make your app’s data flow harder to understand.</p>
+    <p>In addition, every time the parent component is updated, all props in the child component will be refreshed with the latest value. This means you should <strong>not</strong> attempt to mutate a prop inside a child component. If you do, Vue will warn you in the console.</p>
+    <p>There are usually two cases where it’s tempting to mutate a prop:</p>
+    <ol>
+        <li>
+            <p><strong>The prop is used to pass in an initial value; the child component wants to use it as a local data property afterwards.</strong> In this case, it’s best to define a local data property that uses the prop as its initial value:</p>
+            <pre>
+                props: ['initialCounter'],
+                data: function () {
+                    return {
+                        counter: this.initialCounter
+                    }
+                }
+            </pre>
+        </li>
+        <li>
+            <p><strong>The prop is passed in as a raw value that needs to be transformed.</strong> In this case, it’s best to define a computed property using the prop’s value:</p>
+            <pre>
+                props: ['size'],
+                computed: {
+                    normalizedSize: function () {
+                        return this.size.trim().toLowerCase()
+                    }
+                }
+            </pre>
+        </li>
+    </ol>
+    <p class="tip">Note that objects and arrays in JavaScript are passed by reference, so if the prop is an array or object, mutating the object or array itself inside the child component <strong>will</strong> affect parent state.</p>
+</body>
+</html>
