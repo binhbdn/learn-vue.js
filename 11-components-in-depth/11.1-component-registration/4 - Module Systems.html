@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Module Systems</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Module Systems / Hệ thống Module</h1>
+    <h2>Đăng kí ở cấp cục bộ trong hệ thống Module</h2>
+    <p>Nếu đang sử dụng một hệ thống module như Babel và Webpack, chúng tôi khuyến khích tạo một file riêng cho mỗi component.</p>
+    <p>Bạn sẽ cần phải nhập (<code>import</code>) từng component mà bạn muốn sử dụng trước khi đăng kí cục bộ. Ví dụ, trong một file <code>ComponentB.js</code> hoặc <code>ComponentB.vue</code>:</p>
+    <pre>
+        <code>import</code> ComponentA <code>from</code> './ComponentA'
+        <code>import</code> ComponentC <code>from</code> './ComponentC'
+        
+        <code>export default</code> {
+          components: {
+            ComponentA,
+            ComponentC
+          },
+          // ...
+        }
+    </pre>
+    <p>Giờ thì bạn có thể sử dụng cả <code>ComponentA</code> và <code>ComponentC</code> trong template của <code>ComponentB</code>.</p>    
+    
+    <h2>Tự động đăng kí toàn cục của những component cơ sở</h2>
+    <p>Bạn sẽ có nhiều component dùng chung, ví dụ một component dạng wrapper cho một phần tử như <code>button</code> hoặc <code>input</code>.
+        Chúng tôi đôi khi gọi những component này là <a href="https://vi.vuejs.org/v2/style-guide/#Base-component-names-strongly-recommended">component cơ sở</a> (base component),
+        và những component cơ sở này có khuynh hướng được dùng rất thường xuyên bên trong các component khác.</p>
+    <p>Kết quả là nhiều component có thể có một danh sách component cơ sở khá dài:</p>
+    <pre>
+        <code>import</code> BaseButton <code>from</code> './BaseButton.vue'
+        <code>import</code> BaseIcon <code>from</code> './BaseIcon.vue'
+        <code>import</code> BaseInput <code>from</code> './BaseInput.vue'
+        
+        <code>export default</code> {
+          components: {
+            BaseButton,
+            BaseIcon,
+            BaseInput
+          },
+          // ...
+        }
+    </pre>
+    <p>Chỉ để hỗ trợ cho một chút markup trong template:</p>
+    <pre>
+        &lt;BaseInput 
+            v-model='searchText' 
+            @keydown.enter='search' /&gt;
+        &lt;BaseButton @click='search'&gt;
+            &lt;BaseIcon name='search' /&gt;
+        &lt;/BaseButton&gt;
+    </pre>
+    <p>May thay, sử dụng Webpack (hoặc <a href="https://github.com/vuejs/vue-cli" target="_blank" rel="noopener">Vue CLI 3+</a>, công cụ sử dụng Webpack),
+        bạn có thể đăng kí các component cơ sở thông dụng ở cấp toàn cục với <code>require.context</code>.
+        Đây là một ví dụ về cách nhúng các component cơ sở ở cấp toàn cục component vào file bắt đầu của ứng dụng (ví dụ: <code>src/main.js</code>):</p>
+    <pre>
+        import Vue from 'vue'
+        import upperFirst from 'lodash/upperFirst'
+        import camelCase from 'lodash/camelCase'
+        
+        const requireComponent = require.context(
+          // Đường dẫn tương đối của thư mục component
+          './components',
+          // có tìm component trong các thư mục con hay không
+          false,
+          // regular expression để tìm các file component cơ sở
+          /Base[A-Z]\w+\.(vue|js)$/
+        )
+        
+        requireComponent.keys().forEach(fileName => {
+          // Lấy cấu hình của component
+          const componentConfig = requireComponent(fileName)
+        
+          // Lấy tên của component dùng PascalCase
+          const componentName = upperFirst(
+            camelCase(
+              // Bỏ phần đầu `'./` và đuôi file
+              fileName.replace(/^\.\/(.*)\.\w+$/, '$1')
+            )
+          )
+        
+          // Khai báo component cấp toàn cục
+          Vue.component(
+            componentName,
+            // Tìm kiếm các tùy chọn của component trong thuộc tính `.default`
+            // Thuộc tính này sẽ khả dụng nếu component sử dụng `export default`
+            // nếu không thì dùng chính `componentConfig`
+            componentConfig.default || componentConfig
+          )
+        })
+    </pre>
+    <p>Nhớ rằng <strong>bạn phải đăng kí component cấp toàn cục trước khi khởi tạo đối tượng Vue gốc (<code>new Vue</code>)</strong>.
+        <a href="https://github.com/chrisvfritz/vue-enterprise-boilerplate/blob/master/src/components/_globals.js" target="_blank" rel="noopener">Đây là một ví dụ</a> trong một ngữ cảnh thực tế.</p>
+</body>
+</html>
