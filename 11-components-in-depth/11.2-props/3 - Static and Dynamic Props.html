@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Static and Dynamic Props</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Static and Dynamic Props</h1>
+    <p>So far, you’ve seen props passed a static value, like in:</p>
+    <pre>
+            <code>&lt;blog-post title="My journey with Vue"&gt;&lt;/blog-post&gt;</code>
+    </pre>
+    <p>You’ve also seen props assigned dynamically with <code>v-bind</code>, such as in:</p>
+    <pre>
+            <code>&lt;blog-post v-bind:title="post.title"&gt;&lt;/blog-post&gt;</code>
+    </pre>
+    <p>In the two examples above, we happen to pass string values, but <em>any</em> type of value can actually be passed to a prop.</p>
+
+    <h2>Passing a Number</h2>
+    <pre>
+            &lt;!-- Even though `42` is static, we need v-bind to tell Vue that --&gt;
+            &lt;!-- this is a JavaScript expression rather than a string.       --&gt;
+            <code>&lt;blog-post&gt; v-bind:likes="42"&gt;&lt;/blog-post&gt;</code>
+
+            &lt;!-- Dynamically assign to the value of a variable. --&gt;
+            <code>&lt;blog-post&gt; v-bind:likes="post.likes"&gt;&lt;/blog-post&gt;</code>
+    </pre>
+
+    <h2>Passing a Boolean</h2>
+    <pre>
+            &lt;!-- Including the prop with no value will imply `true`. --&gt;
+            <code>&lt;blog-post is-published&gt;&lt;/blog-post&gt;</code>
+
+            &lt;!-- Even though `false` is static, we need v-bind to tell Vue that --&gt;
+            &lt;!-- this is a JavaScript expression rather than a string.          --&gt;
+            <code>&lt;blog-post v-bind:is-published="false"&gt;&lt;/blog-post&gt;</code>
+
+            &lt;!-- Dynamically assign to the value of a variable. --&gt;
+            <code>&lt;blog-post v-bind:is-published="post.isPublished"&gt;&lt;/blog-post&gt;</code>
+    </pre>
+
+    <h2>Passing an Array</h2>
+    <pre>
+            &lt;!-- Even though the array is static, we need v-bind to tell Vue that --&gt;
+            &lt;!-- this is a JavaScript expression rather than a string.            --&gt;
+            <code>&lt;blog-post&gt; v-bind:comment-ids="[234, 266, 273]"&gt;&lt;/blog-post&gt;</code>
+
+            &lt;!-- Dynamically assign to the value of a variable. --&gt;
+            <code>&lt;blog-post&gt; v-bind:comment-ids="post.commentIds"&gt;&lt;/blog-post&gt;</code>
+    </pre>
+
+    <h2>Passing an Object</h2>
+    <pre>
+            &lt;!-- Even though the object is static, we need v-bind to tell Vue that --&gt;
+            &lt;!-- this is a JavaScript expression rather than a string.             --&gt;
+            <code>&lt;blog-post
+                v-bind:author="{
+                    name: 'Veronica',
+                    company: 'Veridian Dynamics'
+                }"
+            &gt;&lt;/blog-post&gt;</code>
+
+            &lt;!-- Dynamically assign to the value of a variable. --&gt;
+            <code>&lt;blog-post v-bind:author="post.author"&gt;&lt;/blog-post&gt;</code>
+    </pre>
+
+    <h2>Passing the Properties of an Object</h2>
+    <p>If you want to pass all the properties of an object as props, you can use <code>v-bind</code> without an argument (<code>v-bind</code> instead of <code>v-bind:prop-name</code>). For example, given a <code>post</code> object:</p>
+    <code>
+        <pre>
+            post: {
+                id: 1,
+                title: 'My Journey with Vue'
+            }
+        </pre>
+    </code>
+
+    <p>The following template:</p>
+    <code>
+        <pre>
+            &lt;blog-post&gt; v-bind="post"&gt;&lt;/blog-post&gt;
+        </pre>
+    </code>
+    <p>Will be equivalent to:</p>
+    <code>
+        <pre>
+            &lt;blog-post&gt;
+                v-bind:id="post.id"
+                v-bind:title="post.title"
+            &gt;&lt;/blog-post&gt;
+        </pre>
+    </code>
+</body>
+</html>
