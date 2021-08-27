@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Prop Casing</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Prop Casing (camelCase vs kebab-case)</h1>
+    <p>HTML attribute names are case-insensitive, so browsers will interpret any uppercase characters as lowercase. That means when you’re using in-DOM templates, camelCased prop names need to use their kebab-cased (hyphen-delimited) equivalents:</p>
+    <pre>
+        JS:
+
+            Vue.component('blog-post', {
+                // camelCase in JavaScript
+                props ['<code>postTitle</code>'],
+                template: '&lt;h3&gt;{{ <code>postTitle</code>' }}&lt;/h3&gt;'
+            })
+        
+        HTML:
+
+            &lt;!-- kebab-case in HTML --&gt;
+            &lt;blog-post&gt; <strong><code>post-title</code></strong>="hello!"&gt;&lt;/blog-post&gt;
+    </pre>
+    <p>Again, if you’re using string templates, this limitation does not apply.</p>
+    </body>
+</html>
