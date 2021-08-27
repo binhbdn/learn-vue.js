@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Components Basics - DOM Template Parsing Caveats</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>DOM Template Parsing Caveats / Lưu ý về việc parse DOM template</h1>
+    <p>Bên trong các phần tử như <code>&lt;ul&gt;</code>, <code>&lt;ol&gt;</code>, <code>&lt;table&gt;</code> và <code>&lt;select&gt;</code> chúng ta chỉ có thể chứa một số phần tử nhất định (chẳng hạn <code>&lt;ul&gt;</code> chỉ chấp nhận <code>&lt;li&gt;</code>), trong khi đó các phần tử như <code>&lt;option&gt;</code> lại chỉ có thể được đặt trong một số phần tử nhất định khác như <code>&lt;select&gt;</code>, <code>&lt;optgroup&gt;</code>, hay <code>&lt;datalist&gt;</code>.</p>
+    <p>Điều này sẽ dẫn đến một số vấn đề khi dùng component với các phần tử có những hạn chế vừa nêu, ví dụ:</p>
+    <pre>
+        &lt;table&gt;
+            &lt;blog-post-row&gt;&lt;/blog-post-row&gt;
+        &lt;/table&gt;
+    </pre>
+    <p>Ở đây component <code>&lt;blog-post-row&gt;</code> sẽ bị xem là một phần tử không hợp lệ bên trong <code>&lt;table&gt;</code> và bị đẩy ra ngoài (hoisted out), dẫn đến lỗi khi render. Để giải quyết vấn đề này, ta có thể dùng thuộc tính đặc biệt <code>is</code>:</p>
+    <pre>
+        &lt;table&gt;
+            &lt;tr&gt; is="blog-post-row"&gt;&lt;/tr&gt;
+        &lt/table&gt;
+    </pre>
+    <p>Cũng nên lưu ý rằng <strong>hạn chế này <em>không</em> tồn tại nếu bạn sử dụng template dạng chuỗi từ một trong các nguồn sau</strong>:</p>
+    <ul>
+        <li>Template dạng chuỗi, ví dụ <code>template: '...'</code></li>
+        <li><a href="https://vi.vuejs.org/v2/guide/single-file-components.html">Single file component</a></li>
+        <li><code>&lt;script type="text/x-template"&gt;</code></li>
+    </ul>
+</body>
+</html>
