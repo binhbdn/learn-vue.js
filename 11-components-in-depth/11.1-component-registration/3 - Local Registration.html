@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Local Component Registration</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Local Component Registration / Đăng kí ở cấp cục bộ</h1>
+    <p>Để đăng kí component ở cấp cục bộ, hãy định nghĩa component dưới dạng object trong JavaScript:</p>
+    <pre>
+        <code>var</code> ComponentA = { /* ... */ }
+        <code>var</code> ComponentB = { /* ... */ }
+        <code>var</code> ComponentC = { /* ... */ }
+    </pre>
+    <p>Sau đó sử dụng trong tuỳ chọn <code>components</code>:</p>
+    <pre>
+        new Vue({
+            el: '#app'
+            <code>components</code>: {
+                'component-a': ComponentA,
+                'component-b': ComponentB
+            }
+        })
+    </pre>
+    <p>Lưu ý rằng <strong>bạn sẽ <em>không</em> truy xuất được đến các component được đăng kí cục bộ từ các component con</strong>. Ví dụ, nếu như bạn muốn sử dụng <code>ComponentA</code> trong <code>ComponentB</code>, bạn phải khai báo như sau:</p>
+    <pre>
+        <code>var</code> ComponentA = { /* ... */ }
+
+        <code>var</code> ComponentB = {
+            components: {
+                'component-a': ComponentA
+            },
+            // ...
+        }
+    </pre>
+    <p>Hoặc nếu bạn sử dụng module ES2015 (thông qua Babel hay Webpack):</p>
+    <pre>
+        <code>import</code> ComponentA <code>from</code> './ComponentA.vue'
+
+        <code>export default</code> {
+            components: {
+                ComponentA
+            },
+            // ...
+        }
+    </pre>
+    <p>Chú ý rằng trong ES2015+, đặt một tên biến như <code>ComponentA</code> bên trong một object là cách viết tắt của <code>ComponentA: ComponentA</code>, trường hợp này tên của biến đồng thời là:</p>
+    <ul>
+        <li>tên của đối tượng tuỳ biến để sử dụng trong template, và</li>
+        <li>tên của biến bao gồm các tuỳ chọn cho component</li>
+    </ul>
+</body>
+</html>
