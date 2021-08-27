@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Components Basics - Using v-model on Components</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Using v-model on Components</h1>
+    <h1>Sử dụng v-model với component</h1>
+    <p>Các sự kiện tùy biến có thể được sử dụng để tạo ra các <code>&lt;input&gt;</code> tùy biến hoạt động với <code>v-model</code>. Nhớ rằng:</p>
+    <pre>&lt;input v-model="searchText"&gt;</pre>
+    <p>là hoàn toàn tương đồng với:</p>
+    <pre>
+            &lt;input
+            v-bind:value="searchText"
+            v-on:input="searchText = $event.target.value"
+            &gt;
+    </pre>
+    <p>Khi sử dụng trên một component, <code>v-model</code> là tương đồng với:</p>
+    <pre>
+            &lt;custom-input
+            v-bind:value="searchText"
+            v-on:input="searchText = $event"
+            &gt;&lt;/custom-input&gt;
+    </pre>
+    <p>Tuy nhiên để hoạt động được, phần tử <code>&lt;input&gt;</code> trong component phải:</p>
+    <ul>
+        <li>Ràng buộc thuộc tính <code>&lt;value&gt;</code> với một prop <code>&lt;value&gt;</code></li>
+        <li>Trong sự kiện <code>&lt;input&gt;</code>, phát ra sự kiện <code>&lt;input&gt;</code> tùy biến với giá trị mới</li>
+    </ul>
+    <p>Một đoạn code hoàn chỉnh nhìn tương tự như thế này:</p>
+    <pre>
+        Vue.component('custom-input', {
+            props: ['value'],
+            template: `
+              &lt;input
+                v-bind:value="value"
+                v-on:input="$emit('input', $event.target.value)"
+              &gt;
+            `
+          })
+    </pre>
+    <p>Giờ thì <code>v-model</code> sẽ hoạt động ổn thỏa:</p>
+    <pre>&lt;custom-input v-model="searchText"&gt;&lt;/custom-input&gt;</pre>
+    <p>Thực hành:</p>
+    <div id="app8">
+        <p>
+            <custom-input v-model="searchText1"></custom-input><br>
+            searchText1 = {{ searchText1 }}
+        </p>
+        <p>
+            <custom-input v-model="searchText2"></custom-input><br>
+            searchText2 = {{ searchText2 }}
+        </p>
+    </div>
+
+    <script src="Using v-model on Components.js"></script>
+</body>
+</html>
