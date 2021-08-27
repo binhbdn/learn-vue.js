@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Components Basics - Dynamic Components</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../07-list-rendering/7.0-css/styles.css">
+    <style>
+        .tab-button {
+          padding: 6px 10px;
+          border-top-left-radius: 3px;
+          border-top-right-radius: 3px;
+          border: 1px solid #ccc;
+          cursor: pointer;
+          background: #f0f0f0;
+          margin-bottom: -1px;
+          margin-right: -1px;
+        }
+        .tab-button:hover {
+          background: #e0e0e0;
+        }
+        .tab-button.active {
+          background: #e0e0e0;
+        }
+        .tab {
+          border: 1px solid #ccc;
+          padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dynamic Components / Component động</h1>
+    <p>Đôi khi bạn muốn chuyển qua lại giữa các component giống như trên một giao diện tab, hãy dùng thuộc tính đặc biệt <code>is</code> của một component trong Vue:</p>
+    <pre>
+        &lt;!-- Component thay đổi khi currentTabComponent thay đổi --&gt;
+        &lt;component v-bind:is="currentTabComponent"&gt;&lt;/component&gt;
+    </pre>
+    <p>Trong ví dụ trên, <code>currentTabComponent</code> có thể chứa:</p>
+    <ul>
+        <li>tên của một component đã được đăng kí, hoặc</li>
+        <li>object chứa các tùy chọn của một component</li>
+    </ul>
+
+    <h2>Thực hành với <code>currentTabComponent</code> là tên của một component đã được đăng kí:</h2>
+    <div id="app10a">
+        <button
+            v-for="tab in tabs"
+            :key="tab"
+            :class="['tab-button', { active: currentTab === tab }]"
+            @click="currentTab = tab"
+        >
+            {{ tab }}
+        </button>
+
+        <component :is="currentTabComponent" class="tab"></component>
+    </div>
+
+    <h2>Thực hành với <code>currentTabComponent</code> là tên của một object chứa các tùy chọn của một component:</h2>
+    <div id="app10b">
+        <button
+            v-for="tab in tabs"
+            :key="tab.name"
+            :class="['tab-button', { active: currentTab.name === tab.name }]"
+            @click="currentTab = tab"
+        >
+            {{ tab.name }}
+        </button>
+
+        <component :is="currentTab.component" class="tab"></component>
+    </div>
+    
+    <script src="Dynamic Components.js"></script>
+</body>
+</html>
