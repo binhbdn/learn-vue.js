@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Binding Native Events to Components</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Binding Native Events to Components</h1>
+    <p>There may be times when you want to listen directly to a native event on the root element of a component. In these cases, you can use the <code>.native</code> modifier for <code>v-on</code>:</p>
+    <pre>
+        &lt;base-input v-on:focus.native="onFocus"&gt;&lt;/base-input&gt;
+    </pre>
+    <p>This can be useful sometimes, but it’s not a good idea when you’re trying to listen on a very specific element, like an <code>&lt;input&gt;</code>. For example, the <code>&lt;base-input&gt;</code> component above might refactor so that the root element is actually a <code>&lt;label&gt;</code> element:</p>
+    <pre>
+        Vue.component('base-input', {
+            inheritAttrs: false,
+            props: ['label', 'value'],
+            template: `
+                &lt;label&gt;
+                    {{ label }}
+                    &lt;input
+                        v-bind="$attrs"
+                        v-bind:value="value"
+                        v-on:input="$emit('input', $event.target.value)"
+                    &gt;
+                &lt;/label&gt;
+            `
+        })
+    </pre>
+    <p>In that case, the <code>.native</code> listener in the parent would silently break. There would be no errors, but the <code>onFocus</code> handler wouldn’t be called when we expected it to.</p>
+    <p>To solve this problem, Vue provides a <code>$listeners</code> property containing an object of listeners being used on the component. For example:</p>
+    <pre>
+        {
+            focus: function (event) { /* ... */ }
+            input: function (value) { /* ... */ },
+        }
+    </pre>
+    <p>Using the <code>$listeners</code> property, you can forward all event listeners on the component to a specific child element with <code>v-on="$listeners"</code>. For elements like <code>&lt;input&gt;</code>, that you also want to work with <code>v-model</code>, it’s often useful to create a new computed property for listeners, like <code>inputListeners</code> below:</p>
+    <pre>
+        Vue.component('base-input', {
+            inheritAttrs: false,
+            props: ['label', 'value'],
+            computed: {
+              inputListeners: function () {
+                var vm = this
+                // `Object.assign` merges objects together to form a new object
+                return Object.assign({},
+                  // We add all the listeners from the parent
+                  this.$listeners,
+                  // Then we can add custom listeners or override the
+                  // behavior of some listeners.
+                  {
+                    // This ensures that the component works with v-model
+                    input: function (event) {
+                      vm.$emit('input', event.target.value)
+                    }
+                  }
+                )
+              }
+            },
+            template: `
+              &lt;label&gt;
+                {{ label }}
+                &lt;input
+                  v-bind="$attrs"
+                  v-bind:value="value"
+                  v-on="inputListeners"
+                &gt;
+              &lt;/label&gt;
+            `
+        })
+    </pre>
+    <p>Now the <code>&lt;base-input&gt;</code> component is a <strong>fully transparent wrapper</strong>, meaning it can be used exactly like a normal <code>&lt;input&gt;</code> element: all the same attributes and listeners will work, without the <code>.native</code> modifier.</p>
+    <h2>Thực hành</h2>
+    <div id="app3">
+        <base-input
+            label="Username:"
+            v-model="username"
+            required
+            placeholder="Enter your username"
+            @blur="onBlur"
+        ></base-input>
+    </div>
+    <br><br>
+    <script src="3 - Binding Native Events to Components.js"></script>
+</body>
+</html>
