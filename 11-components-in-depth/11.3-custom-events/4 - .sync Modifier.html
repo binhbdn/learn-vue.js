@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - .sync Modifier</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>.sync Modifier</h1>
+    <blockquote>
+        <p>New in 2.3.0+</p>
+    </blockquote>
+    <p>In some cases, we may need “two-way binding” for a prop. Unfortunately, true two-way binding can create maintenance issues, because child components can mutate the parent without the source of that mutation being obvious in both the parent and the child.</p>
+    <pre>
+        this.$emit('update:title', newTitle)
+    </pre>
+    <p>Then the parent can listen to that event and update a local data property, if it wants to. For example:</p>
+    <pre>
+        &lt;text-document
+            v-bind:title="doc.title"
+            v-on:update:title="doc.title = $event"
+        &gt;&lt;/text-document&gt;
+    </pre>
+    <p>For convenience, we offer a shorthand for this pattern with the <code>.sync</code> modifier:</p>
+    <pre>
+        &lt;text-document v-bind:title.sync="doc.title"&gt;&lt;/text-document&gt;
+    </pre>
+    <p class="tip">Note that <code>v-bind</code> with the <code>.sync</code> modifier does <strong>not</strong> work with expressions (e.g. <code>v-bind:title.sync=”doc.title + ‘!’”</code> is invalid). Instead, you must only provide the name of the property you want to bind, similar to <code>v-model</code>.</p>
+    <p>The <code>.sync</code> modifier can also be used with <code>v-bind</code> when using an object to set multiple props at once:</p>
+    <pre>
+        &lt;text-document v-bind.sync="doc"&gt;&lt;/text-document&gt;
+    </pre>
+    <p>This passes each property in the <code>doc</code> object (e.g. <code>title</code>) as an individual prop, then adds <code>v-on</code> update listeners for each one.</p>
+    <p class="tip">Using <code>v-bind.sync</code> with a literal object, such as in <code>v-bind.sync=”{ title: doc.title }”</code>, will not work, because there are too many edge cases to consider in parsing a complex expression like this.</p>
+    
+    <h2>Thực hành sử dụng .sync theo bài học</h2>
+    <div id="app4">
+        <text-document
+            v-bind:title.sync="doc.title"
+            v-bind:content.sync="doc.content"
+        ></text-document>
+
+        <text-document
+            v-bind.sync="doc"
+        ></text-document>
+    </div>
+
+    <h2>Tìm hiểu thêm: so sánh .sync và v-model</h2>
+    <p>Trích dẫn nguồn trả lời về so sánh giữa .sync và v-model : <a href="https://stackoverflow.com/questions/57947757/what-is-the-difference-between-v-model-and-sync-when-used-on-a-custom-component" target="_blank">Link</a></p>
+    <ul>
+        <li>
+            <p>.sync</p>
+            <pre>
+                &lt;comp :value.sync="username" :age.sync="userAge" /&gt;
+            </pre>
+            <p>expands to:</p>
+            <pre>
+                &lt;comp :value="username" :age="userAge" @update:name="val =&gt; userName = val" @update:age="val =&gt; userAge = val" /&gt;
+            </pre>
+        </li>
+        <li>
+            <p>v-model</p>
+            <pre>
+                &lt;comp v-model="userName" /&gt;
+            </pre>
+            <p>expands to:</p>
+            <pre>
+                &lt;comp :value="username" @input="val =&gt; username = val" /&gt;
+            </pre>
+        </li>
+    </ul>
+    <p>The differences as we can see are:</p>
+    <ul>
+        <li>the default prop name v-model always binds to property called value</li>
+        <li>.sync allows you to use multiple props</li>
+        <li>the event name emitted from component (@update for .sync and @input for v-model)</li>
+    </ul>
+    <p>One very interesting feature of .sync is its special handling of objects. The .sync modifier when used on an object will set multiple props at once</p>
+    <p>Which one to use? It is a standard pattern to use property value as the key value carrier for a component. In this situation if you have value property and want to enable 2-way binding for it then use v-model. In all other cases use .sync</p>
+    <script src="4 - .sync Modifier.js"></script>
+</body>
+</html>
