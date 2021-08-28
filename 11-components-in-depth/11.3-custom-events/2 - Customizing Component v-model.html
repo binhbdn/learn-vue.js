@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Customizing Component v-model</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Customizing Component v-model</h1>
+    <blockquote>
+        <p>New in 2.2.0+</p>
+    </blockquote>
+    <p>By default, <code>v-model</code> on a component uses <code>value</code> as the prop and <code>input</code> as the event, but some input types such as checkboxes and radio buttons may want to use the <code>value</code> attribute for a <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#Value" target="_blank" rel="noopener">different purpose</a>. Using the <code>model</code> option can avoid a conflict in such cases:</p>
+    <pre>
+        Vue.component('base-checkbox', {
+            model: {
+              prop: 'checked',
+              event: 'change'
+            },
+            props: {
+              checked: Boolean
+            },
+            template: `
+              &lt;input
+                type="checkbox"
+                v-bind:checked="checked"
+                v-on:change="$emit('change', $event.target.checked)"
+              &gt;
+            `
+        })
+    </pre>
+    <p>Now when using <code>v-model</code> on this component:</p>
+    <pre>
+        &lt;base-checkbox v-model="lovingVue"&gt;&lt;/base-checkbox&gt;
+    </pre>
+    <p>the value of <code>lovingVue</code> will be passed to the <code>checked</code> prop. The <code>lovingVue</code> property will then be updated when <code>&lt;base-checkbox&gt;</code> emits a <code>change</code> event with a new value.</p>
+    <p class="tip">Note that you still have to declare the <code>checked</code> prop in the component’s <code>props</code> option.</p>
+    <h2>Thực hành</h2>
+    <div id="app2">
+        <base-checkbox v-model="lovingVue"></base-checkbox> lovingVue = {{ lovingVue }}
+    </div>
+    <br><br>
+    <script src="2 - Customizing Component v-model.js"></script>
+</body>
+</html>
