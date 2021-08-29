@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Other Examples</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Other Examples</h1>
+    <p><strong>Slot props allow us to turn slots into reusable templates that can render different content based on input props.</strong> This is most useful when you are designing a reusable component that encapsulates data logic while allowing the consuming parent component to customize part of its layout.</p>
+    <p>For example, we are implementing a <code>&lt;todo-list&gt;</code> component that contains the layout and filtering logic for a list:</p>
+    <pre>
+        &lt;ul&gt;
+            &lt;li
+              v-for="todo in filteredTodos"
+              v-bind:key="todo.id"
+            &gt;
+              {{ todo.text }}
+            &lt;/li&gt;
+        &lt;/ul&gt;
+    </pre>
+    <p>Instead of hard-coding the content for each todo, we can let the parent component take control by making every todo a slot, then binding <code>todo</code> as a slot prop:</p>
+    <pre>
+        &lt;ul&gt;
+            &lt;li
+              v-for="todo in filteredTodos"
+              v-bind:key="todo.id"
+            &gt;
+                &lt;!--
+                We have a slot for each todo, passing it the
+                `todo` object as a slot prop.
+                --&gt;
+                &lt;slot name="todo" v-bind:todo="todo"&gt;
+                    &lt;!-- Fallback content --&gt;
+                    {{ todo.text }}
+                &lt;/slot&gt;
+            &lt;/li&gt;
+        &lt;/ul&gt;
+    </pre>
+    <p>Now when we use the <code>&lt;todo-list&gt;</code> component, we can optionally define an alternative <code>&lt;template&gt;</code> for todo items, but with access to data from the child:</p>
+    <pre>
+        &lt;todo-list v-bind:todos="todos"&gt;
+            &lt;template v-slot:todo="{ todo }"&gt;
+            &lt;span v-if="todo.isComplete"&gt;✓&lt;/span&gt;
+                {{ todo.text }}
+            &lt;/template&gt;
+        &lt;/todo-list&gt;
+    </pre>
+    <p>However, even this barely scratches the surface of what scoped slots are capable of. For real-life, powerful examples of scoped slot usage, we recommend browsing libraries such as <a href="https://github.com/Akryum/vue-virtual-scroller" target="_blank" rel="noopener">Vue Virtual Scroller</a>, <a href="https://github.com/posva/vue-promised" target="_blank" rel="noopener">Vue Promised</a>, and <a href="https://github.com/LinusBorg/portal-vue" target="_blank" rel="noopener">Portal Vue</a>.</p>
+
+    <h2>Thực hành</h2>
+    <div id="app8">
+        <todo-list v-bind:todos="todos">
+            <template v-slot:todo="{ todo }">
+              <span v-if="todo.isComplete">✓</span>
+              {{ todo.text }}
+            </template>
+          </todo-list>
+    </div>
+    
+    <script src="8 - Other Examples.js"></script>
+</body>
+</html>
