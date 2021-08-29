@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Slot Content</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <blockquote>
+        <p>
+            In 2.6.0, we introduced a new unified syntax (the <code>v-slot</code> directive) for named and scoped slots.
+            It replaces the <code>slot</code> and <code>slot-scope</code> attributes, which are now deprecated,
+            but have <em>not</em> been removed and are still documented <a href="https://vuejs.org/v2/guide/components-slots.html#Deprecated-Syntax">here</a>.
+            The rationale for introducing the new syntax is described in this <a href="https://github.com/vuejs/rfcs/blob/master/active-rfcs/0001-new-slot-syntax.md" target="_blank" rel="noopener">RFC</a>.
+        </p>
+    </blockquote>
+    <h1>Slot Content</h1>
+    <p>Vue implements a content distribution API inspired by the <a href="https://github.com/w3c/webcomponents/blob/gh-pages/proposals/Slots-Proposal.md" target="_blank" rel="noopener">Web Components spec draft</a>, using the <code>&lt;slot&gt;</code> element to serve as distribution outlets for content.</p>
+    <p>This allows you to compose components like this:</p>
+    <pre>
+        &lt;navigation-link url="./2 - Compilation Scope.html"&gt;Next Lesson&lt;/navigation-link&gt;
+    </pre>
+    <p>Then in the template for <code>&lt;navigation-link&gt;</code>, you might have:</p>
+    <pre>
+            &lt;a
+                v-bind:href="url"
+                class="nav-link"
+            &gt;
+                &lt;slot&gt;&lt;/slot&gt;
+            &lt;/a&gt;
+    </pre>
+    <p>When the component renders, <code>&lt;slot&gt;&lt;/slot&gt;</code> will be replaced by “Next Lesson”. Slots can contain any template code, including HTML:</p>
+    <pre>
+            &lt;navigation-link url="./2 - Compilation Scope.html"&gt;
+                &lt;!-- Add a Font Awesome icon --&gt;
+                &lt;i&gt; class="fa fa-angle-double-right"&gt;&lt;/i&gt;
+                Next Lesson
+            &lt;/navigation-link&gt;
+    </pre>
+    <p>Or even other components:</p>
+    <pre>
+            &lt;navigation-link url="./2 - Compilation Scope.html"&gt;
+                &lt;!-- Use a component to add an icon --&gt;
+                &lt;font-awesome-icon name="angle-double-right"&gt;&lt;/font-awesome-icon&gt;
+                Next Lesson
+            &lt;/navigation-link&gt;
+    </pre>
+    <p>If <code>&lt;navigation-link&gt;</code>‘s template did <strong>not</strong> contain a <code>&lt;slot&gt;</code> element, any content provided between its opening and closing tag would be discarded.</p>
+
+    <h2>Thực hành</h2>
+    <div id="app1">
+        <p>
+            <navigation-link url="./2 - Compilation Scope.html">Next Lesson</navigation-link>
+        </p>
+        <p>
+            <navigation-link url="./2 - Compilation Scope.html">
+                <!-- Add a Font Awesome icon -->
+                <i class="fa fa-angle-double-right"></i>
+                Next Lesson
+            </navigation-link>
+        </p>
+        <p>
+            <navigation-link url="./2 - Compilation Scope.html">
+                <!-- Use a component to add an icon -->
+                <font-awesome-icon name="angle-double-right"></font-awesome-icon>
+                Next Lesson
+            </navigation-link>
+        </p>
+    </div>
+    <script src="1 - Slot Content.js"></script>
+</body>
+</html>
