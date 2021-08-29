@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Named Slots Shorthand</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Named Slots Shorthand</h1>
+    <p>Similar to <code>v-on</code> and <code>v-bind</code>, <code>v-slot</code> also has a shorthand, replacing everything before the argument (<code>v-slot:</code>) with the special symbol <code>#</code>. For example, <code>v-slot:header</code> can be rewritten as <code>#header</code>:</p>
+    <pre>
+        &lt;base-layout&gt;
+            &lt;template #header&gt;
+                &lt;h1&gt;Here might be a page title&lt;/h1&gt;
+            &lt;/template&gt;
+            
+            &lt;p&gt;A paragraph for the main content.&lt;/p&gt;
+            &lt;p&gt;And another one.&lt;/p&gt;
+            
+            &lt;template #footer&gt;
+                &lt;p&gt;Here's some contact info&lt;/p&gt;
+            &lt;/template&gt;
+        &lt;/base-layout&gt;
+    </pre>
+    <p>However, just as with other directives, the shorthand is only available when an argument is provided. That means the following syntax is invalid:</p>
+    <pre>
+        &lt;!-- This will trigger a warning --&gt;
+        &lt;current-user #="{ user }"&gt;
+            {{ user.firstName }}
+        &lt;/current-user&gt;
+    </pre>
+    <p>Instead, you must always specify the name of the slot if you wish to use the shorthand:</p>
+    <pre>
+        &lt;current-user #default="{ user }"&gt;
+            {{ user.firstName }}
+        &lt;/current-user&gt;
+    </pre>
+</body>
+</html>
