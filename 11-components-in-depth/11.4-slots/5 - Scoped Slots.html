@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Scoped Slots</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Scoped Slots</h1>
+    <blockquote>
+        <p>Updated in 2.6.0+. <a href="https://vuejs.org/v2/guide/components-slots.html#Deprecated-Syntax">See here</a> for the deprecated syntax using the <code>slot-scope</code> attribute.</p>
+    </blockquote>
+    <p>Sometimes, it’s useful for slot content to have access to data only available in the child component. For example, imagine a <code>&lt;current-user&gt;</code> component with the following template:</p>
+    <pre>
+        &lt;span&gt;
+            &lt;slot&gt;{{ user.lastName }}&lt;/slot&gt;
+        &lt;/span&gt;
+    </pre>
+    <p>We might want to replace this fallback content to display the user’s first name, instead of last, like this:</p>
+    <pre>
+        &lt;current-user&gt;
+            {{ user.firstName }}
+        &lt;/current-user&gt;
+    </pre>
+    <p>That won’t work, however, because only the <code>&lt;current-user&gt;</code> component has access to the <code>user</code> and the content we’re providing is rendered in the parent.</p>
+    <p>To make <code>user</code> available to the slot content in the parent, we can bind <code>user</code> as an attribute to the <code>&lt;slot&gt;</code> element:</p>
+    <pre>
+        &lt;span&gt;
+            &lt;slot v-bind:user="user"&gt;
+                {{ user.lastName }}
+            &lt;/slot&gt;
+        &lt;/span&gt;
+    </pre>
+    <p>Attributes bound to a <code>&lt;slot&gt;</code> element are called <strong>slot props</strong>. Now, in the parent scope, we can use <code>v-slot</code> with a value to define a name for the slot props we’ve been provided:</p>
+    <pre>
+        &lt;current-user&gt;
+            &lt;template v-slot:default="slotProps"&gt;
+                {{ slotProps.user.firstName }}
+            &lt;/template&gt;
+        &lt;/current-user&gt;
+    </pre>
+    <p>In this example, we’ve chosen to name the object containing all our slot props <code>slotProps</code>, but you can use any name you like.</p>
+    
+    <h2>Abbreviated Syntax for Lone Default Slots</h2>
+    <p>In cases like above, when <em>only</em> the default slot is provided content, the component’s tags can be used as the slot’s template. This allows us to use <code>v-slot</code> directly on the component:</p>
+    <pre>
+        &lt;current-user v-slot:default="slotProps"&gt;
+            {{ slotProps.user.firstName }}
+        &lt;/current-user&gt;
+    </pre> 
+    <p>This can be shortened even further. Just as non-specified content is assumed to be for the default slot, <code>v-slot</code> without an argument is assumed to refer to the default slot:</p>
+    <pre>
+        &lt;current-user v-slot="slotProps"&gt;
+            {{ slotProps.user.firstName }}
+        &lt;/current-user&gt;
+    </pre> 
+    <p>Note that the abbreviated syntax for default slot <strong>cannot</strong> be mixed with named slots, as it would lead to scope ambiguity:</p>
+    <pre>
+        &lt;current-user v-slot="slotProps"&gt;
+            {{ slotProps.user.firstName }}
+            &lt;template v-slot:other="otherSlotProps"&gt;
+                slotProps is NOT available here
+            &lt;/template&gt;
+        &lt;/current-user&gt;
+    </pre> 
+    <p>Whenever there are multiple slots, use the full <code>&lt;template&gt;</code> based syntax for <em>all</em> slots:</p>
+    <pre>
+        &lt;current-user&gt;
+            &lt;template v-slot:default="slotProps"&gt;
+                {{ slotProps.user.firstName }}
+            &lt;/template&gt;
+
+            &lt;template v-slot:other="otherSlotProps"&gt;
+                ...
+            &lt;/template&gt;
+        &lt;/current-user&gt;
+    </pre>
+    <h2>Destructuring Slot Props</h2>
+    <p>Internally, scoped slots work by wrapping your slot content in a function passed a single argument:</p>
+    <pre>
+            function (slotProps) {
+                // ... slot content ...
+            }
+    </pre>
+    <p>That means the value of <code>v-slot</code> can actually accept any valid JavaScript expression that can appear in the argument position of a function definition. So in supported environments (<a href="single-file-components.html">single-file components</a> or <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment#Browser_compatibility" target="_blank" rel="noopener">modern browsers</a>), you can also use <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment#Object_destructuring" target="_blank" rel="noopener">ES2015 destructuring</a> to pull out specific slot props, like so:</p>
+    <pre>
+        &lt;current-user v-slot="{ user }"&gt;
+            {{ user.firstName }}
+        &lt;/current-user&gt;
+    </pre>
+    <p>This can make the template much cleaner, especially when the slot provides many props. It also opens other possibilities, such as renaming props, e.g. <code>user</code> to <code>person</code>:</p>
+    <pre>
+        &lt;current-user v-slot="{ user: person }"&gt;
+            {{ person.firstName }}
+        &lt;/current-user&gt;
+    </pre>
+    <p>You can even define fallbacks, to be used in case a slot prop is undefined:</p>
+    <pre>
+        &lt;current-user v-slot="{ user = { firstName: 'Guest' } }"&gt;
+            {{ user.firstName }}
+        &lt;/current-user&gt;
+    </pre>
+
+    <h2>Thực hành</h2>
+    <div id="app5">
+        <p>Use fallback content:</p>
+        <p>
+            <current-user></current-user>
+        </p>
+        <p>Use template v-slot:default</p>
+        <p>
+            <current-user>
+                <template v-slot:default="componentsData">
+                  {{ componentsData.user.firstName }}
+                </template>
+            </current-user>
+        </p>
+        <p>Use current-user v-slot:default</p>
+        <p>
+            <current-user v-slot:default="slotProps">
+                {{ slotProps.user.firstName }}
+            </current-user>
+        </p>
+        <p>Use current-user v-slot</p>
+        <p>
+            <current-user v-slot="slotProps">
+                {{ slotProps.user.firstName }}
+              </current-user>
+        </p>
+        <p>Use v-slot="{ user }"</p>
+        <p>
+            <current-user v-slot="{ user }">
+                {{ user.firstName }}
+            </current-user>
+        </p>
+        <p>Use v-slot="{ user: person }"</p>
+        <p>
+            <current-user v-slot="{ user: person }">
+                {{ person.firstName }}
+            </current-user>
+        </p>
+        <p>Use v-slot="{ user = { firstName: 'Guest' } }"</p>
+        <p>
+            <undefined-current-user v-slot="{ user = { firstName: 'Guest' } }">
+                {{ user.firstName }}
+            </undefined-current-user>
+        </p>
+    </div>
+
+    <script src="5 - Scoped Slots.js"></script>
+</body>
+</html>
