@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Dynamic Slot Names</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Dynamic Slot Names</h1>
+    <blockquote>
+        <p>New in 2.6.0+</p>
+    </blockquote>
+    <p><a href="https://vuejs.org/v2/guide/syntax.html#Dynamic-Arguments">Dynamic directive arguments</a> also work on <code>v-slot</code>, allowing the definition of dynamic slot names:</p>
+    <pre>
+        &lt;base-layout&gt;
+            &lt;template v-slot:[dynamicSlotName]&gt;
+            ...
+            &lt;/template&gt;
+        &lt;/base-layout&gt;
+    </pre>
+</body>
+</html>
