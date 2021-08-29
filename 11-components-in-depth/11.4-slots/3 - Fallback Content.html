@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Fallback Content</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Fallback Content</h1>
+    <p>There are cases when it’s useful to specify fallback (i.e. default) content for a slot, to be rendered only when no content is provided. For example, in a <code>&lt;submit-button&gt;</code> component:</p>
+    <pre>
+        &lt;button type="submit"&gt;
+            &lt;slot&gt;&lt;/slot&gt;
+        &lt;/button&gt;
+    </pre>
+    <p>We might want the text “Submit” to be rendered inside the <code>&lt;button&gt;</code> most of the time. To make “Submit” the fallback content, we can place it in between the <code>&lt;slot&gt;</code> tags:</p>
+    <pre>
+        &lt;button type="submit"&gt;
+            &lt;slot&gt;Submit&lt;/slot&gt;
+        &lt;/button&gt;
+    </pre>
+    <p>Now when we use <code>&lt;submit-button&gt;</code> in a parent component, providing no content for the slot:</p>
+    <pre>
+        &lt;submit-button&gt;&lt;/submit-button&gt;
+    </pre>
+    <p>will render the fallback content, “Submit”:</p>
+    <pre>
+        &lt;button type="submit"&gt;
+            Submit
+        &lt;/submit-button&gt;
+    </pre>
+    <p>But if we provide content:</p>
+    <pre>
+        &lt;submit-button&gt;
+            Save
+        &lt;/submit-button&gt;
+    </pre>
+    <p>Then the provided content will be rendered instead:</p>
+    <pre>
+        &lt;button type="submit"&gt;
+            Save
+        &lt;/submit-button&gt;
+    </pre>
+
+    <h2>Thực hành</h2>
+    <div id="app3">
+        <p>
+            <submit-button></submit-button>
+        </p>
+        <p>
+            <submit-button>Save</submit-button>
+        </p>
+    </div>
+
+    <script src="3 - Fallback Content.js"></script>
+</body>
+</html>
