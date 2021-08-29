@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Deprecated Syntax</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1><a href="https://vuejs.org/v2/guide/components-slots.html#Deprecated-Syntax" title="Deprecated Syntax">Deprecated Syntax</a></h1>
+    <div id="app8">
+        <todo-list v-bind:todos="todos">
+            <template slot="todo" slot-scope="{ todo }">
+              <span v-if="todo.isComplete">✓</span>
+              {{ todo.text }}
+            </template>
+          </todo-list>
+    </div>
+
+    <script src="8 - Other Examples.js"></script>
+</body>
+</html>
