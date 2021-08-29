@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Named Slots</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Named Slots</h1>
+    <blockquote>
+        <p>Updated in 2.6.0+. <a href="https://vuejs.org/v2/guide/components-slots.html#Deprecated-Syntax">See here</a> for the deprecated syntax using the <code>slot</code> attribute.</p>
+    </blockquote>
+    <p>There are times when it’s useful to have multiple slots. For example, in a <code>&lt;base-layout&gt;</code> component with the following template:</p>
+    <pre>
+        &lt;div class="container"&gt;
+            &lt;header&gt;
+                &lt;!-- We want header content here --&gt;
+            &lt;/header&gt;
+            &lt;main&gt;
+                &lt;!-- We want main content here --&gt;
+            &lt;/main&gt;
+            &lt;footer&gt;
+                &lt;!-- We want footer content here --&gt;
+            &lt;/footer&gt;
+        &lt;/div&gt;
+    </pre>
+    <p>For these cases, the <code>&lt;slot&gt;</code> element has a special attribute, <code>name</code>, which can be used to define additional slots:</p>
+    <pre>
+        &lt;div class="container"&gt;
+            &lt;header&gt;
+                &lt;slot name="header"&gt;&lt;/slot&gt;
+            &lt;/header&gt;
+            &lt;main&gt;
+                &lt;slot&gt;&lt;/slot&gt;
+            &lt;/main&gt;
+            &lt;footer&gt;
+                &lt;slot name="footer"&gt;&lt;/slot&gt;
+            &lt;/footer&gt;
+        &lt;/div&gt;
+    </pre>
+    <p>A <code>&lt;slot&gt;</code> outlet without <code>name</code> implicitly has the name “default”.</p>
+    <p>To provide content to named slots, we can use the <code>v-slot</code> directive on a <code>&lt;template&gt;</code>, providing the name of the slot as <code>v-slot</code>‘s argument:</p>
+    <pre>
+            &lt;base-layout&gt;
+                &lt;template v-slot:header&gt;
+                    &lt;h1&gt;Here might be a page title&lt;/h1&gt;
+                &lt;/template&gt;
+            
+                &lt;p&gt;A paragraph for the main content.&lt;/p&gt;
+                &lt;p&gt;And another one.&lt;/p&gt;
+            
+                &lt;template v-slot:footer&gt;
+                    &lt;p&gt;Here's some contact info&lt;/p&gt;
+                &lt;/template&gt;
+            &lt;/base-layout&gt;
+    </pre>
+    <p>Now everything inside the <code>&lt;template&gt;</code> elements will be passed to the corresponding slots. Any content not wrapped in a <code>&lt;template&gt;</code> using <code>v-slot</code> is assumed to be for the default slot.</p>
+    <pre>
+        &lt;base-layout&gt;
+            &lt;template v-slot:header&gt;
+                &lt;h1&gt;Here might be a page title&lt;/h1&gt;
+            &lt;/template&gt;
+        
+            &lt;template v-slot:default&gt;
+                &lt;p&gt;A paragraph for the main content.&lt;/p&gt;
+                &lt;p&gt;And another one.&lt;/p&gt;
+            &lt;/template&gt;
+        
+            &lt;template v-slot:footer&gt;
+                &lt;p&gt;Here's some contact info&lt;/p&gt;
+            &lt;/template&gt;
+        &lt;/base-layout&gt;
+    </pre>
+    <p>Either way, the rendered HTML will be:</p>
+    <pre>
+        &lt;div class="container"&gt;
+            &lt;header&gt;
+                &lt;h1&gt;Here might be a page title&lt;/h1&gt;
+            &lt;/header&gt;
+
+            &lt;main&gt;
+                &lt;p&gt;A paragraph for the main content.&lt;/p&gt;
+                &lt;p&gt;And another one.&lt;/p&gt;
+            &lt;/main&gt;
+
+            &lt;footer&gt;
+                &lt;p&gt;Here's some contact info&lt;/p&gt;
+            &lt;/footer&gt;
+        &lt;/div&gt;
+    </pre>
+
+    <h2>Thực hành</h2>
+    <div id="app4">
+        <base-layout>
+            <template v-slot:header>
+                <h1>Here might be a page title</h1>
+            </template>
+        
+            <template v-slot:default>
+                <p>A paragraph for the main content.</p>
+                <p>And another one.</p>
+            </template>
+        
+            <template v-slot:footer>
+                <p>Here's some contact info</p>
+            </template>
+      </base-layout>
+    </div>
+
+    <script src="4 - Named Slots.js"></script>
+</body>
+</html>
