@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - keep-alive with Dynamic Components</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+    <style>
+    .tab-button {
+    padding: 6px 10px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    background: #f0f0f0;
+    margin-bottom: -1px;
+    margin-right: -1px;
+    }
+    .tab-button:hover {
+    background: #e0e0e0;
+    }
+    .tab-button.active {
+    background: #e0e0e0;
+    }
+    .tab {
+    border: 1px solid #ccc;
+    padding: 10px;
+    }
+    .posts-tab {
+    display: flex;
+    }
+    .posts-sidebar {
+    max-width: 40vw;
+    margin: 0;
+    padding: 0 10px 0 0;
+    list-style-type: none;
+    border-right: 1px solid #ccc;
+    }
+    .posts-sidebar li {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    cursor: pointer;
+    }
+    .posts-sidebar li:hover {
+    background: #eee;
+    }
+    .posts-sidebar li.selected {
+    background: lightblue;
+    }
+    .selected-post-container {
+    padding-left: 10px;
+    }
+    .selected-post > :first-child {
+    margin-top: 0;
+    padding-top: 0;
+    }
+    </style>
+</head>
+<body>
+    <h1>keep-alive with Dynamic Components</h1>
+    <p>Earlier, we used the <code>is</code> attribute to switch between components in a tabbed interface:</p>
+    <pre>
+        &lt;component v-bind:is="currentTabComponent"&gt;&lt;/component&gt;
+    </pre>
+    <p>When switching between these components though, you’ll sometimes want to maintain their state or avoid re-rendering for performance reasons. For example, when expanding our tabbed interface a little:</p>
+    <div id="dynamic-component-demo-1">
+        <button
+            v-for="tab in tabs"
+            v-bind:key="tab"
+            v-bind:class="['tab-button', { active: currentTab === tab }]"
+            v-on:click="currentTab = tab"
+        >
+            {{ tab }}
+        </button>
+  
+        <component v-bind:is="currentTabComponent" class="tab"></component>
+    </div>
+    <p>You’ll notice that if you select a post, switch to the <em>Archive</em> tab, then switch back to <em>Posts</em>, it’s no longer showing the post you selected. That’s because each time you switch to a new tab, Vue creates a new instance of the <code>currentTabComponent</code>.</p>
+    <p>Recreating dynamic components is normally useful behavior, but in this case, we’d really like those tab component instances to be cached once they’re created for the first time. To solve this problem, we can wrap our dynamic component with a <code>&lt;keep-alive&gt;</code> element:</p>
+    <pre>
+        &lt;!-- Inactive components will be cached! --&gt;
+        &lt;keep-alive&gt;
+            &lt;component&gt; v-bind:is="currentTabComponent"&gt;&lt;/component&gt;
+        &lt;/keep-alive&gt;
+    </pre>
+    <p>Check out the result below:</p>
+    <div id="dynamic-component-demo-2">
+        <button
+            v-for="tab in tabs"
+            v-bind:key="tab"
+            v-bind:class="['tab-button', { active: currentTab === tab }]"
+            v-on:click="currentTab = tab"
+        >
+            {{ tab }}
+        </button>
+  
+        <keep-alive>
+            <component v-bind:is="currentTabComponent" class="tab"></component>
+        </keep-alive>
+    </div>
+    <p>Now the <em>Posts</em> tab maintains its state (the selected post) even when it’s not rendered. See <a href="https://codesandbox.io/s/github/vuejs/vuejs.org/tree/master/src/v2/examples/vue-20-keep-alive-with-dynamic-components" target="_blank" rel="noopener">this example</a> for the complete code.</p>
+    <p class="tip">Note that <code>&lt;keep-alive&gt;</code> requires the components being switched between to all have names, either using the <code>name</code> option on a component, or through local/global registration.</p>
+    <p>Check out more details on <code>&lt;keep-alive&gt;</code> in the <a href="../api/#keep-alive">API reference</a>.</p>
+    
+    <script src="1 - keep-alive with Dynamic Components.js"></script>
+</body>
+</html>
