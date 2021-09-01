@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Async Components</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Async Components</h1>
+    <p>In large applications, we may need to divide the app into smaller chunks and only load a component from the server when it’s needed. To make that easier, Vue allows you to define your component as a factory function that asynchronously resolves your component definition. Vue will only trigger the factory function when the component needs to be rendered and will cache the result for future re-renders. For example:</p>
+    <pre>
+        Vue.component('async-example', function (resolve, reject) {
+            setTimeout(function () {
+                // Pass the component definition to the resolve callback
+                resolve({
+                    template: '&lt;div&gt;I am async!&lt;/div&gt;'
+                })
+            }, 1000)
+        })
+    </pre>
+    <p>As you can see, the factory function receives a <code>resolve</code> callback, which should be called when you have retrieved your component definition from the server. You can also call <code>reject(reason)</code> to indicate the load has failed. The <code>setTimeout</code> here is for demonstration; how to retrieve the component is up to you. One recommended approach is to use async components together with <a href="https://webpack.js.org/guides/code-splitting/" target="_blank" rel="noopener">Webpack’s code-splitting feature</a>:</p>
+    <pre>
+        Vue.component('async-webpack-example', function (resolve) {
+            // This special require syntax will instruct Webpack to
+            // automatically split your built code into bundles which
+            // are loaded over Ajax requests.
+            require(['./my-async-component'], resolve)
+        })
+    </pre>
+    <p>You can also return a <code>Promise</code> in the factory function, so with Webpack 2 and ES2015 syntax you can make use of dynamic imports:</p>
+    <pre>
+        Vue.component(
+            'async-webpack-example',
+            // A dynamic import returns a Promise.
+            () =&gt; import('./my-async-component')
+        )
+    </pre>
+    <p>When using <a href="https://vuejs.org/v2/guide/components-registration.html#Local-Registration">local registration</a>, you can also directly provide a function that returns a <code>Promise</code>:</p>
+    <pre>
+        new Vue({
+            // ...
+            components: {
+            'my-component': () =&gt; import('./my-async-component')
+            }
+        })
+    </pre>
+
+    <h2>Handling Loading State</h2>
+    <blockquote>
+        <p>New in 2.3.0+</p>
+    </blockquote>
+    <p>The async component factory can also return an object of the following format:</p>
+    <pre>
+        const AsyncComponent = () =&gt; ({
+            // The component to load (should be a Promise)
+            component: import('./MyComponent.vue'),
+            // A component to use while the async component is loading
+            loading: LoadingComponent,
+            // A component to use if the load fails
+            error: ErrorComponent,
+            // Delay before showing the loading component. Default: 200ms.
+            delay: 200,
+            // The error component will be displayed if a timeout is
+            // provided and exceeded. Default: Infinity.
+            timeout: 3000
+        })
+    </pre>
+    <blockquote>
+        <p>Note that you must use <a href="https://github.com/vuejs/vue-router" target="_blank" rel="noopener">Vue Router</a> 2.4.0+ if you wish to use the above syntax for route components.</p>
+    </blockquote>
+</body>
+</html>
