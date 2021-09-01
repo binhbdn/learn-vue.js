@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Accessing the Parent Component Instance</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Element & Component Access</h1>
+
+    <h2>1.2 - Accessing the Parent Component Instance</h2>
+    <p>Similar to <code>$root</code>, the <code>$parent</code> property can be used to access the parent instance from a child. This can be tempting to reach for as a lazy alternative to passing data with a prop.</p>
+    <p class="tip">In most cases, reaching into the parent makes your application more difficult to debug and understand, especially if you mutate data in the parent. When looking at that component later, it will be very difficult to figure out where that mutation came from.</p>
+    <p>There are cases however, particularly shared component libraries, when this <em>might</em> be appropriate. For example, in abstract components that interact with JavaScript APIs instead of rendering HTML, like these hypothetical Google Maps components:</p>
+    <pre>
+        &lt;google-map&gt;
+            &lt;google-map-markers v-bind:places="iceCreamShops"&gt;&lt;/google-map-markers&gt;
+        &lt;/google-map&gt;
+    </pre>
+    <p>The <code>&lt;google-map&gt;</code> component might define a <code>map</code> property that all subcomponents need access to. In this case <code>&lt;google-map-markers&gt;</code> might want to access that map with something like <code>this.$parent.getMap</code>, in order to add a set of markers to it. You can see this pattern <a href="https://codesandbox.io/s/github/vuejs/vuejs.org/tree/master/src/v2/examples/vue-20-accessing-parent-component-instance" target="_blank" rel="noopener">in action here</a>.</p>
+    <p>Keep in mind, however, that components built with this pattern are still inherently fragile. For example, imagine we add a new <code>&lt;google-map-region&gt;</code> component and when <code>&lt;google-map-markers&gt;</code> appears within that, it should only render markers that fall within that region:</p>
+    <pre>
+        &lt;google-map&gt;
+            &lt;google-map-region&gt; v-bind:shape="cityBoundaries"&gt;
+                &lt;google-map-markers&gt; v-bind:places="iceCreamShops"&gt;&lt;/google-map-markers&gt;
+            &lt;/google-map-region&gt;
+        &lt;/google-map&gt;
+    </pre>
+    <p>Then inside <code>&lt;google-map-markers&gt;</code> you might find yourself reaching for a hack like this:</p>
+    <pre>
+        var map = this.$parent.map || this.$parent.$parent.map
+    </pre>
+    <p>This has quickly gotten out of hand. That’s why to provide context information to descendent components arbitrarily deep, we instead recommend <a href="#Dependency-Injection">dependency injection</a>.</p>
+</body>
+</html>
