@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Accessing the Root Instance</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Element & Component Access</h1>
+    <h2>1.1 - Accessing the Root Instance</h2>
+    <p>In every subcomponent of a <code>new Vue</code> instance, this root instance can be accessed with the <code>$root</code> property. For example, in this root instance:</p>
+    <pre>
+        // The root Vue instance
+        new Vue({
+            data: {
+                foo: 1
+            },
+            computed: {
+                bar: function () { /* ... */ }
+            },
+            methods: {
+                baz: function () { /* ... */ }
+            }
+        })
+    </pre>
+    <p>All subcomponents will now be able to access this instance and use it as a global store:</p>
+    <pre>
+        // Get root data
+        this.$root.foo
+        
+        // Set root data
+        this.$root.foo = 2
+        
+        // Access root computed properties
+        this.$root.bar
+        
+        // Call root methods
+        this.$root.baz()
+    </pre>
+    <p class="tip">This can be convenient for demos or very small apps with a handful of components. However, the pattern does not scale well to medium or large-scale applications, so we strongly recommend using <a href="https://github.com/vuejs/vuex" target="_blank" rel="noopener">Vuex</a> to manage state in most cases.</p>
+</body>
+</html>
