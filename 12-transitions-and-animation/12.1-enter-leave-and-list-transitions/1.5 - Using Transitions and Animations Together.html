@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Using Transitions and Animations Together</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Transitioning Single Elements/Components</h1>
+    <h2>Using Transitions and Animations Together</h2>
+    <p>Vue needs to attach event listeners in order to know when a transition has ended. It can either be <code>transitionend</code> or <code>animationend</code>, depending on the type of CSS rules applied. If you are only using one or the other, Vue can automatically detect the correct type.</p>
+    <p>However, in some cases you may want to have both on the same element, for example having a CSS animation triggered by Vue, along with a CSS transition effect on hover. In these cases, you will have to explicitly declare the type you want Vue to care about in a <code>type</code> attribute, with a value of either <code>animation</code> or <code>transition</code>.</p>
+</body>
+</html>
