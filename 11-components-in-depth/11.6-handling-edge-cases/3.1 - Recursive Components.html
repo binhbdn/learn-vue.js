@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Recursive Components</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Circular References</h1>
+    <h2>3.1 - Recursive Components</h2>
+    <p>Components can recursively invoke themselves in their own template. However, they can only do so with the <code>name</code> option:</p>
+    <pre>
+        name: 'unique-name-of-my-component'
+    </pre>
+    <p>When you register a component globally using <code>Vue.component</code>, the global ID is automatically set as the component’s <code>name</code> option.</p>
+    <pre>
+        Vue.component('unique-name-of-my-component', {
+            // ...
+        })
+    </pre>
+    <p>If you’re not careful, recursive components can also lead to infinite loops:</p>
+    <pre>
+        name: 'stack-overflow',
+        template: '&lt;div&gt;&lt;stack-overflow&gt;&lt;/stack-overflow&gt;&lt;/div&gt;'
+    </pre>
+    <p>A component like the above will result in a “max stack size exceeded” error, so make sure recursive invocation is conditional (i.e. uses a <code>v-if</code> that will eventually be <code>false</code>).</p>
+</body>
+</html>
