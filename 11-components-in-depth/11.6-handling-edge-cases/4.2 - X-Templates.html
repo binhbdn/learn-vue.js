@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - X-Templates</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+    <style>
+        .checked {color: red}
+    </style>
+</head>
+<body>
+    <h1>Alternate Template Definitions</h1>
+    <h2>4.2 - X-Templates</h2>
+    <p>When the <code>inline-template</code> special attribute is present on a child component, the component will use its inner content as its template, rather than treating it as distributed content. This allows more flexible template-authoring.</p>
+    <pre>
+        &lt;script&gt; type="text/x-template" id="hello-world-template"&gt;
+            &lt;p&gt;Hello hello hello&lt;/p&gt;
+        &lt;/script&gt;
+
+        Vue.component('hello-world', {
+            template: '#hello-world-template'
+        })
+    </pre>
+    <p>Your x-template needs to be defined outside the DOM element to which Vue is attached.</p>
+    <p class="tip">These can be useful for demos with large templates or in extremely small applications, but should otherwise be avoided, because they separate templates from the rest of the component definition.</p>
+
+    <h3>Thực hành</h3>
+    <div id="app42">
+        <hello-world></hello-world>
+    </div>
+
+    <script type="text/x-template" id="hello-world-template">
+        <p>Hello hello hello</p>
+    </script>
+    <script src="4.2.js"></script>
+</body>
+</html>
