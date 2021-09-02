@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Transitioning Between Components</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+    <style>
+        .demo {
+            border: 1px solid #eee;
+            border-radius: 2px;
+            padding: 25px 35px;
+            margin-top: 1em;
+            margin-bottom: 40px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Transitioning Between Components</h1>
+    <p>Transitioning between components is even simpler - we don’t even need the <code>key</code> attribute. Instead, we wrap a <a href="https://vuejs.org/v2/guide/components.html#Dynamic-Components">dynamic component</a>:</p>
+    <pre>
+        HTML:
+        &lt;transition name="component-fade" mode="out-in"&gt;
+            &lt;component v-bind:is="view"&gt;&lt;/component&gt;
+        &lt;/transition&gt;
+    </pre>
+    <pre>
+        JS:
+        new Vue({
+            el: '#transition-components-demo',
+            data: {
+                view: 'v-a'
+            },
+            components: {
+                'v-a': {
+                    template: '<div>Component A</div>'
+                },
+                'v-b': {
+                    template: '<div>Component B</div>'
+                }
+            }
+        })
+    </pre>
+    <pre>
+        CSS:
+        .component-fade-enter-active, .component-fade-leave-active {
+            transition: opacity .3s ease;
+        }
+        .component-fade-enter, .component-fade-leave-to
+        /* .component-fade-leave-active below version 2.1.8 */ {
+            opacity: 0;
+        }
+    </pre>
+
+    <h2>Thực hành:</h2>
+    <div id="transition-components-demo" class="demo">
+        <input type="radio" value="v-a" id="a" name="view" v-model="view">
+        <label for="a">A</label>
+        <input type="radio" value="v-b" id="b" name="view" v-model="view">
+        <label for="b">B</label>
+        <transition name="component-fade" mode="out-in">
+            <component v-bind:is="view"></component>
+        </transition>
+    </div>
+    <style>
+        .component-fade-enter-active, .component-fade-leave-active {
+          transition: opacity .3s ease;
+        }
+        .component-fade-enter, .component-fade-leave-to {
+          opacity: 0;
+        }
+    </style>
+
+    <script src="4.0.js"></script>
+</body>
+</html>
