@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - List Transitions</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>List Transitions</h1>
+    <p>So far, we’ve managed transitions for:</p>
+    <ul>
+        <li>Individual nodes</li>
+        <li>Multiple nodes where only 1 is rendered at a time</li>
+    </ul>
+    <p>So what about for when we have a whole list of items we want to render simultaneously, for example with <code>v-for</code>? In this case, we’ll use the <code>&lt;transition-group&gt;</code> component. Before we dive into an example though, there are a few things that are important to know about this component:</p>
+    <ul>
+        <li>Unlike <code>&lt;transition&gt;</code>, it renders an actual element: a <code>&lt;span&gt;</code> by default. You can change the element that’s rendered with the <code>tag</code> attribute.</li>
+        <li><a href="https://vuejs.org/v2/guide/transitions.html#Transition-Modes">Transition modes</a> are not available, because we are no longer alternating between mutually exclusive elements.</li>
+        <li>Elements inside are <strong>always required</strong> to have a unique <code>key</code> attribute.</li>
+        <li>CSS transition classes will be applied to inner elements and not to the group/container itself.</li>
+    </ul>
+</body>
+</html>
