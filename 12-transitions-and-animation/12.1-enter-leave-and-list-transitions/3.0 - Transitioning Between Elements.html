@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Transitioning Between Elements</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Transitioning Between Elements</h1>
+    <p>We discuss <a href="https://vuejs.org/v2/guide/transitions.html#Transitioning-Between-Components">transitioning between components</a> later, but you can also transition between raw elements using <code>v-if</code>/<code>v-else</code>. One of the most common two-element transitions is between a list container and a message describing an empty list:</p>
+    <pre>
+        &lt;transition&gt;
+            &lt;table v-if="items.length &gt; 0"&gt;
+                &lt;!-- ... --&gt;
+            &lt;/table&gt;
+            &lt;p v-else&gt;Sorry, no items found.&lt;/p&gt;
+            &lt;/transition&gt;
+    </pre>
+    <p>This works well, but there’s one caveat to be aware of:</p>
+    <p class="tip">When toggling between elements that have <strong>the same tag name</strong>, you must tell Vue that they are distinct elements by giving them unique <code>key</code> attributes. Otherwise, Vue’s compiler will only replace the content of the element for efficiency. Even when technically unnecessary though, <strong>it’s considered good practice to always key multiple items within a <code>&lt;transition&gt;</code> component.</strong></p>
+    <p>For example:</p>
+    <pre>
+        &lt;transition&gt;
+            &lt;button v-if="isEditing" key="save"&gt;
+                Save
+            &lt;/button&gt;
+            &lt;button v-else key="edit"&gt;
+                Edit
+            &lt;/button&gt;
+        &lt;/transition&gt;
+    </pre>
+    <p>In these cases, you can also use the <code>key</code> attribute to transition between different states of the same element. Instead of using <code>v-if</code> and <code>v-else</code>, the above example could be rewritten as:</p>
+    <pre>
+        &lt;transition&gt;
+            &lt;button&gt; v-bind:key="isEditing"&gt;
+                {{ isEditing ? 'Save' : 'Edit' }}
+            &lt;/button&gt;
+        &lt;/transition&gt;
+    </pre>
+    <p>It’s actually possible to transition between any number of elements, either by using multiple <code>v-if</code>s or binding a single element to a dynamic property. For example:</p>
+    <pre>
+        &lt;transition&gt;
+            &lt;button v-if="docState === 'saved'" key="saved"&gt;
+                Edit
+            &lt;/button&gt;
+            &lt;button v-if="docState === 'edited'" key="edited"&gt;
+                Save
+            &lt;/button&gt;
+            &lt;button v-if="docState === 'editing'" key="editing"&gt;
+                Cancel
+            &lt;/button&gt;
+        &lt;/transition&gt;
+    </pre>
+    <p>Which could also be written as:</p>
+    <pre>
+        HTML:
+        &lt;transition&gt;
+            &lt;button&gt; v-bind:key="docState"&gt;
+                {{ buttonMessage }}
+            &lt;/button&gt;
+        &lt;/transition&gt;
+    </pre>
+    <pre>
+        JS:
+        // ...
+        computed: {
+            buttonMessage: function () {
+                switch (this.docState) {
+                    case 'saved': return 'Edit'
+                    case 'edited': return 'Save'
+                    case 'editing': return 'Cancel'
+                }
+            }
+        }
+    </pre>
+</body>
+</html>
