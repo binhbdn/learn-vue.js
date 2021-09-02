@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Programmatic Event Listeners</title>
+    <script src="https://unpkg.com/pikaday@1.7.0"></script>
+    <script src="https://unpkg.com/vue"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Programmatic Event Listeners</h1>
+    <p>So far, you’ve seen uses of <code>$emit</code>, listened to with <code>v-on</code>, but Vue instances also offer other methods in its events interface. We can:</p>
+    <ul>
+        <li>Listen for an event with <code>$on(eventName, eventHandler)</code></li>
+        <li>Listen for an event only once with <code>$once(eventName, eventHandler)</code></li>
+        <li>Stop listening for an event with <code>$off(eventName, eventHandler)</code></li>
+    </ul>
+    <p>You normally won’t have to use these, but they’re available for cases when you need to manually listen for events on a component instance. They can also be useful as a code organization tool. For example, you may often see this pattern for integrating a 3rd-party library:</p>
+    <pre>
+        // Attach the datepicker to an input once
+        // it's mounted to the DOM.
+        mounted: function () {
+        // Pikaday is a 3rd-party datepicker library
+        this.picker = new Pikaday({
+            field: this.$refs.input,
+            format: 'YYYY-MM-DD'
+        })
+        },
+        // Right before the component is destroyed,
+        // also destroy the datepicker.
+        beforeDestroy: function () {
+        this.picker.destroy()
+        }
+    </pre>
+    <p>This has two potential issues:</p>
+    <ul>
+        <li>It requires saving the <code>picker</code> to the component instance, when it’s possible that only lifecycle hooks need access to it. This isn’t terrible, but it could be considered clutter.</li>
+        <li>Our setup code is kept separate from our cleanup code, making it more difficult to programmatically clean up anything we set up.</li>
+    </ul>
+    <p>You could resolve both issues with a programmatic listener:</p>
+    <pre>
+        mounted: function () {
+            var picker = new Pikaday({
+                field: this.$refs.input,
+                format: 'YYYY-MM-DD'
+            })
+          
+            this.$once('hook:beforeDestroy', function () {
+                picker.destroy()
+            })
+        }
+    </pre>
+    <p>Using this strategy, we could even use Pikaday with several input elements, with each new instance automatically cleaning up after itself:</p>
+    <pre>
+        mounted: function () {
+        this.attachDatepicker('startDateInput')
+        this.attachDatepicker('endDateInput')
+        },
+        methods: {
+            attachDatepicker: function (refName) {
+                var picker = new Pikaday({
+                    field: this.$refs[refName],
+                    format: 'YYYY-MM-DD'
+                })
+
+                this.$once('hook:beforeDestroy', function () {
+                    picker.destroy()
+                })
+            }
+        }
+    </pre>
+    <p>See <a href="https://codesandbox.io/s/github/vuejs/vuejs.org/tree/master/src/v2/examples/vue-20-programmatic-event-listeners" target="_blank" rel="noopener">this example</a> for the full code. Note, however, that if you find yourself having to do a lot of setup and cleanup within a single component, the best solution will usually be to create more modular components. In this case, we’d recommend creating a reusable <code>&lt;input-datepicker&gt;</code> component.</p>
+    <p>To learn more about programmatic listeners, check out the API for <a href="https://vuejs.org/v2/api/#Instance-Methods-Events">Events Instance Methods</a>.</p>
+    <p class="tip">Note that Vue’s event system is different from the browser’s <a href="https://developer.mozilla.org/en-US/docs/Web/API/EventTarget" target="_blank" rel="noopener">EventTarget API</a>. Though they work similarly, <code>$emit</code>, <code>$on</code>, and <code>$off</code> are <strong>not</strong> aliases for <code>dispatchEvent</code>, <code>addEventListener</code>, and <code>removeEventListener</code>.</p>
+
+    <h2>Thực hành : Programmatic Event Listeners using Pikaday</h2>
+    <div id="app20">
+        <input ref="dateInput" v-model="date" type="date" />
+    </div>
+    <script src="2.0.js"></script>
+</body>
+</html>
