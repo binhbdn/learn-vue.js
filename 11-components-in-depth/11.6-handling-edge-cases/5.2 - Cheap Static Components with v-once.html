@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Cheap Static Components with v-once</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Controlling Updates</h1>
+    <h2>5.2 - Cheap Static Components with v-once</h2>
+    <p>Rendering plain HTML elements is very fast in Vue, but sometimes you might have a component that contains <strong>a lot</strong> of static content. In these cases, you can ensure that it’s only evaluated once and then cached by adding the <code>v-once</code> directive to the root element, like this:</p>
+    <pre>
+        Vue.component('terms-of-service', {
+            template: `
+                &lt;div v-once&gt;
+                    &lt;h1&gt;Terms of Service&lt;/h1&gt;
+                    ... a lot of static content ...
+                &lt;/div&gt;
+            `
+        })
+    </pre>
+    <p class="tip">Once again, try not to overuse this pattern. While convenient in those rare cases when you have to render a lot of static content, it’s simply not necessary unless you actually notice slow rendering – plus, it could cause a lot of confusion later. For example, imagine another developer who’s not familiar with <code>v-once</code> or simply misses it in the template. They might spend hours trying to figure out why the template isn’t updating correctly.</p>
+</body>
+</html>
