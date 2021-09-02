@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Dependency Injection</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Element & Component Access</h1>
+
+    <h2>1.4 - Dependency Injection</h2>
+    <p>Earlier, when we described <a href="https://vuejs.org/v2/guide/components-edge-cases.html#Accessing-the-Parent-Component-Instance">Accessing the Parent Component Instance</a>, we showed an example like this:</p>
+    <pre>
+        &lt;google-map&gt;
+            &lt;google-map-region&gt; v-bind:shape="cityBoundaries"&gt;
+                &lt;google-map-markers&gt; v-bind:places="iceCreamShops"&gt;&lt;/google-map-markers&gt;
+            &lt;/google-map-region&gt;
+        &lt;/google-map&gt;
+    </pre>
+    <p>In this component, all descendants of <code>&lt;google-map&gt;</code> needed access to a <code>getMap</code> method, in order to know which map to interact with. Unfortunately, using the <code>$parent</code> property didn’t scale well to more deeply nested components. That’s where dependency injection can be useful, using two new instance options: <code>provide</code> and <code>inject</code>.</p>
+    <p>The <code>provide</code> options allows us to specify the data/methods we want to <strong>provide</strong> to descendent components. In this case, that’s the <code>getMap</code> method inside <code>&lt;google-map&gt;</code>:</p>
+    <pre>
+        provide: function () {
+            return {
+                getMap: this.getMap
+            }
+        }
+    </pre>
+    <p>Then in any descendants, we can use the <code>inject</code> option to receive specific properties we’d like to add to that instance:</p>
+    <pre>
+        inject: ['getMap']
+    </pre>
+    <p>You can see the <a href="https://codesandbox.io/s/github/vuejs/vuejs.org/tree/master/src/v2/examples/vue-20-dependency-injection" target="_blank" rel="noopener">full example here</a>. The advantage over using <code>$parent</code> is that we can access <code>getMap</code> in <em>any</em> descendant component, without exposing the entire instance of <code>&lt;google-map&gt;</code>. This allows us to more safely keep developing that component, without fear that we might change/remove something that a child component is relying on. The interface between these components remains clearly defined, just as with <code>props</code>.</p>
+    <p>In fact, you can think of dependency injection as sort of “long-range props”, except:</p>
+    <ul>
+        <li>ancestor components don’t need to know which descendants use the properties it provides</li>
+        <li>descendant components don’t need to know where injected properties are coming from</li>
+    </ul>
+    <p class="tip">However, there are downsides to dependency injection. It couples components in your application to the way they’re currently organized, making refactoring more difficult. Provided properties are also not reactive. This is by design, because using them to create a central data store scales just as poorly as <a href="#Accessing-the-Root-Instance">using <code>$root</code></a> for the same purpose. If the properties you want to share are specific to your app, rather than generic, or if you ever want to update provided data inside ancestors, then that’s a good sign that you probably need a real state management solution like <a href="https://github.com/vuejs/vuex" target="_blank" rel="noopener">Vuex</a> instead.</p>
+    <p>Learn more about dependency injection in <a href="https://vuejs.org/v2/api/#provide-inject">the API doc</a>.</p>
+</body>
+</html>
