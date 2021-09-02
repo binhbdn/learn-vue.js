@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Transition Classes</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Transitioning Single Elements/Components</h1>
+    <h2>Transition Classes</h2>
+    <p>There are six classes applied for enter/leave transitions.</p>
+    <ol>
+        <li><p><code>v-enter</code>: Starting state for enter. Added before element is inserted, removed one frame after element is inserted.</p>
+        </li>
+        <li><p><code>v-enter-active</code>: Active state for enter. Applied during the entire entering phase. Added before element is inserted, removed when transition/animation finishes. This class can be used to define the duration, delay and easing curve for the entering transition.</p>
+        </li>
+        <li><p><code>v-enter-to</code>: <strong>Only available in versions 2.1.8+.</strong> Ending state for enter. Added one frame after element is inserted (at the same time <code>v-enter</code> is removed), removed when transition/animation finishes.</p>
+        </li>
+        <li><p><code>v-leave</code>: Starting state for leave. Added immediately when a leaving transition is triggered, removed after one frame.</p>
+        </li>
+        <li><p><code>v-leave-active</code>: Active state for leave. Applied during the entire leaving phase. Added immediately when leave transition is triggered, removed when the transition/animation finishes. This class can be used to define the duration, delay and easing curve for the leaving transition.</p>
+        </li>
+        <li><p><code>v-leave-to</code>: <strong>Only available in versions 2.1.8+.</strong> Ending state for leave. Added one frame after a leaving transition is triggered (at the same time <code>v-leave</code> is removed), removed when the transition/animation finishes.</p>
+        </li>
+    </ol>
+    <img src="https://vuejs.org/images/transition.png">
+    <p>Each of these classes will be prefixed with the name of the transition. Here the <code>v-</code> prefix is the default when you use a <code>&lt;transition&gt;</code> element with no name. If you use <code>&lt;transition name="my-transition"&gt;</code> for example, then the <code>v-enter</code> class would instead be <code>my-transition-enter</code>.</p>
+    <p><code>v-enter-active</code> and <code>v-leave-active</code> give you the ability to specify different easing curves for enter/leave transitions, which you’ll see an example of in the following section.</p>
+</body>
+</html>
