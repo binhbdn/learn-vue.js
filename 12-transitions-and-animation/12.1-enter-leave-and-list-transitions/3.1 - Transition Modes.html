@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Transition Modes</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+    <style>
+        .demo {
+            border: 1px solid #eee;
+            border-radius: 2px;
+            padding: 25px 35px;
+            margin-top: 1em;
+            margin-bottom: 40px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Transitioning Between Elements</h1>
+    <h2>Transition Modes</h2>
+
+    <p>There’s still one problem though. Try clicking the button below:</p>
+    <div id="no-mode-demo" class="demo">
+        <transition name="no-mode-fade">
+            <button v-if="on" @click="on=!on" :key="on">on</button>
+            <button v-else @click="on=!on" :key="off">off</button>
+        </transition>
+    </div>
+    <script>
+        new Vue({
+            el: '#no-mode-demo',
+            data: {
+                on: false
+            }
+        })
+    </script>
+    <style>
+        .no-mode-fade-enter-active, .no-mode-fade-leave-active {
+            transition: opacity .5s
+        }
+        .no-mode-fade-enter, .no-mode-fade-leave-active {
+            opacity: 0
+        }
+    </style>
+
+    <p>As it’s transitioning between the “on” button and the “off” button, both buttons are rendered - one transitioning out while the other transitions in. This is the default behavior of <code>&lt;transition&gt;</code> - entering and leaving happens simultaneously.</p>
+    
+    <p>Sometimes this works great, like when transitioning items are absolutely positioned on top of each other:</p>
+    <div id="no-mode-absolute-demo" class="demo">
+        <div class="no-mode-absolute-demo-wrapper">
+            <transition name="no-mode-absolute-fade">
+                <button v-if="on" @click="on=!on" :key="on">on</button>
+                <button v-else @click="on=!on" :key="off">off</button>
+            </transition>
+        </div>
+    </div>
+    <script>
+        new Vue({
+            el: '#no-mode-absolute-demo',
+            data: {
+                on: false
+            }
+        })
+    </script>
+    <style>
+        .no-mode-absolute-demo-wrapper {
+            position: relative;
+            height: 18px;
+        }
+        .no-mode-absolute-demo-wrapper button {
+            position: absolute;
+        }
+        .no-mode-absolute-fade-enter-active, .no-mode-absolute-fade-leave-active {
+            transition: opacity .5s;
+        }
+        .no-mode-absolute-fade-enter, .no-mode-absolute-fade-leave-active {
+            opacity: 0;
+        }
+    </style>
+
+    <p>And then maybe also translated so that they look like slide transitions:</p>
+    <div id="no-mode-translate-demo" class="demo">
+        <div class="no-mode-translate-demo-wrapper">
+            <transition name="no-mode-translate-fade">
+                <button v-if="on" @click="on=!on" :key="on">on</button>
+                <button v-else @click="on=!on" :key="off">off</button>
+            </transition>
+        </div>
+    </div>
+    <script>
+        new Vue({
+            el: '#no-mode-translate-demo',
+            data: {
+                on: false
+            }
+        })
+    </script>
+    <style>
+        .no-mode-translate-demo-wrapper {
+            position: relative;
+            height: 18px;
+        }
+        .no-mode-translate-demo-wrapper button {
+            position: absolute;
+        }
+        .no-mode-translate-fade-enter-active, .no-mode-translate-fade-leave-active {
+            transition: all 1s;
+        }
+        .no-mode-translate-fade-enter, .no-mode-translate-fade-leave-active {
+            opacity: 0;
+        }
+        .no-mode-translate-fade-enter {
+            transform: translateX(31px);
+        }
+        .no-mode-translate-fade-leave-active {
+            transform: translateX(-31px);
+        }
+    </style>
+
+    <p>Simultaneous entering and leaving transitions aren’t always desirable though, so Vue offers some alternative <strong>transition modes</strong>:</p>
+    <ul>
+        <li><p><code>in-out</code>: New element transitions in first, then when complete, the current element transitions out.</p>
+        </li>
+        <li><p><code>out-in</code>: Current element transitions out first, then when complete, the new element transitions in.</p>
+        </li>
+    </ul>
+    <p>Now let’s update the transition for our on/off buttons with <code>out-in</code>:</p>
+    <pre>
+        &lt;transition name="fade" mode="out-in"&gt;
+            &lt;!-- ... the buttons ... --&gt;
+        &lt;/transition&gt;
+    </pre>
+
+    <div id="with-mode-demo" class="demo">
+        <transition name="with-mode-fade"  mode="out-in">
+            <button v-if="on" @click="on=!on" :key="on">on</button>
+            <button v-else @click="on=!on" :key="off">off</button>
+        </transition>
+    </div>
+    <script>
+        new Vue({
+            el: '#with-mode-demo',
+            data: {
+                on: false
+            }
+        })
+    </script>
+    <style>
+        .with-mode-fade-enter-active, .with-mode-fade-leave-active {
+            transition: opacity .5s
+        }
+        .with-mode-fade-enter, .with-mode-fade-leave-active {
+            opacity: 0
+        }
+    </style>
+
+    <p>With one attribute addition, we’ve fixed that original transition without having to add any special styling.</p>
+    <p>The <code>in-out</code> mode isn’t used as often, but can sometimes be useful for a slightly different transition effect. Let’s try combining it with the slide-fade transition we worked on earlier:</p>
+    
+    <div id="in-out-translate-demo" class="demo">
+        <div class="in-out-translate-demo-wrapper">
+            <transition name="in-out-translate-fade"  mode="in-out">
+                <button v-if="on" @click="on=!on" :key="on">on</button>
+                <button v-else @click="on=!on" :key="off">off</button>
+            </transition>
+        </div>
+    </div>
+    <script>
+        new Vue({
+            el: '#in-out-translate-demo',
+            data: {
+                on: false
+            }
+        })
+    </script>
+    <style>
+        .in-out-translate-demo-wrapper {
+            position: relative;
+            height: 18px;
+        }
+        .in-out-translate-demo-wrapper button {
+            position: absolute;
+        }
+        .in-out-translate-fade-enter-active, .in-out-translate-fade-leave-active {
+            transition: all .5s;
+        }
+        .in-out-translate-fade-enter, .in-out-translate-fade-leave-active {
+            opacity: 0;
+        }
+        .in-out-translate-fade-enter {
+            transform: translateX(31px);
+        }
+        .in-out-translate-fade-leave-active {
+            transform: translateX(-31px);
+        }
+    </style>
+
+    <p>Pretty cool, right?</p>
+</body>
+</html>
