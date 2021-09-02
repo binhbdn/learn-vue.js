@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Transitions on Initial Render</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Transitions on Initial Render</h1>
+    <p>If you also want to apply a transition on the initial render of a node, you can add the <code>appear</code> attribute:</p>
+    <pre>
+        &lt;transition appear&gt;
+            &lt;!-- ... --&gt;
+        &lt;/transition&gt;
+    </pre>
+    <p>By default, this will use the transitions specified for entering and leaving. If you’d like however, you can also specify custom CSS classes:</p>
+    <pre>
+        &lt;transition
+            appear
+            appear-class="custom-appear-class"
+            appear-to-class="custom-appear-to-class" (2.1.8+)
+            appear-active-class="custom-appear-active-class"
+        &gt;
+        &lt;!-- ... --&gt;
+        &lt;/transition&gt;
+    </pre>
+    <p>and custom JavaScript hooks:</p>
+    <pre>
+        &lt;transition
+            appear
+            v-on:before-appear="customBeforeAppearHook"
+            v-on:appear="customAppearHook"
+            v-on:after-appear="customAfterAppearHook"
+            v-on:appear-cancelled="customAppearCancelledHook"
+        &gt;
+            &lt;!-- ... --&gt;
+        &lt;/transition&gt;
+    </pre>
+    <p>In the example above, either <code>appear</code> attribute or <code>v-on:appear</code> hook will cause an appear transition.</p>
+</body>
+</html>
