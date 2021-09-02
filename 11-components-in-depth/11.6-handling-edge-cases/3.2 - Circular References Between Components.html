@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Circular References Between Components</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Circular References</h1>
+    <h2>3.2 - Circular References Between Components</h2>
+    <p>Let’s say you’re building a file directory tree, like in Finder or File Explorer. You might have a <code>tree-folder</code> component with this template:</p>
+    <pre>
+        &lt;p&gt;
+            &lt;span&gt;{{ folder.name }}&lt;/span&gt;
+            &lt;tree-folder-contents :children="folder.children"/&gt;
+        &lt;/p&gt;
+    </pre>
+    <p>Then a <code>tree-folder-contents</code> component with this template:</p>
+    <pre>
+        &lt;ul&gt;
+            &lt;li v-for="child in children"&gt;
+              &lt;tree-folder v-if="child.children" :folder="child"/&gt;
+              &lt;span&gt; v-else&gt;{{ child.name }}&lt;/span&gt;
+            &lt;/li&gt;
+        &lt;/ul&gt;
+    </pre>
+    <p>When you look closely, you’ll see that these components will actually be each other’s descendent <em>and</em> ancestor in the render tree - a paradox! When registering components globally with <code>Vue.component</code>, this paradox is resolved for you automatically. If that’s you, you can stop reading here.</p>
+    <p>However, if you’re requiring/importing components using a <strong>module system</strong>, e.g. via Webpack or Browserify, you’ll get an error:</p>
+    <pre>
+        Failed to mount component: template or render function not defined.
+    </pre>
+    <p>To explain what’s happening, let’s call our components A and B. The module system sees that it needs A, but first A needs B, but B needs A, but A needs B, etc. It’s stuck in a loop, not knowing how to fully resolve either component without first resolving the other. To fix this, we need to give the module system a point at which it can say, “A needs B <em>eventually</em>, but there’s no need to resolve B first.”</p>
+    <p>In our case, let’s make that point the <code>tree-folder</code> component. We know the child that creates the paradox is the <code>tree-folder-contents</code> component, so we’ll wait until the <code>beforeCreate</code> lifecycle hook to register it:</p>
+    <pre>
+        beforeCreate: function () {
+            this.$options.components.TreeFolderContents = require('./tree-folder-contents.vue').default
+        }
+    </pre>
+    <p>Or alternatively, you could use Webpack’s asynchronous <code>import</code> when you register the component locally:</p>
+    <pre>
+        components: {
+            TreeFolderContents: () =&gt; import('./tree-folder-contents.vue')
+        }
+    </pre>
+    <p>Problem solved!</p>
+</body>
+</html>
