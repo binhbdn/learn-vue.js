@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Explicit Transition Durations</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Transitioning Single Elements/Components</h1>
+    <h2>Explicit Transition Durations</h2>
+    <blockquote>
+        <p>New in 2.2.0+</p>
+    </blockquote>
+    <p>In most cases, Vue can automatically figure out when the transition has finished. By default, Vue waits for the first <code>transitionend</code> or <code>animationend</code> event on the root transition element. However, this may not always be desired - for example, we may have a choreographed transition sequence where some nested inner elements have a delayed transition or a longer transition duration than the root transition element.</p>
+    <p>In such cases you can specify an explicit transition duration (in milliseconds) using the <code>duration</code> prop on the <code>&lt;transition&gt;</code> component:</p>
+    <pre>
+        &lt;transition :duration="1000"&gt;...&lt;/transition&gt;
+    </pre>
+    <p>You can also specify separate values for enter and leave durations:</p>
+    <pre>
+        &lt;transition :duration="{ enter: 500, leave: 800 }"&gt;...&lt;/transition&gt;
+    </pre>
+</body>
+</html>
