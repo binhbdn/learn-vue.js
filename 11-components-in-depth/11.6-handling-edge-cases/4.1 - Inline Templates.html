@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Inline Templates</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+    <style>
+        .checked {color: red}
+    </style>
+</head>
+<body>
+    <h1>Alternate Template Definitions</h1>
+    <h2>4.1 - Inline Templates</h2>
+    <p>When the <code>inline-template</code> special attribute is present on a child component, the component will use its inner content as its template, rather than treating it as distributed content. This allows more flexible template-authoring.</p>
+    <pre>
+        &lt;my-component inline-template&gt;
+            &lt;div&gt;
+                &lt;p&gt;These are compiled as the component's own template.&lt;/p&gt;
+                &lt;p&gt;Not parent's transclusion content.&lt;/p&gt;
+            &lt;/div&gt;
+        &lt;/my-component&gt;
+    </pre>
+    <p>Your inline template needs to be defined inside the DOM element to which Vue is attached.</p>
+    <p class="tip">However, <code>inline-template</code> makes the scope of your templates harder to reason about. As a best practice, prefer defining templates inside the component using the <code>template</code> option or in a <code>&lt;template&gt;</code> element in a <code>.vue</code> file.</p>
+
+    <h3>Thực hành</h3>
+    <div id="app41a">
+        <my-component inline-template>
+            <div>
+                <p>These are compiled as the component's own template.</p>
+                <p>Not parent's transclusion content.</p>
+            </div>
+        </my-component>
+    </div>
+    <div id="app41b">
+        ...
+        <my-checkbox inline-template>
+            <div class="checkbox-wrapper" @click="check">
+                <div :class="{ checkbox: true, checked: checked }">
+                    If checked then color is red !!!
+                </div>
+                <div class="title">{{ title }}</div>
+            </div>
+        </my-checkbox>
+    </div>
+
+    <script src="4.1.js"></script>
+</body>
+</html>
