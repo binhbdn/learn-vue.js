@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - JavaScript Hooks</title>
+    <!--
+    Velocity works very much like jQuery.animate and is
+    a great option for JavaScript animations
+    -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Transitioning Single Elements/Components</h1>
+    <h2>JavaScript Hooks</h2>
+    <p>You can also define JavaScript hooks in attributes:</p>
+    <pre>
+        HTML:
+        &lt;transition
+        v-on:before-enter="beforeEnter"
+        v-on:enter="enter"
+        v-on:after-enter="afterEnter"
+        v-on:enter-cancelled="enterCancelled"
+
+        v-on:before-leave="beforeLeave"
+        v-on:leave="leave"
+        v-on:after-leave="afterLeave"
+        v-on:leave-cancelled="leaveCancelled"
+        &gt;
+        &lt;!-- ... --&gt;
+        &lt;/transition&gt;
+    </pre>
+    <pre>
+        JS:
+        // ...
+        methods: {
+            // --------
+            // ENTERING
+            // --------
+            
+            beforeEnter: function (el) {
+                // ...
+            },
+            // the done callback is optional when
+            // used in combination with CSS
+            enter: function (el, done) {
+                // ...
+                done()
+            },
+            afterEnter: function (el) {
+                // ...
+            },
+            enterCancelled: function (el) {
+                // ...
+            },
+            
+            // --------
+            // LEAVING
+            // --------
+            
+            beforeLeave: function (el) {
+                // ...
+            },
+            // the done callback is optional when
+            // used in combination with CSS
+            leave: function (el, done) {
+                // ...
+                done()
+            },
+            afterLeave: function (el) {
+                // ...
+            },
+            // leaveCancelled only available with v-show
+            leaveCancelled: function (el) {
+                // ...
+            }
+        }
+    </pre>
+    <p>These hooks can be used in combination with CSS transitions/animations or on their own.</p>
+    <p class="tip">When using JavaScript-only transitions, <strong>the <code>done</code> callbacks are required for the <code>enter</code> and <code>leave</code> hooks</strong>. Otherwise, the hooks will be called synchronously and the transition will finish immediately.</p>
+    <p class="tip">It’s also a good idea to explicitly add <code>v-bind:css="false"</code> for JavaScript-only transitions so that Vue can skip the CSS detection. This also prevents CSS rules from accidentally interfering with the transition.</p>
+    <p>Now let’s dive into an example. Here’s a JavaScript transition using Velocity.js:</p>
+    <pre>
+        HTML:
+        &lt;!--
+        Velocity works very much like jQuery.animate and is
+        a great option for JavaScript animations
+        --&gt;
+        &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js"&gt;&lt;/script&gt;
+
+        &lt;div id="example-4"&gt;
+        &lt;button @click="show = !show"&gt;
+            Toggle
+        &lt;/button&gt;
+        &lt;transition
+            v-on:before-enter="beforeEnter"
+            v-on:enter="enter"
+            v-on:leave="leave"
+            v-bind:css="false"
+        &gt;
+            &lt;p v-if="show"&gt;
+            Demo
+            &lt;/p&gt;
+        &lt;/transition&gt;
+        &lt;/div&gt;
+    </pre>
+
+    <pre>
+        JS:
+        new Vue({
+            el: '#example-4',
+            data: {
+              show: false
+            },
+            methods: {
+              beforeEnter: function (el) {
+                el.style.opacity = 0
+                el.style.transformOrigin = 'left'
+              },
+              enter: function (el, done) {
+                Velocity(el, { opacity: 1, fontSize: '1.4em' }, { duration: 300 })
+                Velocity(el, { fontSize: '1em' }, { complete: done })
+              },
+              leave: function (el, done) {
+                Velocity(el, { translateX: '15px', rotateZ: '50deg' }, { duration: 600 })
+                Velocity(el, { rotateZ: '100deg' }, { loop: 2 })
+                Velocity(el, {
+                  rotateZ: '45deg',
+                  translateY: '30px',
+                  translateX: '30px',
+                  opacity: 0
+                }, { complete: done })
+              }
+            }
+        })
+    </pre>
+
+    <h3>Thực hành</h3>
+    <div id="app17">
+        <button @click="show = !show">Toggle</button>
+        <transition
+          v-on:before-enter="beforeEnter"
+          v-on:enter="enter"
+          v-on:leave="leave"
+          v-bind:css="false"
+        >
+            <p v-if="show">Demo</p>
+        </transition>
+    </div>
+
+    <script src="1.7.js"></script>
+</body>
+</html>
