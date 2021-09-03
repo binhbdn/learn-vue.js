@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Reusable Transitions</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Reusable Transitions</h1>
+    <p>Transitions can be reused through Vue’s component system. To create a reusable transition, all you have to do is place a <code>&lt;transition&gt;</code> or <code>&lt;transition-group&gt;</code> component at the root, then pass any children into the transition component.</p>
+    <p>Here’s an example using a template component:</p>
+    <pre>
+        <b>JS:</b>
+        Vue.component('my-special-transition', {
+            template: '\
+              &lt;transition\
+                name="very-special-transition"\
+                mode="out-in"\
+                v-on:before-enter="beforeEnter"\
+                v-on:after-enter="afterEnter"\
+              &gt;\
+                &lt;slot&gt;&lt;/slot&gt;\
+              &lt;/transition&gt;\
+            ',
+            methods: {
+              beforeEnter: function (el) {
+                // ...
+              },
+              afterEnter: function (el) {
+                // ...
+              }
+            }
+        })
+    </pre>
+    <p>And <a href="https://vuejs.org/v2/guide/render-function.html#Functional-Components">functional components</a> are especially well-suited to this task:</p>
+    <pre>
+        <b>JS:</b>
+        Vue.component('my-special-transition', {
+            functional: true,
+            render: function (createElement, context) {
+              var data = {
+                props: {
+                  name: 'very-special-transition',
+                  mode: 'out-in'
+                },
+                on: {
+                  beforeEnter: function (el) {
+                    // ...
+                  },
+                  afterEnter: function (el) {
+                    // ...
+                  }
+                }
+              }
+              return createElement('transition', data, context.children)
+            }
+        })
+    </pre>
+</body>
+</html>
