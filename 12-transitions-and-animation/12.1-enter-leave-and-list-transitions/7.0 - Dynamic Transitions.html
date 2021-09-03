@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Dynamic Transitions</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Dynamic Transitions</h1>
+    <p>Yes, even transitions in Vue are data-driven! The most basic example of a dynamic transition binds the <code>name</code> attribute to a dynamic property.</p>
+    <pre>
+        <b>HTML:</b>
+        &lt;transition v-bind:name="transitionName"&gt;
+            &lt;!-- ... --&gt;
+        &lt;/transition&gt;
+    </pre>
+    <p>This can be useful when you’ve defined CSS transitions/animations using Vue’s transition class conventions and want to switch between them.</p>
+    <p>Really though, any transition attribute can be dynamically bound. And it’s not only attributes. Since event hooks are methods, they have access to any data in the context. That means depending on the state of your component, your JavaScript transitions can behave differently.</p>
+    <pre>
+        <b>HTML:</b>
+        &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js"&gt;&lt;/script&gt;
+
+        &lt;div id="dynamic-fade-demo" class="demo"&gt;
+            Fade In: &lt;input type="range" v-model="fadeInDuration" min="0" v-bind:max="maxFadeDuration"&gt;
+            Fade Out: &lt;input type="range" v-model="fadeOutDuration" min="0" v-bind:max="maxFadeDuration"&gt;
+            &lt;transition
+                v-bind:css="false"
+                v-on:before-enter="beforeEnter"
+                v-on:enter="enter"
+                v-on:leave="leave"
+            &gt;
+                &lt;p v-if="show"&gt;hello&lt;/p&gt;
+            &lt;/transition&gt;
+            &lt;button
+                v-if="stop"
+                v-on:click="stop = false; show = false"
+            &gt;Start animating&lt;/button&gt;
+            &lt;button
+                v-else
+                v-on:click="stop = true"
+            &gt;Stop it!&lt;/button&gt;
+    </pre>
+    <pre>
+        <b>JS:</b>
+        new Vue({
+            el: '#dynamic-fade-demo',
+            data: {
+              show: true,
+              fadeInDuration: 1000,
+              fadeOutDuration: 1000,
+              maxFadeDuration: 1500,
+              stop: true
+            },
+            mounted: function () {
+              this.show = false
+            },
+            methods: {
+              beforeEnter: function (el) {
+                el.style.opacity = 0
+              },
+              enter: function (el, done) {
+                var vm = this
+                Velocity(el,
+                  { opacity: 1 },
+                  {
+                    duration: this.fadeInDuration,
+                    complete: function () {
+                      done()
+                      if (!vm.stop) vm.show = false
+                    }
+                  }
+                )
+              },
+              leave: function (el, done) {
+                var vm = this
+                Velocity(el,
+                  { opacity: 0 },
+                  {
+                    duration: this.fadeOutDuration,
+                    complete: function () {
+                      done()
+                      vm.show = true
+                    }
+                  }
+                )
+              }
+            }
+        })
+    </pre>
+
+    <h2>Thực hành:</h2>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js"></script>
+
+    <div id="dynamic-fade-demo" class="demo">
+        Fade In: <input type="range" v-model="fadeInDuration" min="0" v-bind:max="maxFadeDuration">
+        Fade Out: <input type="range" v-model="fadeOutDuration" min="0" v-bind:max="maxFadeDuration">
+        <transition
+            v-bind:css="false"
+            v-on:before-enter="beforeEnter"
+            v-on:enter="enter"
+            v-on:leave="leave"
+        >
+            <p v-if="show">hello</p>
+        </transition>
+        <button
+            v-if="stop"
+            v-on:click="stop = false; show = false"
+        >Start animating</button>
+        <button
+            v-else
+            v-on:click="stop = true"
+        >Stop it!</button>
+    </div>
+    <p>Finally, the ultimate way of creating dynamic transitions is through components that accept props to change the nature of the transition(s) to be used. It may sound cheesy, but the only limit really is your imagination.</p>
+
+    <script src="7.0.js"></script>
+</body>
+</html>
