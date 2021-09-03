@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Custom Directives - Hook Functions</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Custom Directives / Directive tùy biến</h1>
+    <h2>Hook Functions / Các hàm hook</h2>
+    <p>Một object khai báo directive có thể cung cấp một số hàm hook (tất cả các hàm này đều không bắt buộc):</p>
+    <ul>
+        <li><p><code>bind</code>: chỉ được gọi một lần, khi directive được bind (ràng buộc) vào phần tử. Đây là nơi bạn có thể thực hiện các thao tác cài đặt một lần.</p>
+        </li>
+        <li><p><code>inserted</code>: được gọi khi element đã được chèn (insert) vào phần tử cha (điều này chỉ bảo đảm là phần tử cha đã được tạo ra chứ không chắc là nó đã tồn tại trong DOM).</p>
+        </li>
+        <li><p><code>update</code>: được gọi sau khi VNode của phần tử chứa đã cập nhật, <strong>nhưng có thể là trước khi các phần tử con được cập nhật</strong>. Giá trị của directive lúc này có thể đã thay đổi hoặc chưa, nhưng bạn có thể bỏ qua các thay đổi không cần thiết bằng cách so sánh hai giá trị cũ và mới (xem thông tin về tham số của hàm hook ở bên dưới).</p>
+        </li>
+        <li><p><code>componentUpdated</code>: được gọi sau khi VNode của phần tử chứa <strong>và VNode của toàn bộ các phần tử con</strong> đã cập nhật.</p>
+        </li>
+        <li><p><code>unbind</code>: chỉ được gọi một lần, khi directive được unbind khỏi phần tử.</p>
+        </li>
+    </ul>
+    <p>Chúng ta sẽ tìm hiểu về các tham số được truyền vào các hàm hook này trong phần tiếp theo.</p>
+</body>
+</html>
