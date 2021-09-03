@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Custom Directives - Intro</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Custom Directives / Directive tùy biến</h1>
+    <h2>Intro / Giới thiệu</h2>
+    <p>Bên cạnh những directive được cung cấp mặc định (<code>v-model</code> và <code>v-show</code>), Vue cũng cho phép bạn đăng kí các directive tùy biến của riêng mình. Lưu ý là trong phiên bản Vue 2.0, cách tốt nhất để sử dụng lại và trừu tượng hóa code là dùng <a href="https://vi.vuejs.org/v2/guide/components.html">component</a>, tuy nhiên có thể có những lúc bạn cần một số truy xuất cấp thấp đến các phần tử web, và trong những trường hợp này thì directive tùy biến sẽ trở nên hữu ích. Ví dụ, đây là một phần tử input được focus tự động:</p>
+    
+    <div id="app10">
+        <input v-focus>
+    </div>
+
+    <p>Khi trang này được tải, phần tử trên đây sẽ được focus (lưu ý: tính năng focus tự động không được hỗ trợ trên mobile Safari). Nếu bạn chưa hề bấm vào bất kì đâu khác trên trang, ngay lúc này phần tử input sẽ có focus. Giờ chúng ta hãy viết directive hỗ trợ cho tính năng này:</p>
+    <pre>
+        <b>JS:</b>
+        // Đăng kí một directive tùy biến cấp toàn cục với tên là `v-focus`
+        Vue.directive('focus', {
+            // Khi phần tử liên quan được thêm vào DOM...
+            inserted: function (el) {
+                // Ta gán focus vào phần tử đó
+                el.focus()
+            }
+        })
+    </pre>
+
+    <p>Nếu muốn đăng kí directive ở cấp cục bộ thay vì toàn cục, bạn có thể dùng tùy chọn <code>directives</code> khi khai báo component:</p>
+    <pre>
+        <b>JS:</b>
+        directives: {
+            focus: {
+                // định nghĩa cho directive
+                inserted: function (el) {
+                    el.focus()
+                }
+            }
+        }
+    </pre>
+
+    <p>Sau đó trong template, bạn có thể dùng thuộc tính <code>v-focus</code> trên bất kì phần tử nào, như sau:</p>
+    <pre>
+        <b>HTML:</b>
+        &lt;input v-focus&gt;
+    </pre>
+
+    <script src="1.0.js"></script>
+</body>
+</html>
