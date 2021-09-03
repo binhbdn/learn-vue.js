@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - List Entering/Leaving Transitions</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>List Transitions</h1>
+    <h2>List Entering/Leaving Transitions</h2>
+    <p>Now let’s dive into an example, transitioning entering and leaving using the same CSS classes we’ve used previously:</p>
+    <pre>
+        HTML:
+        &lt;div id="list-demo"&gt;
+            &lt;button v-on:click="add"&gt;Add&lt;/button&gt;
+            &lt;button v-on:click="remove"&gt;Remove&lt;/button&gt;
+            &lt;transition-group name="list" tag="p"&gt;
+                &lt;span v-for="item in items" v-bind:key="item" class="list-item"&gt;
+                    {{ item }}
+                &lt;/span&gt;
+            &lt;/transition-group&gt;
+        &lt;/div&gt;
+    </pre>
+    <pre>
+        JS:
+        new Vue({
+            el: '#list-demo',
+            data: {
+                items: [1,2,3,4,5,6,7,8,9],
+                nextNum: 10
+            },
+            methods: {
+              randomIndex: function () {
+                    return Math.floor(Math.random() * this.items.length)
+              },
+              add: function () {
+                    this.items.splice(this.randomIndex(), 0, this.nextNum++)
+              },
+              remove: function () {
+                    this.items.splice(this.randomIndex(), 1)
+              },
+            }
+        })
+    </pre>
+    <pre>
+        CSS:
+        .list-item {
+            display: inline-block;
+            margin-right: 10px;
+        }
+        .list-enter-active, .list-leave-active {
+            transition: all 1s;
+        }
+        .list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+    </pre>
+
+    <h3>Thực hành:</h3>
+    <div id="list-demo" class="demo">
+        <button v-on:click="add">Add</button>
+        <button v-on:click="remove">Remove</button>
+        <transition-group name="list" tag="p">
+            <span v-for="item in items" v-bind:key="item" class="list-item">
+                {{ item }}
+            </span>
+        </transition-group>
+    </div>
+    <style>
+        .list-item {
+            display: inline-block;
+            margin-right: 10px;
+        }
+        .list-enter-active, .list-leave-active {
+            transition: all 1s;
+        }
+        .list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+    </style>
+    <p>There’s one problem with this example. When you add or remove an item, the ones around it instantly snap into their new place instead of smoothly transitioning. We’ll fix that later.</p>
+
+    <script src="5.1.js"></script>
+</body>
+</html>
