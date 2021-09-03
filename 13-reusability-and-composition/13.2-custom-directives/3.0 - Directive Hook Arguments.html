@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Custom Directives - Directive Hook Arguments</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Custom Directives / Directive tùy biến</h1>
+    <h2>Directive Hook Arguments / Tham số của các hàm hook</h2>
+    <p>Các hàm hook cho directive được truyền vào các tham số sau đây:</p>
+    <ul>
+        <li><strong>el</strong>: Phần tử được directive bind vào. Tham số này có thể được dùng để thay đổi DOM một cách trực tiếp.</li>
+        <li><strong>binding</strong>: Một object chứa những thuộc tính sau:
+            <ul>
+                <li><strong>name</strong>: Tên của directive, không có tiếp đầu ngữ <code>v-</code>.</li>
+                <li><strong>value</strong>: Giá trị được truyền vào directive. Ví dụ với <code>v-my-directive="1 + 1"</code> thì <code>value</code> sẽ là <code>2</code>.</li>
+                <li><strong>oldValue</strong>: Giá trị trước đây, chỉ tồn tại trong các hook <code>update</code> và <code>componentUpdated</code>. <code>oldValue</code> sẽ luôn có cho dù giá trị có được thay đổi hay không.</li>
+                <li><strong>expression</strong>: Biểu thức của binding dưới dạng chuỗi. Ví dụ với <code>v-my-directive="1 + 1"</code>, thì <code>expression</code> sẽ là <code>"1 + 1"</code>.</li>
+                <li><strong>arg</strong>: Tham số được truyền vào directive, nếu có. Ví dụ với <code>v-my-directive:foo</code> thì <code>arg</code> sẽ là <code>"foo"</code>.</li>
+                <li><strong>modifiers</strong>: Một object chứa các modifier, nếu có. Ví dụ với <code>v-my-directive.foo.bar</code>, thì <code>modifiers</code> sẽ là <code>{ foo: true, bar: true }</code>.</li>
+            </ul>
+        </li>
+        <li><strong>vnode</strong>: Vnode được trình biên dịch của Vue tạo ra. Xem thêm chi tiết tại <a href="https://vi.vuejs.org/v2/api/#Giao-dien-cua-VNode">VNode API</a>.</li>
+        <li><strong>oldVnode</strong>: VNode trước đây, chỉ tồn tại trong các hook <code>update</code> và <code>componentUpdated</code>.</li>
+    </ul>
+    <p class="tip">Ngoài <code>el</code>, bạn nên coi là read-only (chỉ đọc) và đừng bao giờ chỉnh sửa các tham số này. Nếu muốn chia sẻ thông tin giữa các hook với nhau, bạn nên dùng <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset" target="_blank" rel="noopener">dataset</a>.</p>
+    <p>Sau đây là ví dụ về một directive tùy biến với các thuộc tính này:</p>
+    <pre>
+        <b>HTML:</b>
+        &lt;div id="hook-arguments-example" v-demo:foo.a.b="message"&gt;&lt;/div&gt;
+    </pre>
+    <pre>
+        <b>JS:</b>
+        Vue.directive('demo', {
+            bind: function (el, binding, vnode) {
+                var s = JSON.stringify
+                el.innerHTML =
+                    'name: '       + s(binding.name) + '&lt;br&gt;' +
+                    'value: '      + s(binding.value) + '&lt;br&gt;' +
+                    'expression: ' + s(binding.expression) + '&lt;br&gt;' +
+                    'argument: '   + s(binding.arg) + '&lt;br&gt;' +
+                    'modifiers: '  + s(binding.modifiers) + '&lt;br&gt;' +
+                    'vnode keys: ' + Object.keys(vnode).join(', ')
+            }
+        })
+          
+        new Vue({
+            el: '#hook-arguments-example',
+            data: {
+                message: 'Cà rốt'
+            }
+        })
+    </pre>
+
+    <h3>Thực hành:</h3>
+    <div id="hook-arguments-example" class="demo" v-demo:foo.a.b="message"></div>
+
+    <script src="3.0.js"></script>
+</body>
+</html>
