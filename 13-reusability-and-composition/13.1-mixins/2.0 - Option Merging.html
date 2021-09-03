@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Option Merging</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Mixins</h1>
+    <h2>Option Merging</h2>
+    <p>When a mixin and the component itself contain overlapping options, they will be “merged” using appropriate strategies.</p>
+    <p>For example, data objects undergo a recursive merge, with the component’s data taking priority in cases of conflicts.</p>
+    <pre>
+        <b>JS:</b>
+        var mixin1 = {
+            data: function () {
+                return {
+                    message: 'hello',
+                    foo: 'abc'
+                }
+            }
+        }
+          
+        new Vue({
+            mixins: [mixin1],
+            data: function () {
+                return {
+                    message: 'goodbye',
+                    bar: 'def'
+                }
+            },
+            created: function () {
+                console.log(this.$data)
+                // =&gt; { message: "goodbye", foo: "abc", bar: "def" }
+            }
+        })
+    </pre>
+
+    <p>Hook functions with the same name are merged into an array so that all of them will be called. Mixin hooks will be called <strong>before</strong> the component’s own hooks.</p>
+    <pre>
+        <b>JS:</b>
+        var mixin2 = {
+            created: function () {
+                console.log('mixin2 hook called')
+            }
+        }
+          
+        new Vue({
+            mixins: [mixin2],
+            created: function () {
+                console.log('component hook called')
+            }
+        })
+          
+        // =&gt; "mixin hook called"
+        // =&gt; "component hook called"
+    </pre>
+
+    <p>Options that expect object values, for example <code>methods</code>, <code>components</code> and <code>directives</code>, will be merged into the same object. The component’s options will take priority when there are conflicting keys in these objects:</p>
+    <pre>
+        <b>JS:</b>
+        var mixin3 = {
+            methods: {
+              foo: function () {
+                    console.log('foo')
+              },
+              conflicting: function () {
+                    console.log('from mixin3')
+              }
+            }
+        }
+          
+        var vm = new Vue({
+            mixins: [mixin3],
+            methods: {
+              bar: function () {
+                    console.log('bar')
+              },
+              conflicting: function () {
+                    console.log('from self')
+              }
+            }
+        })
+          
+        vm.foo() // =&gt; "foo"
+        vm.bar() // =&gt; "bar"
+        vm.conflicting() // =&gt; "from self"
+    </pre>
+    <p>Note that the same merge strategies are used in <code>Vue.extend()</code>.</p>
+
+    <h3>Thực hành:</h3>
+
+    <script src="2.0.js"></script>
+</body>
+</html>
