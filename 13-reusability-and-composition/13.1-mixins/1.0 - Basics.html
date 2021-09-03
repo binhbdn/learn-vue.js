@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Basics</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Mixins</h1>
+    <h2>Basics</h2>
+    <p>Mixins are a flexible way to distribute reusable functionalities for Vue components. A mixin object can contain any component options. When a component uses a mixin, all options in the mixin will be “mixed” into the component’s own options.</p>
+    <p>Example:</p>
+    <pre>
+        <b>JS:</b>
+        // define a mixin object
+        var myMixin = {
+        created: function () {
+            this.hello()
+        },
+        methods: {
+            hello: function () {
+            console.log('hello from mixin!')
+            }
+        }
+        }
+
+        // define a component that uses this mixin
+        var Component = Vue.extend({
+        mixins: [myMixin]
+        })
+
+        var component = new Component() // =&gt; "hello from mixin!"
+    </pre>
+
+    <h3>Thực hành:</h3>
+
+    <script src="1.0.js"></script>
+</body>
+</html>
