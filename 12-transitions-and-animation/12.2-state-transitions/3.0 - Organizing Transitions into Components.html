@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Organizing Transitions into Components</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>State Transitions</h1>
+    <h2>Organizing Transitions into Components</h2>
+    <p>Managing many state transitions can quickly increase the complexity of a Vue instance or component. Fortunately, many animations can be extracted out into dedicated child components. Let’s do this with the animated integer from our earlier example:</p>
+
+    <script src="https://cdn.jsdelivr.net/npm/tween.js@16.3.4"></script>
+
+    <div id="example-8" class="demo">
+        <input v-model.number="firstNumber" type="number" step="20"> +
+        <input v-model.number="secondNumber" type="number" step="20"> =
+        {{ result }}
+        <p>
+            <animated-integer v-bind:value="firstNumber"></animated-integer> +
+            <animated-integer v-bind:value="secondNumber"></animated-integer> =
+            <animated-integer v-bind:value="result"></animated-integer>
+        </p>
+    </div>
+
+    <script src="3.0.js"></script>
+</body>
+</html>
