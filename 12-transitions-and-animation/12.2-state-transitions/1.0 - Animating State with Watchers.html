@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Animating State with Watchers</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>State Transitions</h1>
+    <h2>Animating State with Watchers</h2>
+    <p>Watchers allow us to animate changes of any numerical property into another property. That may sound complicated in the abstract, so let’s dive into an example using <a href="https://greensock.com/" target="_blank" rel="noopener">GreenSock</a>:</p>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.4/gsap.min.js"></script>
+
+    <div id="animated-number-demo" class="demo">
+        <input v-model.number="number" type="number" step="20">
+        <p>{{ animatedNumber }}</p>
+    </div>
+
+    <p>When you update the number, the change is animated below the input. This makes for a nice demo, but what about something that isn’t directly stored as a number, like any valid CSS color for example? Here’s how we could accomplish this with <a href="https://github.com/tweenjs/tween.js" target="_blank" rel="noopener">Tween.js</a> and <a href="https://github.com/brehaut/color-js" target="_blank" rel="noopener">Color.js</a>:</p>
+
+    <script src="https://cdn.jsdelivr.net/npm/tween.js@16.3.4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/color-js@1.0.3"></script>
+
+    <div id="example-7">
+        <input
+            v-model="colorQuery"
+            v-on:keyup.enter="updateColor"
+            placeholder="Enter a color"
+        >
+        <button v-on:click="updateColor">Update</button>
+        <p>Preview:</p>
+            <span
+                v-bind:style="{ backgroundColor: tweenedCSSColor }"
+                class="example-7-color-preview"
+            ></span>
+        <p>{{ tweenedCSSColor }}</p>
+    </div>
+
+    <style>
+        .example-7-color-preview {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+        }
+    </style>
+
+
+    <script src="1.0.js"></script>
+</body>
+</html>
