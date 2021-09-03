@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Custom Directives - Dynamic Directive Arguments</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+    <style>
+        .red {
+            color: red
+        }
+    </style> 
+</head>
+<body>
+    <h1>Custom Directives / Directive tùy biến</h1>
+    <h2>Dynamic Directive Arguments</h2>
+    <p>Directive arguments can be dynamic. For example, in <code>v-mydirective:[argument]="value"</code>, the <code>argument</code> can be updated based on data properties in our component instance! This makes our custom directives flexible for use throughout our application.</p>
+    <p>Let’s say you want to make a custom directive that allows you to pin elements to your page using fixed positioning. We could create a custom directive where the value updates the vertical positioning in pixels, like this:</p>
+    <pre>
+        <b>HTML:</b>
+        &lt;div id="baseexample"&gt;
+            &lt;p&gt;Scroll down the page&lt;/p&gt;
+            &lt;p v-pin1="200" class="red"&gt;Stick me 200px from the top of the page&lt;/p&gt;
+        &lt;/div&gt;
+    </pre>
+    <pre>
+        <b>JS:</b>
+        Vue.directive('pin1', {
+            bind: function (el, binding, vnode) {
+                el.style.position = 'fixed'
+                el.style.top = binding.value + 'px'
+            }
+        })
+        
+        new Vue({
+            el: '#baseexample'
+        })
+    </pre>
+    <p>This would pin the element 200px from the top of the page. But what happens if we run into a scenario when we need to pin the element from the left, instead of the top? Here’s where a dynamic argument that can be updated per component instance comes in very handy:</p>
+    <pre>
+        <b>HTML:</b>
+        &lt;div id="dynamicexample"&gt;
+            &lt;h3&gt;Scroll down the page&lt;/h3&gt;
+            &lt;p v-pin:[direction]="50" class="red"&gt;Stick me 50px from the top of the page&lt;/p&gt;
+        &lt;/div&gt;
+    </pre>
+    <pre>
+        <b>JS:</b>
+        Vue.directive('pin', {
+            bind: function (el, binding, vnode) {
+              el.style.position = 'fixed'
+              var s = (binding.arg == 'left' ? 'left' : 'top')
+              el.style[s] = binding.value + 'px'
+            }
+        })
+        
+        new Vue({
+            el: '#dynamicexample',
+            data: function () {
+                return {
+                    direction: 'top'// or 'left'
+                }
+            }
+        })
+    </pre>
+    <p>Our custom directive is now flexible enough to support a few different use cases.</p>
+
+    <h3>Thực hành:</h3>
+    <div id="baseexample">
+        <p>Scroll down the page</p>
+        <p v-pin1="200" class="red">Stick me 200px from the top of the page</p>
+    </div>
+
+    <div id="dynamicexample">
+        <h3>Scroll down the page</h3>
+        <p v-pin:[direction]="50" class="red">Stick me 50px from the top of the page</p>
+    </div>
+
+    <script src="3.1.js"></script>
+</body>
+</html>
