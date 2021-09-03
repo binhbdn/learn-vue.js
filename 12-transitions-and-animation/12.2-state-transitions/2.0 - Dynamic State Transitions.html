@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Dynamic State Transitions</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>State Transitions</h1>
+    <h2>Dynamic State Transitions</h2>
+    <p>As with Vue’s transition components, the data backing state transitions can be updated in real time, which is especially useful for prototyping! Even using a simple SVG polygon, you can achieve many effects that would be difficult to conceive of until you’ve played with the variables a little.</p>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/TweenLite.min.js"></script>
+    <div id="svg-polygon-demo" class="demo">
+        <svg width="200" height="200">
+            <polygon :points="points"></polygon>
+            <circle cx="100" cy="100" r="90"></circle>
+        </svg>
+        <label>Sides: {{ sides }}</label>
+        <input type="range" min="3" max="500" v-model.number="sides" />
+        <label>Minimum Radius: {{ minRadius }}%</label>
+        <input type="range" min="0" max="90" v-model.number="minRadius" />
+        <label>Update Interval: {{ updateInterval }} milliseconds</label>
+        <input type="range" min="10" max="2000" v-model.number="updateInterval" />
+    </div>
+    <style>
+        svg {
+            display: block;
+        }
+        polygon {
+            fill: #41b883;
+        }
+        circle {
+            fill: transparent;
+            stroke: #35495e;
+        }
+        input[type="range"] {
+            display: block;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+      </style>
+
+    <script src="2.0.js"></script>
+</body>
+</html>
