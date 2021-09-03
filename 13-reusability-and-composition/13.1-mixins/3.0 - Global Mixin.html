@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Global Mixin</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Mixins</h1>
+    <h2>Global Mixin</h2>
+    <p>You can also apply a mixin globally. Use with caution! Once you apply a mixin globally, it will affect <strong>every</strong> Vue instance created afterwards. When used properly, this can be used to inject processing logic for custom options:</p>
+    <pre>
+        <b>JS:</b>
+        // inject a handler for `myOption` custom option
+        Vue.mixin({
+            created: function () {
+                var myOption = this.$options.myOption
+                if (myOption) {
+                    console.log(myOption)
+                }
+            }
+        })
+        
+        new Vue({
+            myOption: 'hello!'
+        })
+        // =&gt; "hello!"
+        
+        new Vue({
+            myOption: 'bye bye!'
+        })
+        // =&gt; "bye bye!!"
+    </pre>
+    <p class="tip">Use global mixins sparsely and carefully, because it affects every single Vue instance created, including third party components. In most cases, you should only use it for custom option handling like demonstrated in the example above. It’s also a good idea to ship them as <a href="https://vuejs.org/v2/guide/plugins.html">Plugins</a> to avoid duplicate application.</p>
+
+    <h3>Thực hành:</h3>
+
+    <script src="3.0.js"></script>
+</body>
+</html>
