@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Custom Directives - Object Literals</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Custom Directives / Directive tùy biến</h1>
+    <h2>Object Literals / Truyền object trực tiếp</h2>
+    <p>Nếu directive của bạn cần nhiều giá trị cùng một lúc, bạn có thể trực tiếp truyền vào một object. Nhớ là directive trong Vue có thể nhận bất kì biểu thức JavaScript hợp lệ nào.</p>
+    <pre>
+        <b>HTML:</b>
+        &lt;div v-demo="{ color: 'white', text: 'Su hào' }"&gt;&lt;/div&gt;
+    </pre>
+    <pre>
+        <b>JS:</b>
+        Vue.directive('demo', function (el, binding) {
+            console.log(binding.value.color) // =&gt; "white"
+            console.log(binding.value.text)  // =&gt; "Su hào"
+        })
+    </pre>
+</body>
+</html>
