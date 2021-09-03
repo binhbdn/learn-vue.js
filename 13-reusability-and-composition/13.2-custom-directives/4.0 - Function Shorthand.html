@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Custom Directives - Function Shorthand</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Custom Directives / Directive tùy biến</h1>
+    <h2>Function Shorthand / Cách khai báo rút gọn</h2>
+    <p>Trong nhiều trường hợp, có thể bạn muốn <code>bind</code> và <code>update</code> có chung một hành vi và không quan tâm đến các hook khác. Những lúc này bạn có thể dùng cách khai báo directive rút gọn, ví dụ:</p>
+    <pre>
+        Vue.directive('color-swatch', function (el, binding) {
+            el.style.backgroundColor = binding.value
+        })
+    </pre>
+</body>
+</html>
