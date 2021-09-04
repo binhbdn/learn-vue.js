@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Render Functions & JSX - Replacing Template Features with Plain JavaScript</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Render Functions & JSX / Các hàm render & JSX</h1>
+    <h2>Replacing Template Features with Plain JavaScript / Thay thế các tính năng của template bằng JavaScript đơn thuần</h2>
+    <h3 id="v-if-va-v-for"><a href="#v-if-va-v-for" class="headerlink" title="v-if và v-for" data-scroll=""><code>v-if</code> và <code>v-for</code></a></h3>
+    <p>Bất cứ khi nào một việc gì đó có thể làm được dễ dàng bằng JavaScript đơn thuần, các hàm render của Vue đều <em>không</em> cung cấp một giải pháp thay thế chuyên biệt. Ví dụ, trong một template có sử dụng <code>v-if</code> và <code>v-for</code>:</p>
+    <pre>
+        <b>HTML:</b>
+        &lt;ul v-if="items.length"&gt;
+            &lt;li v-for="item in items"&gt;{{ item.name }}&lt;/li&gt;
+        &lt;/ul&gt;
+        &lt;p v-else&gt;Không tìm thấy kết quả nào.&lt;/p&gt;
+    </pre>
+    <p>Ví dụ này có thể được viết lại với <code>if</code>/<code>else</code> và <code>map</code> của JavaScript trong một hàm render:</p>
+    <pre>
+        <b>JS:</b>
+        props: ['items'],
+        render: function (createElement) {
+            if (this.items.length) {
+                return createElement('ul', this.items.map(function (item) {
+                return createElement('li', item.name)
+                }))
+            } else {
+                return createElement('p', 'Không tìm thấy kết quả nào.')
+            }
+        }
+    </pre>
+
+    <h3 id="v-model"><a href="#v-model" class="headerlink" title="v-model" data-scroll=""><code>v-model</code></a></h3>
+    <p>Vue không cung cấp tính năng thay thế cho <code>v-model</code> trong các hàm render - bạn sẽ phải tự phát triển logic này:</p>
+    <pre>
+        <b>JS:</b>
+        props: ['value'],
+        render: function (createElement) {
+            var self = this
+            return createElement('input', {
+                domProps: {
+                    value: self.value
+                },
+                on: {
+                    input: function (event) {
+                        self.$emit('input', event.target.value)
+                    }
+                }
+            })
+        }
+    </pre>
+    <p>Đây là cái giá cho việc viết code ở cấp thấp – tuy nhiên bù vào đó thì bạn có gần như toàn quyền điều khiển các tương tác nếu so sánh với <code>v-model</code>.</p>
+    
+    <h3 id="Event-va-key-modifier"><a href="#Event-va-key-modifier" class="headerlink" title="Event và key modifier" data-scroll="">Event và key modifier</a></h3>
+    <p>Đối với các <a href="https://vi.vuejs.org/v2/guide/events.html#Event-modifier">event modifier</a> <code>.passive</code>, <code>.capture</code> và <code>.once</code>, Vue cung cấp các prefix (tiền tố) có thể sử dụng với <code>on</code>:</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Modifier</th>
+                <th>Prefix</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>.passive</code></td>
+                <td><code>&amp;</code></td>
+            </tr>
+            <tr>
+                <td><code>.capture</code></td>
+                <td><code>!</code></td>
+            </tr>
+            <tr>
+                <td><code>.once</code></td>
+                <td><code>~</code></td>
+            </tr>
+            <tr>
+                <td><code>.capture.once</code> hoặc<br><code>.once.capture</code></td>
+                <td><code>~!</code></td>
+            </tr>
+        </tbody>
+    </table>
+    <p>Ví dụ:</p>
+    <pre>
+        on: {
+            '!click': this.doThisInCapturingMode,
+            '~keyup': this.doThisOnce,
+            '~!mouseover': this.doThisOnceInCapturingMode
+        }
+    </pre>
+    <p>Đối với tất cả các event và key modifier khác, một prefix chuyên biệt là không cần thiết vì bạn có thể dùng các phương thức sự kiện bên trong hàm xử lí:</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Modifier</th>
+                <th>Giải pháp tương đương trong hàm xử lí</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>.stop</code></td>
+                <td><code>event.stopPropagation()</code></td>
+            </tr>
+            <tr>
+                <td><code>.prevent</code></td>
+                <td><code>event.preventDefault()</code></td>
+            </tr>
+            <tr>
+                <td><code>.self</code></td>
+                <td><code>if (event.target !== event.currentTarget) return</code></td>
+            </tr>
+            <tr>
+                <td>Phím:<br><code>.enter</code>, <code>.13</code></td>
+                <td><code>if (event.keyCode !== 13) return</code> (thay <code>13</code> bằng <a
+                        href="http://keycode.info/" target="_blank" rel="noopener">một mã phím khác</a> đối với các
+                    modifier khác)</td>
+            </tr>
+            <tr>
+                <td>Modifier cho phím:<br><code>.ctrl</code>, <code>.alt</code>, <code>.shift</code>, <code>.meta</code>
+                </td>
+                <td><code>if (!event.ctrlKey) return</code> (thay <code>ctrlKey</code> bằng <code>altKey</code>,
+                    <code>shiftKey</code>, hoặc <code>metaKey</code> tương ứng)</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>Đây là một ví dụ dùng tất cả các modifier trên cùng một lúc:</p>
+    <pre>
+        on: {
+            keyup: function (event) {
+                // Dừng thực thi nếu phần tử đang phát ra sự kiện
+                // không phải là phần tử được bind sự kiện
+                if (event.target !== event.currentTarget) return
+                // Dừng thực thi nếu phím đang được thả không phải là
+                // enter (13) và người dùng không đồng thời nhấn shift
+                if (!event.shiftKey || event.keyCode !== 13) return
+                // Ngừng lan truyền sự kiện
+                event.stopPropagation()
+                // Chặn hàm xử lí keyup mặc định dành cho phần tử hiện hành
+                event.preventDefault()
+                // ...
+            }
+        }
+    </pre>
+
+    <h3 id="Slot"><a href="#Slot" class="headerlink" title="Slot" data-scroll="">Slot</a></h3>
+    <p>Bạn có thể truy xuất đến các nội dung tĩnh của <a href="https://vi.vuejs.org/v2/guide/components.html#Phan-bo-noi-dung-voi-slot">slot</a> dưới dạng các mảng VNode thông qua <a href="../api/#vm-slots"><code>this.$slots</code></a>:</p>
+    <pre>
+        <b>JS:</b>
+        render: function (createElement) {
+            // `&lt;div&gt;&lt;slot&gt;&lt;/slot&gt;&lt;/div&gt;`
+            return createElement('div', this.$slots.default)
+        }
+    </pre>
+    <p>và truy xuất đến các <a href="https://vi.vuejs.org/v2/guide/components.html#Scoped-slot">scoped slot</a> dưới dạng các hàm trả về VNode thông qua <a href="../api/#vm-scopedSlots"><code>this.$scopedSlots</code></a>:</p>
+    <pre>
+        <b>JS:</b>
+        props: ['message'],
+        render: function (createElement) {
+            // `&lt;div&gt;&lt;slot&gt; :text="message"&gt;&lt;/slot&gt;&lt;/div&gt;`
+            return createElement('div', [
+                this.$scopedSlots.default({
+                    text: this.message
+                })
+            ])
+        }
+    </pre>
+    <p>Để truyền các scoped slot vào một component con bằng hàm render, dùng trường <code>scopeSlots</code> trong dữ liệu của VNode:</p>
+    <pre>
+        <b>JS:</b>
+        render: function (createElement) {
+            return createElement('div', [
+                createElement('child', {
+                    // truyền `scopedSlots` trong object dữ liệu dưới dạng
+                    // { name: props =&gt; VNode | Array&lt;VNode&gt; }
+                    scopedSlots: {
+                        default: function (props) {
+                            return createElement('span', props.text)
+                        }
+                    }
+                })
+            ])
+        }
+    </pre>
+</body>
+</html>
