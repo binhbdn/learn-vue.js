@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - TypeScript Support - Annotating Return Types</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>TypeScript Support</h1>
+    <h2>Annotating Return Types</h2>
+    <p>Because of the circular nature of Vue’s declaration files, TypeScript may have difficulties inferring the types of certain methods. For this reason, you may need to annotate the return type on methods like <code>render</code> and those in <code>computed</code>.</p>
+    <pre>
+        import Vue, { VNode } from 'vue'
+
+        const Component = Vue.extend({
+          data () {
+            return {
+              msg: 'Hello'
+            }
+          },
+          methods: {
+            // need annotation due to `this` in return type
+            greet (): string {
+              return this.msg + ' world'
+            }
+          },
+          computed: {
+            // need annotation
+            greeting(): string {
+              return this.greet() + '!'
+            }
+          },
+          // `createElement` is inferred, but `render` needs return type
+          render (createElement): VNode {
+            return createElement('div', this.greeting)
+          }
+        })
+    </pre>
+    <p>If you find type inference or member completion isn’t working, annotating certain methods may help address these problems. Using the <code>--noImplicitAny</code> option will help find many of these unannotated methods.</p>
+</body>
+</html>
