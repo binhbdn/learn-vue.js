@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Passing Attributes and Events to Child Elements/Components</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Render Functions & JSX / Các hàm render & JSX</h1>
+    <h2>Functional Components</h2>
+    <h3>Passing Attributes and Events to Child Elements/Components<br>Truyền thuộc tính và sự kiện xuống phần tử hoặc component con</h3>
+    <p>Với những component thông thường, các thuộc tính (attribute) không được định nghĩa dưới dạng prop sẽ được thêm vào phần tử gốc (root element) của component, thay thế hoặc <a href="https://vi.vuejs.org/v2/guide/class-and-style.html">merge một cách thông minh</a> các thuộc tính trùng tên có sẵn.</p>
+    <p>Tuy nhiên, các component chức năng bắt buộc bạn phải định nghĩa minh bạch hành vi này:</p>
+    <pre>
+        <b>JS:</b>
+        Vue.component('my-functional-button', {
+            functional: true,
+            render: function (createElement, context) {
+                // Transparently pass any attributes, event listeners, children, etc.
+                // Truyền các thuộc tính, hàm lắng nghe sự kiện, các phần tử con v.v.
+                return createElement('button', context.data, context.children)
+            }
+        })
+    </pre>
+    <p>Bằng cách truyền <code>context.data</code> làm tham số thứ hai cho <code>createElement</code>, chúng ta đang truyền xuống bất cứ thuộc tính hoặc hàm lắng nghe sự kiện nào được dùng trong <code>my-function-button</code>. Việc này minh bạch đến mức các sự kiện này thậm chí không cần modifier <code>.native</code>.</p>
+    <p>Nếu đang dùng component chức năng dựa trên template, bạn cũng sẽ phải tự thêm vào các thuộc tính và hàm lắng nghe sự kiện. Vì có quyền truy xuất đến các nội dung ngữ cảnh riêng biệt, chúng ta có thể dùng <code>data.attrs</code> để truyền xuống các thuộc tính HTML và dùng <code>listeners</code> <em>(alias của <code>data.on</code>)</em> để truyền xuống các hàm lắng nghe sự kiện.</p>
+    <pre>
+        <b>JS:</b>
+        &lt;template functional&gt;
+            &lt;button
+                class="btn btn-primary"
+                v-bind="data.attrs"
+                v-on="listeners"
+            &gt;
+                &lt;slot/&gt;
+            &lt;/button&gt;
+        &lt;/template&gt;
+    </pre>
+</body>
+</html>
