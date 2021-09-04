@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - End-to-End (E2E) Testing - Choosing Your Framework</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>End-to-End (E2E) Testing</h1>
+    <h2>Choosing Your Framework</h2>
+    <p>While end-to-end (E2E) testing on the web has gained a negative reputation for unreliable (flaky) tests and slowing down development processes, modern E2E tools have made strides forward to create more reliable, interactive, and useful tests. When choosing an E2E testing framework, the following sections provide some guidance on things to keep in mind when choosing a testing framework for your application.</p>
+
+    <h3 id="Cross-browser-testing"><a href="#Cross-browser-testing" class="headerlink" title="Cross-browser testing"></a>Cross-browser testing</h3>
+    <p>One of the primary benefits that end-to-end (E2E) testing is known for is its ability to test your application across multiple browsers. While it may seem desirable to have 100% cross-browser coverage, it is important to note that cross browser testing has diminishing returns on a team’s resources due the additional time and machine power required to run them consistently. As a result, it is important to be mindful of this trade-off when choosing the amount of cross-browser testing your application needs.</p>
+    <p class="tip">A recent development in E2E for catching browser-specific issues is using application monitoring and error reporting tools (e.g., Sentry, LogRocket, etc.) for browsers that are not as commonly used (e.g., &lt; IE11, older Safari versions, etc.).</p>
+
+    <h3 id="Faster-feedback-loops"><a href="#Faster-feedback-loops" class="headerlink" title="Faster feedback loops"></a>Faster feedback loops</h3>
+    <p>One of the primary problems with end-to-end (E2E) tests and development is that running the entire suite takes a long time. Typically, this is only done in continuous integration and deployment (CI/CD) pipelines. Modern E2E testing frameworks have helped to solve this by adding features like parallelization, which allows for CI/CD pipelines to often run magnitudes faster than before. In addition, when developing locally, the ability to selectively run a single test for the page you are working on while also providing hot reloading of tests can help to boost a developer’s workflow and productivity.</p>
+
+    <h3 id="First-class-debugging-experience"><a href="#First-class-debugging-experience" class="headerlink" title="First class debugging experience"></a>First class debugging experience</h3>
+    <p>While developers have traditionally relied on scanning logs in a terminal window to help determine what went wrong in a test, modern end-to-end (E2E) test frameworks allow developers to leverage tools that they are already familiar with, e.g. browser developer tools.</p>
+
+    <h3 id="Visibility-in-headless-mode"><a href="#Visibility-in-headless-mode" class="headerlink" title="Visibility in headless mode"></a>Visibility in headless mode</h3>
+    <p>When end-to-end (E2E) tests are run in continuous integration / deployment pipelines, they are often run in headless browsers (i.e., no visible browser is opened for the user to watch). As a result, when errors occur, a critical feature that modern E2E testing frameworks provide 1st class support for is the ability to see snapshots and/or videos of your applications during various testing stages in order to provide insight into why errors are happening. Historically, it was tedious to maintain these integrations.</p>
+</body>
+</html>
