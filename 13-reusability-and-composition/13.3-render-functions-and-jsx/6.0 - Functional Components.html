@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Render Functions & JSX - Functional Components</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Render Functions & JSX / Các hàm render & JSX</h1>
+    <h2>Functional Components</h2>
+    <p>Component mà ta vừa viết còn khá đơn giản - nó không quản lí trạng thái, không theo dõi trạng thái được truyền vào, và không có bất kì phương thức vòng đời (life-cycle method) nào. Thật sự nó chỉ là một hàm với vài thuộc tính (prop).</p>
+    <p>Trong những trường hợp như thế, ta có thể đánh dấu component là <code>functional</code>. Một functional component (component thuần chức năng) không có trạng thái (stateless – không có <code>data</code>), không có đối tượng (instanceless – không có ngữ cảnh <code>this</code>), và trông như thế này:</p>
+    <pre>
+        <b>JS:</b>
+        Vue.component('my-component', {
+            functional: true,
+            // Để bù cho việc thiếu một đối tượng, một tham số `context`
+            // được truyền vào, tham chiếu đến ngữ cảnh hiện tại.
+            render: function (createElement, context) {
+                // ...
+            },
+            // Props là không bắt buộc
+            props: {
+                // ...
+            }
+        })
+    </pre>
+    <blockquote>
+        <p>Trong các phiên bản trước 2.3.0, tùy chọn <code>props</code> là bắt buộc nếu bạn muốn nhận props trong một functional component. Từ phiên bản 2.3.0 trở về sau, bạn có thể bỏ qua tùy chọn <code>props</code>, và khi đó tất cả các thuộc tính tìm thấy trên component node sẽ được trích xuất ngầm thành props.</p>
+    </blockquote>
+    <p>Từ bản 2.5.0 trở đi, nếu bạn đang dùng <a href="https://vi.vuejs.org/v2/guide/single-file-components.html">single-file component</a>, functional component dựa trên template có thể được khai báo như sau:</p>
+    <pre>
+        <b>HTML:</b>
+        &lt;template functional&gt;
+        &lt;/template&gt;
+    </pre>
+    <p>Mọi thứ mà component cần được truyền vào thông qua <code>context</code>, một object chứa:</p>
+    <ul>
+        <li><code>props</code>: Một object chứa các prop được cung cấp</li>
+        <li><code>children</code>: Một mảng các VNode con</li>
+        <li><code>slots</code>: Một hàm trả về một object chứa các slot</li>
+        <li><code>data</code>: Toàn bộ object data truyền vào component</li>
+        <li><code>parent</code>: Trỏ đến component cha</li>
+        <li><code>listeners</code>: (2.3.0+) Một object chứa các hàm lắng nghe sự kiện được đăng kí ở component cha. Đây là một tên khác của <code>data.on</code>.</li>
+        <li><code>injections</code>: (2.3.0+) Chứa các injection đã được resolve (phân giải), nếu sử dụng tùy chọn <a href="https://vi.vuejs.org/v2/api/#provide-inject"><code>inject</code></a></li>
+    </ul>
+    <p>Sau khi thêm <code>functional: true</code> vào component <code>AnchorHeading</code>, chúng ta cần thêm những thay đổi sau đây vào hàm render của component này: thêm tham số  <code>context</code>, thay <code>this.$slots.default</code> bằng <code>context.children</code>, và thay <code>this.level</code> bằng <code>context.props.level</code>.</p>
+    <p>Vì chỉ là hàm đơn thuần, việc render các functional component ít tốn kém nhiều so với component thông thường.</p>
+    <p>Functional component cũng rất hữu dụng trong vai trò wrapper component. Ví dụ, khi bạn cần:</p>
+    <ul>
+        <li>Chọn một trong số vài component khác thông qua code để delegate (ủy nhiệm)</li>
+        <li>Chỉnh sửa các phần tử con, props, hoặc data trước khi truyền vào một component con</li>
+    </ul>
+    <p>Sau đây là một ví dụ về một component <code>smart-list</code>, component này đóng vai trò “delegate” cho các component cụ thể hơn dựa trên các prop được truyền vào:</p>
+    <pre>
+        <b>JS:</b>
+        var EmptyList = { /* ... */ }
+        var TableList = { /* ... */ }
+        var OrderedList = { /* ... */ }
+        var UnorderedList = { /* ... */ }
+        
+        Vue.component('smart-list', {
+          functional: true,
+          render: function (createElement, context) {
+            function appropriateListComponent () {
+              var items = context.props.items
+        
+              if (items.length === 0)           return EmptyList
+              if (typeof items[0] === 'object') return TableList
+              if (context.props.isOrdered)      return OrderedList
+        
+              return UnorderedList
+            }
+        
+            return createElement(
+              appropriateListComponent(),
+              context.data,
+              context.children
+            )
+          },
+          props: {
+            items: {
+              type: Array,
+              required: true
+            },
+            isOrdered: Boolean
+          }
+        })
+    </pre>
+    <h3>Thực hành:</h3>
+    <div id="app60" class="demo">
+        <anchored-heading :level="1">Hello Heading Level 1!</anchored-heading>
+        <anchored-heading :level="2">Hello Heading Level 2!</anchored-heading>
+    </div>
+
+    <script src="6.0.js"></script>
+</body>
+</html>
