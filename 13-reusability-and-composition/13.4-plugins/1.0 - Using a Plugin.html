@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Using a Plugin</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Using a Plugin</h1>
+    <p>Use plugins by calling the <code>Vue.use()</code> global method. This has to be done before you start your app by calling <code>new Vue()</code>:</p>
+    <pre>
+        <b>JS:</b>
+        // calls `MyPlugin.install(Vue)`
+        Vue.use(MyPlugin)
+        
+        new Vue({
+            //... options
+        })
+    </pre>
+    <p>Bạn cũng có thể truyền thêm vào một số tùy chọn:</p>
+    <pre>
+        <b>JS:</b>
+        Vue.use(MyPlugin, { someOption: true })
+    </pre>
+    <p><code>Vue.use</code> tự động ngăn không cho sử dụng một plugin nhiều lần, vì vậy cho dù chúng ta có gọi <code>Vue.use(MyPlugin)</code> mười lần thì <code>MyPlugin</code> cũng sẽ chỉ được cài đặt một lần thôi.</p>
+    <p>Một số plugin tự động gọi <code>Vue.use()</code> nếu phát hiện thấy biến toàn cục <code>Vue</code>. Tuy nhiên trong một môi trường module, ví dụ như CommonJS, bạn cần phải gọi <code>Vue.use()</code> một cách tường minh:</p>
+    <pre>
+        <b>JS:</b>
+        // When using CommonJS via Browserify or Webpack
+        // Khi dùng CommonJS với Browserify hoặc Webpack…
+        var Vue = require('vue')
+        var VueRouter = require('vue-router')
+        
+        // Don't forget to call this
+        // …đừng quên gọi Vue.use()
+        Vue.use(VueRouter)
+    </pre>
+    <p>Repository <a href="https://github.com/vuejs/awesome-vue#components--libraries" target="_blank" rel="noopener">awesome-vue</a> chứa rất nhiều plugin và thư viện do cộng đồng đóng góp – khi thấy buồn bạn cứ đến chơi.</p>
+</body>
+</html>
