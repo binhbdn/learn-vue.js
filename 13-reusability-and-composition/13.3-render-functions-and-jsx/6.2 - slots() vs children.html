@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - slots() vs children</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Render Functions & JSX / Các hàm render & JSX</h1>
+    <h2>Functional Components</h2>
+    <h3 id="slots-vs-children" tabindex="-1" style="outline: none;"><a href="#slots-vs-children" class="headerlink" title="slots() vs children" data-scroll=""><code>slots()</code> vs <code>children</code></a></h3>
+    <h3 id="So-sanh-giua-slots-va-children"><a href="#So-sanh-giua-slots-va-children" class="headerlink" title="So sánh giữa slots() và children" data-scroll="">So sánh giữa <code>slots()</code> và <code>children</code></a></h3>
+    <p>Bạn có thể tự hỏi tại sao chúng ta lại cần cả hai <code>slots()</code> và <code>children</code>. Chẳng phải <code>slots().default</code> và <code>children</code> là như nhau hay sao? Trong một số trường hợp thì điều này là đúng, tuy nhiên hãy xem một functional component với các phần tử con như sau:</p>
+    <pre>
+        <b>HTML:</b>
+        &lt;my-functional-component&gt;
+            &lt;p slot="foo"&gt;
+                thứ nhất
+            &lt;/p&gt;
+            &lt;p&gt;thứ hai&lt;/p&gt;
+        &lt;/my-functional-component&gt;
+    </pre>
+    <p>Trong component này, <code>children</code> sẽ chứa cả hai phần tử <code>&lt;p&gt;</code>, <code>slots().default</code> chỉ chứa phần tử thứ hai, và<code>slots().foo</code> chỉ chứa phần tử thứ nhất. Việc có cả hai <code>children</code> và <code>slots()</code> vì vậy sẽ cho phép bạn quyết định component này có biết về hệ thống slot hay không, hoặc có thể giao phó trách nhiệm này cho một component khác bằng cách truyền <code>children</code>.</p>
+</body>
+</html>
