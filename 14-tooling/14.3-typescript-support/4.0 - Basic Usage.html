@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - TypeScript Support - Basic Usage</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>TypeScript Support</h1>
+    <h2>Basic Usage</h2>
+    <p>To let TypeScript properly infer types inside Vue component options, you need to define components with <code>Vue.component</code> or <code>Vue.extend</code>:</p>
+    <pre>
+        import Vue from 'vue'
+
+        const Component = Vue.extend({
+          // type inference enabled
+        })
+        
+        const Component = {
+          // this will NOT have type inference,
+          // because TypeScript can't tell this is options for a Vue component.
+        }
+    </pre>
+</body>
+</html>
