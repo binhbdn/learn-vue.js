@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - TypeScript Support - Augmenting Types for Use with Plugins</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>TypeScript Support</h1>
+    <h2>Augmenting Types for Use with Plugins</h2>
+    <p>Plugins may add to Vue’s global/instance properties and component options. In these cases, type declarations are needed to make plugins compile in TypeScript. Fortunately, there’s a TypeScript feature to augment existing types called <a href="https://www.typescriptlang.org/docs/handbook/declaration-merging.html#module-augmentation" target="_blank" rel="noopener">module augmentation</a>.</p>
+    <p>For example, to declare an instance property <code>$myProperty</code> with type <code>string</code>:</p>
+    <pre>
+        // 1. Make sure to import 'vue' before declaring augmented types
+        import Vue from 'vue'
+        
+        // 2. Specify a file with the types you want to augment
+        //    Vue has the constructor type in types/vue.d.ts
+        declare module 'vue/types/vue' {
+          // 3. Declare augmentation for Vue
+          interface Vue {
+            $myProperty: string
+          }
+        }
+    </pre>
+    <p>After including the above code as a declaration file (like <code>my-property.d.ts</code>) in your project, you can use <code>$myProperty</code> on a Vue instance.</p>
+    <pre>
+        var vm = new Vue()
+        console.log(vm.$myProperty) // This should compile successfully
+    </pre>
+    <p>You can also declare additional global properties and component options:</p>
+    <pre>
+        import Vue from 'vue'
+
+        declare module 'vue/types/vue' {
+          // Global properties can be declared
+          // on the `VueConstructor` interface
+          interface VueConstructor {
+            $myGlobal: string
+          }
+        }
+        
+        // ComponentOptions is declared in types/options.d.ts
+        declare module 'vue/types/options' {
+          interface ComponentOptions&lt;V extends Vue&gt; {
+            myOption?: string
+          }
+        }
+    </pre>
+    <p>The above declarations allow the following code to be compiled:</p>
+    <pre>
+        // Global property
+        console.log(Vue.$myGlobal)
+        
+        // Additional component option
+        var vm = new Vue({
+          myOption: 'Hello'
+        })
+    </pre>
+</body>
+</html>
