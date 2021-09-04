@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Render Functions & JSX - createElement Arguments</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Render Functions & JSX / Các hàm render & JSX</h1>
+    <h2>createElement Arguments / Các tham số của createElement</h2>
+    <p>Điều tiếp theo mà bạn cần thông thạo là cách dùng các tính năng của template trong hàm <code>createElement</code>. Đây là danh sách các tham số mà <code>createElement</code> nhận:</p>
+    <pre>
+        <b>JS:</b>
+        // @returns {VNode}
+        createElement(
+          // {String | Object | Function}
+          // Một tên thẻ HTML, các tùy chọn cho component, hoặc một hàm
+          // phân giải thành một trong những thứ này. Bắt buộc.
+          'div',
+        
+          // {Object}
+          // Một "data object" chứa dữ liệu tương ứng với các thuộc tính
+          // mà bạn muốn dùng trong một template. Không bắt buộc.
+          {
+            // (Xem chi tiết ở phần tiếp theo bên dưới)
+          },
+        
+          // {String | Array}
+          // Các VNode con, được tạo ra bằng cách dùng `createElement()`,
+          // hoặc dùng chuỗi để tạo các 'text VNode'. Không bắt buộc.
+          [
+            'Một ít text trước.',
+            createElement('h1', 'Một tiêu đề'),
+            createElement(MyComponent, {
+              props: {
+                someProp: 'foobar'
+              }
+            })
+          ]
+        )
+    </pre>
+</body>
+</html>
