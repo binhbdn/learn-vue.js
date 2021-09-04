@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - TypeScript Support - Recommended Configuration</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>TypeScript Support</h1>
+    <h2>Recommended Configuration</h2>
+    <pre>
+        <b>JS:</b>
+        // tsconfig.json
+        {
+            "compilerOptions": {
+                // this aligns with Vue's browser support
+                "target": "es5",
+                // this enables stricter inference for data properties on `this`
+                "strict": true,
+                // if using webpack 2+ or rollup, to leverage tree shaking:
+                "module": "es2015",
+                "moduleResolution": "node"
+            }
+        }
+    </pre>
+    <p>Note that you have to include <code>strict: true</code> (or at least <code>noImplicitThis: true</code> which is a part of <code>strict</code> flag) to leverage type checking of <code>this</code> in component methods otherwise it is always treated as <code>any</code> type.</p>
+    <p>See <a href="https://www.typescriptlang.org/docs/handbook/compiler-options.html" target="_blank" rel="noopener">TypeScript compiler options docs</a> for more details.</p>
+</body>
+</html>
