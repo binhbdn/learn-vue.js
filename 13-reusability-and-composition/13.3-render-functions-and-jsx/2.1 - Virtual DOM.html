@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Render Functions & JSX - Virtual DOM</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Render Functions & JSX / Các hàm render & JSX</h1>
+    <h2>Nodes, Trees, and the Virtual DOM</h2>
+    <h3>Virtual DOM</h3>
+    <p>Vue làm được điều này nhờ vào việc xây dựng một <strong>virtual DOM</strong> (DOM ảo) để theo dõi tất cả những thay đổi cần thực hiện đối với DOM thật. Bạn hãy nhìn kĩ dòng này:</p>
+    <pre>
+        <b>JS:</b>
+        return createElement('h1', this.blogTitle)
+    </pre>
+    <p>Lệnh <code>createElement</code> ở đây thực chất là đang trả về cái gì? <em>Không hẳn</em> là một element (phần tử) DOM thật sự. Nếu nói cho đúng, chúng ta có thể đặt lại tên cho hàm này một cách chính xác hơn là <code>createNodeDescription</code>, vì nó chứa những thông tin mô tả node mà Vue cần biết để render, bao gồm cả mô tả cho các node con. Chúng ta gọi mô tả này là một “virtual node” (node ảo), thường viết tắt là <strong>VNode</strong>. “Virtual DOM” là tên của toàn bộ một cây các VNode, được xây dựng từ một cây các component Vue.</p>
+</body>
+</html>
