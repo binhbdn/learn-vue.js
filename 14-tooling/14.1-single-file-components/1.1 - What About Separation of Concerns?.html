@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - What About Separation of Concerns?</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Single File Components</h1>
+    <h2>Introduction</h2>
+    <h3>What About Separation of Concerns?</h3>
+    <p>One important thing to note is that <strong>separation of concerns is not equal to separation of file types.</strong> In modern UI development, we have found that instead of dividing the codebase into three huge layers that interweave with one another, it makes much more sense to divide them into loosely-coupled components and compose them. Inside a component, its template, logic and styles are inherently coupled, and collocating them actually makes the component more cohesive and maintainable.</p>
+    <p>Even if you don’t like the idea of Single-File Components, you can still leverage its hot-reloading and pre-compilation features by separating your JavaScript and CSS into separate files:</p>
+    <pre>
+        <b>VUE:</b>
+        &lt;!-- my-component.vue --&gt;
+        &lt;template&gt;
+            &lt;div&gt;This will be pre-compiled&lt;/div&gt;
+        &lt;/template&gt;
+        &lt;script src="./my-component.js"&gt;&lt;/script&gt;
+        &lt;style src="./my-component.css"&gt;&lt;/style&gt;
+    </pre>
+</body>
+</html>
