@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Render Functions & JSX - Basics</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Render Functions & JSX / Các hàm render & JSX</h1>
+    <h2>Basics / Cơ bản</h2>
+    <p>Trong đại đa số các trường hợp, Vue khuyến khích sử dụng template để xây dựng HTML. Tuy nhiêu có một số trường hợp bạn cần dùng đến sức mạnh của JavaScript. Những lúc này bạn có thể dùng <strong>hàm render</strong> (render function), một giải pháp gần hơn với trình biên dịch, để thay thế cho template.</p>
+    <p>Chúng ta hãy xem một ví dụ đơn giản trong đó một hàm <code>render</code> trở nên hữu ích. Chẳng hạn, bạn muốn tạo các tiêu đề <code>h1</code>, <code>h2</code>, <code>h3</code>… chứa liên kết, như sau:</p>
+    <pre>
+        <b>HTML:</b>
+        &lt;h1&gt;
+            &lt;a name="hello-world" href="#hello-world"&gt;
+                Hello world!
+            &lt;/a&gt;
+        &lt;/h1&gt;
+    </pre>
+    <p>Từ đoạn HTML trên, bạn quyết định tạo một giao diện component như sau:</p>
+    <pre>
+        <b>HTML:</b>
+        &lt;anchored-heading-template :level="1"&gt;Hello world!&lt;/anchored-heading-template&gt;
+    </pre>
+    <p>Khi bắt đầu với một component chỉ tạo thẻ tiêu đề dựa trên prop <code>level</code> được truyền vào, bạn sẽ nhanh chóng đi đến một kết quả trông như thế này:</p>
+    <pre>
+        <b>HTML:</b>
+        &lt;script type="text/x-template" id="anchored-heading-template"&gt;
+            &lt;h1 v-if="level === 1"&gt;
+              &lt;slot&gt;&lt;/slot&gt;
+            &lt;/h1&gt;
+            &lt;h2 v-else-if="level === 2"&gt;
+              &lt;slot&gt;&lt;/slot&gt;
+            &lt;/h2&gt;
+            &lt;h3 v-else-if="level === 3"&gt;
+              &lt;slot&gt;&lt;/slot&gt;
+            &lt;/h3&gt;
+            &lt;h4 v-else-if="level === 4"&gt;
+              &lt;slot&gt;&lt;/slot&gt;
+            &lt;/h4&gt;
+            &lt;h5 v-else-if="level === 5"&gt;
+              &lt;slot&gt;&lt;/slot&gt;
+            &lt;/h5&gt;
+            &lt;h6 v-else-if="level === 6"&gt;
+              &lt;slot&gt;&lt;/slot&gt;
+            &lt;/h6&gt;
+        &lt;/script&gt;
+    </pre>
+    <pre>
+        <b>JS:</b>
+        Vue.component('anchored-heading-template', {
+            template: '#anchored-heading-template',
+            props: {
+                level: {
+                    type: Number,
+                    required: true
+                }
+            }
+        })
+    </pre>
+    <p>Rõ ràng đây không phải là một template tốt. Chẳng những nó quá rườm rà, mà ở đây chúng ta còn lặp lại <code>&lt;slot&gt;&lt;/slot&gt;</code> cho mỗi level, và lại phải thực hiện một quá trình tương tự khi thêm phần tử <code>&lt;a&gt;</code>. Vì thế, hãy thử viết lại với một hàm <code>render</code>:</p>
+    <pre>
+        <b>JS:</b>
+        Vue.component('anchored-heading', {
+            render: function (createElement) {
+                return createElement(
+                    'h' + this.level,   // tên thẻ
+                    this.$slots.default // mảng các phần tử con
+                )
+            },
+            props: {
+                level: {
+                    type: Number,
+                    required: true
+                }
+            }
+        })
+    </pre>
+    <p>Đơn giản hơn nhiều! Đại để thế. Code trở nên ngắn hơn, nhưng cũng đòi hỏi bạn phải quen thuộc hơn với các thuộc tính của đối tượng Vue. Trong trường hợp này, bạn phải biết rằng khi truyền các phần tử con không có thuộc tính <code>slot</code> vào trong một component, ví dụ <code>Hello world!</code> trong <code>anchored-heading</code>, các phần tử con này được chứa trong đối tượng component tại <code>$slots.default</code>. Chúng tôi khuyên bạn <strong>nên đọc về <a href="https://vuejs.org/v2/api/#Instance-Properties">các API của các thuộc tính của đối tượng Vue</a> trước khi đi sâu nghiên cứu về các hàm render</strong>.</p>
+
+    <h3>Thực hành:</h3>
+    <h4>Dùng x-template</h4>
+    <script type="text/x-template" id="anchored-heading-template">
+        <h1 v-if="level === 1">
+          <slot></slot>
+        </h1>
+        <h2 v-else-if="level === 2">
+          <slot></slot>
+        </h2>
+        <h3 v-else-if="level === 3">
+          <slot></slot>
+        </h3>
+        <h4 v-else-if="level === 4">
+          <slot></slot>
+        </h4>
+        <h5 v-else-if="level === 5">
+          <slot></slot>
+        </h5>
+        <h6 v-else-if="level === 6">
+          <slot></slot>
+        </h6>
+    </script>
+    <div id="app10a" class="demo">
+        <anchored-heading-template :level="1">Hello world!</anchored-heading-template>
+        <anchored-heading-template :level="2">Hello world!</anchored-heading-template>
+    </div>
+
+    <h4>Dùng render function</h4>
+    <div id="app10b" class="demo">
+        <anchored-heading :level="1">Hello world!</anchored-heading>
+        <anchored-heading :level="2">Hello world!</anchored-heading>
+    </div>
+
+    <script src="1.0.js"></script>
+</body>
+</html>
