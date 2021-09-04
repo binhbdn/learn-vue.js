@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Filter</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Filter</h1>
+    <p>Vue cho phép bạn định nghĩa các filter (bộ lọc) dùng để áp dụng các định dạng văn bản thường gặp. Bạn có thể sử dụng filter ở hai chỗ: <strong>trong thẻ mustache</strong> và <strong>trong các biểu thức <code>v-bind</code></strong> (trường hợp sau này được hỗ trợ từ phiên bản 2.1.0 trở đi). Filter được đặt ở cuối một biểu thức JavaScript,  should be appended to the end of the JavaScript expression, biểu thị bằng kí hiệu <code>|</code>:</p>
+    <pre>
+        <b>HTML:</b>
+        &lt;!-- in mustaches --&gt;
+        {{ message | capitalize }}
+
+        &lt;!-- in v-bind --&gt;
+        &lt;div v-bind:id="rawId | formatId"&gt;&lt;/div&gt;
+    </pre>
+    <p>Bạn có thể định nghĩa filter ở cấp cục bộ trong tùy chọn của một component:</p>
+    <pre>
+        <b>JS:</b>
+        filters: {
+            /** Viết hoa chữ đầu tiên */
+            capitalize: function (value) {
+                if (!value) return ''
+                value = value.toString()
+                return value.charAt(0).toUpperCase() + value.slice(1)
+            }
+        }
+    </pre>
+    <p>hoặc định nghĩa ở cấp toàn cục trước khi khởi tạo một đối tượng Vue:</p>
+    <pre>
+        <b>JS:</b>
+        /** Viết hoa chữ đầu tiên */
+        Vue.filter('capitalize', function (value) {
+            if (!value) return ''
+            value = value.toString()
+            return value.charAt(0).toUpperCase() + value.slice(1)
+        })
+        
+        new Vue({
+            // ...
+        })
+    </pre>
+    <p>When the global filter has the same name as the local filter, the local filter will be preferred.</p>
+    <p>Sau đây là một ví dụ sử dụng filter <code>capitalize</code> trên:</p>
+    <div id="example_1" class="demo">
+        <input v-model="message" type="text" placeholder="Nhập vào một câu">
+        <p>{{message | capitalize}}</p>
+    </div>
+    <p>Hàm filter luôn nhận giá trị của biểu thức làm tham số đầu tiên. Trong ví dụ trên, hàm <code>capitalize</code> sẽ nhận tham số đầu tiên là giá trị của <code>message</code>.</p>
+    <p>Ta cũng có thể nối các filter với nhau:</p>
+    <pre>
+        <b>HTML:</b>
+        {{ message | filterA | filterB }}
+    </pre>
+    <p>Trong ví dụ này, hàm <code>filterA</code> sẽ nhận giá trị của <code>message</code> làm tham số, sau đó hàm <code>filterB</code> sẽ được gọi với tham số là giá trị trả về của <code>filterA</code>.</p>
+    <p>Vì đơn giản chỉ là hàm JavaScript nên filter có thể nhận tham số:</p>
+    <pre>
+        <b>HTML:</b>
+        {{ message | filterA('value 1', arg2) }}
+    </pre>
+    <p>Ở đây <code>filterA</code> được định nghĩa dưới dạng một hàm nhận vào ba tham số theo thứ tự sau:</p>
+    <ol>
+        <li>Giá trị của <code>message</code></li>
+        <li>Chuỗi <code>'value 1'</code></li>
+        <li>Giá trị của biểu thức <code>arg2</code></li>
+    </ol>
+
+
+
+
+    <script src="1.0.js"></script>
+</body>
+</html>
