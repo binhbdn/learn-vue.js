@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Render Functions & JSX - JSX</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Render Functions & JSX / Các hàm render & JSX</h1>
+    <h2>JSX</h2>
+    <p>Nếu dùng nhiều hàm <code>render</code>, có lẽ bạn sẽ cảm thấy khá cực nhọc khi phải viết đi viết lại những dòng code như thế này:</p>
+    <pre>
+        <b>JS:</b>
+        createElement(
+            'anchored-heading', {
+                props: {
+                    level: 1
+                }
+            }, [
+                createElement('span', 'Hello'),
+                ' world!'
+            ]
+        )
+    </pre>
+    <p>Nhất là khi nếu dùng template thì đơn giản hơn nhiều:</p>
+    <pre>
+        <b>HTML:</b>
+        &lt;anchored-heading :level="1"&gt;
+            &lt;span&gt;Hello&lt;/span&gt; world!
+        &lt;/anchored-heading&gt;
+    </pre>
+    <p>Đó là lí do Vue cung cấp một <a href="https://github.com/vuejs/babel-plugin-transform-vue-jsx" target="_blank" rel="noopener">plugin dành cho Babel</a> để dùng JSX với Vue, giúp chúng ta quay lại sử dụng một cú pháp gần gũi hơn với template:</p>
+    <pre>
+        <b>JS:</b>
+        import AnchoredHeading from './AnchoredHeading.vue'
+
+        new Vue({
+            el: '#demo',
+            render: function (h) {
+                return (
+                    &lt;AnchoredHeading level={1}&gt;
+                        &lt;span&gt;Hello&lt;/span&gt; world!
+                    &lt;/AnchoredHeading&gt;
+                )
+            }
+        })
+    </pre>
+    <p class="tip">Dùng <code>h</code> thay cho <code>createElement</code> là một quy ước thông dụng trong hệ sinh thái của Vue, đồng thời là bắt buộc đối với JSX. Nếu <code>h</code> không tồn tại trong scope, ứng dụng của bạn sẽ xảy ra lỗi.</p>
+    <p>Để biết thêm chi tiết về cách thức đối chiếu từ JSX sang JavaScript, hãy <a href="https://github.com/vuejs/babel-plugin-transform-vue-jsx#usage" target="_blank" rel="noopener">đọc kĩ hướng dẫn sử dụng trước khi dùng</a>.</p>
+</body>
+</html>
