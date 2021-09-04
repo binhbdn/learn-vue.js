@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Template Compilation</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Render Functions & JSX / Các hàm render & JSX</h1>
+    <h2>Template Compilation / Biên dịch template</h2>
+    <p>Có thể bạn muốn biết là các template của Vue thật ra là được biên dịch thành các hàm render. Đây là một chi tiết kĩ thuật nâng cao mà thông thường có lẽ bạn không cần phải quan tâm đến, tuy nhiên nếu muốn xem các tính năng template cụ thể được biên dịch như thế nào thì bạn có thể thấy việc đó khá thú vị. Bên dưới là một ví dụ nhỏ sử dụng <code>Vue.compile</code> để biên dịch một chuỗi template thành hàm render tại chỗ:</p>
+    <pre>
+        <b>HTML:</b>
+        &lt;div&gt;
+            &lt;header&gt;
+                &lt;h1&gt;I'm a template!&lt;/h1&gt;
+            &lt;/header&gt;
+            &lt;p v-if="message"&gt;{{ message }}&lt;/p&gt;
+            &lt;p v-else&gt;No message.&lt;/p&gt;
+        &lt;/div&gt;
+    </pre>
+    <p>render thành:</p>
+    <pre>
+        function anonymous() {
+            with(this){return _c('div',[_m(0),(message)?_c('p',[_v(_s(message))]):_c('p',[_v("No message.")])])}
+        }
+    </pre>
+    <p>staticRenderFns:</p>
+    <pre>
+        _m(0): function anonymous() {
+            with(this){return _c('header',[_c('h1',[_v("I'm a template!")])])}
+        }
+    </pre>
+</body>
+</html>
