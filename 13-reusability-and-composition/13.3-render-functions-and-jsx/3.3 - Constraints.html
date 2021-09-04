@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Render Functions & JSX - Constraints</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Render Functions & JSX / Các hàm render & JSX</h1>
+    <h2>createElement Arguments / Các tham số của createElement</h2>
+    <h3>Constraints / Một số hạn chế</h3>
+    <h4>VNode phải là duy nhất</h4>
+    <p>Tất cả các VNode trong cây component phải là duy nhất. Điều này có nghĩa là hàm render sau đây không hợp lệ:</p>
+    <pre>
+        <b>JS:</b>
+        render: function (createElement) {
+            var myParagraphVNode = createElement('p', 'hi')
+            return createElement('div', [
+                // Hai VNode này trùng nhau!
+                myParagraphVNode, myParagraphVNode
+            ])
+        }
+    </pre>
+    <p>Nếu thật sự muốn dùng cùng một phần tử hoặc component nhiều lần, bạn có thể dùng một hàm factory. Ví dụ, hàm render sau đây là một cách hoàn toàn hợp lệ để render 18 phần tử <code>&lt;p&gt;</code> giống nhau:</p>
+    <pre>
+        <b>JS:</b>
+        render: function (createElement) {
+            return createElement('div',
+                Array.apply(null, { length: 18 }).map(function () {
+                    return createElement('p', 'Hùng Vương')
+                })
+            )
+        }
+    </pre>
+</body>
+</html>
