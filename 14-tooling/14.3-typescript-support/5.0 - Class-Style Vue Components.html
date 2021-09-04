@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - TypeScript Support - Class-Style Vue Components</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>TypeScript Support</h1>
+    <h2>Class-Style Vue Components</h2>
+    <p>If you prefer a class-based API when declaring components, you can use the officially maintained <a href="https://github.com/vuejs/vue-class-component" target="_blank" rel="noopener">vue-class-component</a> decorator:</p>
+    <pre>
+        import Vue from 'vue'
+        import Component from 'vue-class-component'
+        
+        // The @Component decorator indicates the class is a Vue component
+        @Component({
+          // All component options are allowed in here
+          template: '<button @click="onClick">Click!</button>'
+        })
+        export default class MyComponent extends Vue {
+          // Initial data can be declared as instance properties
+          message: string = 'Hello!'
+        
+          // Component methods can be declared as instance methods
+          onClick (): void {
+            window.alert(this.message)
+          }
+        }
+    </pre>
+</body>
+</html>
