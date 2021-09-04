@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - TypeScript Support - Annotating Props</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>TypeScript Support</h1>
+    <h2>Annotating Props</h2>
+    <pre>
+        import Vue, { PropType } from 'vue'
+
+        interface ComplexMessage {
+          title: string,
+          okMessage: string,
+          cancelMessage: string
+        }
+        const Component = Vue.extend({
+          props: {
+            name: String,
+            success: { type: String },
+            callback: {
+              type: Function as PropType&lt;() =&gt; void&gt;
+            },
+            message: {
+              type: Object as PropType&lt;ComplexMessage&gt;,
+              required: true,
+              validator (message: ComplexMessage) {
+                return !!message.title;
+              }
+            }
+          }
+        })
+    </pre>
+    <p>If you find validator not getting type inference or member completion isn’t working, annotating the argument with the expected type may help address these problems.</p>
+</body>
+</html>
