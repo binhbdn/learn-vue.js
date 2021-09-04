@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Render Functions & JSX - The Data Object In-Depth</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Render Functions & JSX / Các hàm render & JSX</h1>
+    <h2>createElement Arguments / Các tham số của createElement</h2>
+    <h3>The Data Object In-Depth / Chi tiết về data object</h3>
+    <p>Một điểm cần lưu ý: tương tự với việc được <a href="https://vi.vuejs.org/v2/guide/class-and-style.html">đối xử đặc biệt</a> trong template, <code>v-bind:class</code> và <code>v-bind:style</code> cũng có các field (trường) riêng ở top-level (cấp cao nhất) trong data object của VNode. Object này cũng cho phép bạn bind (ràng buộc) các thuộc tính HTML thông thường cũng như các thuộc tính DOM như <code>innerHTML</code> (thay thế cho directive <code>v-html</code>):</p>
+    <pre>
+        <b>JS:</b>
+        {
+            // Có cùng API với `v-bind:class`
+            // a string, object, or array of strings and objects.
+            class: {
+              foo: true,
+              bar: false
+            },
+            // Có cùng API với `v-bind:style`
+            // a string, object, or array of objects.
+            style: {
+              color: 'red',
+              fontSize: '14px'
+            },
+            // Các thuộc tính HTML thông thường
+            attrs: {
+              id: 'foo'
+            },
+            // Các prop cho component
+            props: {
+              myProp: 'bar'
+            },
+            // Các thuộc tính DOM
+            domProps: {
+              innerHTML: 'baz'
+            },
+            // Các hàm xử lí sự kiện được lồng vào bên trong `on`,
+            // tuy rằng modifier (như trong `v-on:keyup.enter`) không được
+            // hỗ trợ. Thay vào đó, bạn sẽ phải tự kiểm tra keyCode bên
+            // trong hàm.
+            on: {
+              click: this.clickHandler
+            },
+            // Chỉ dành riêng cho component. Cho phép bạn lắng nghe các
+            // sự kiện native, thay vì các sự kiện được phát ra từ component
+            // bằng cách sử dụng `vm.$emit`.
+            nativeOn: {
+              click: this.nativeClickHandler
+            },
+            // Các directive tùy biến. Lưu ý là bạn không thể gán giá trị
+            // `oldValue`, vì Vue sẽ tự động quản lí giá trị này thay bạn.
+            directives: [
+              {
+                name: 'my-custom-directive',
+                value: '2',
+                expression: '1 + 1',
+                arg: 'foo',
+                modifiers: {
+                  bar: true
+                }
+              }
+            ],
+            // Các scoped slot dưới dạng
+            // { name: props =&gt; VNode | Array&lt;VNode&gt; }
+            scopedSlots: {
+              default: props =&gt; createElement('span', props.text)
+            },
+            // Tên của slot, nếu component này là con của một component khác
+            slot: 'name-of-slot',
+            // Các thuộc tính top-level khác
+            key: 'myKey',
+            ref: 'myRef'
+        }
+    </pre>
+</body>
+</html>
