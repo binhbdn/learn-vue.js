@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Writing a Plugin</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Writing a Plugin</h1>
+    <p>Một plugin cho Vue nên cung cấp một phương thức <code>install</code>. Phương thức này sẽ được gọi với tham số đầu tiên là hàm dựng <code>Vue</code>, cùng với các tùy chọn khác:</p>
+    <pre>
+        <b>JS:</b>
+        MyPlugin.install = function (Vue, options) {
+            // 1. add global method or property
+            // 1. Thêm phương thức hoặc thuộc tính cấp toàn cục
+            Vue.myGlobalMethod = function () {
+                // some logic ...
+            }
+          
+            // 2. add a global asset
+            // 2. Thêm một directive cấp toàn cục
+            Vue.directive('my-directive', {
+                bind (el, binding, vnode, oldVnode) {
+                    // some logic ...
+                }
+                ...
+            })
+          
+            // 3. inject some component options
+            // 3. Thêm một số tùy chọn cho component
+            Vue.mixin({
+                created: function () {
+                    // some logic ...
+                }
+                ...
+            })
+          
+            // 4. add an instance method
+            // 4. Thêm một phương thức đối tượng
+            Vue.prototype.$myMethod = function (methodOptions) {
+                // some logic ...
+            }
+        }
+    </pre>
+</body>
+</html>
