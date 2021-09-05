@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Production Deployment - Pre-Compiling Templates</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Production Deployment / Triển khai cho môi trường production</h1>
+    <blockquote>
+        <p>Most of the tips below are enabled by default if you are using <a href="https://cli.vuejs.org" target="_blank" rel="noopener">Vue CLI</a>. This section is only relevant if you are using a custom build setup.</p>
+    </blockquote>
+
+    <h2>Pre-Compiling Templates / Biên dịch trước template</h2>
+    <p>Khi sử dụng template trong DOM hoặc chuỗi template trong JavaScript, việc biên dịch template thành hàm render được thực hiện ngay trong quá trình chạy ứng dụng. Công đoạn biên dịch này thường là đủ nhanh cho đa số các trường hợp, nhưng tốt nhất vẫn nên tránh nếu ứng dụng của bạn cần đặt nặng về performance (hiệu suất).</p>
+    <p>Cách dễ nhất để biên dịch trước template là sử dụng <a href="single-file-components.html">Single-File Component</a>. Những cài đặt build liên quan sẽ tự động thực hiện việc biên dịch trước, nhờ đó mã sau khi build sẽ bao gồm những hàm render đã được biên dịch thay vì chuỗi template thô (raw template string).</p>
+    <p>Nếu bạn dùng Webpack và muốn tách biệt giữa JavaScript và các file template, có thể sử dụng <a href="https://github.com/ktsn/vue-template-loader" target="_blank" rel="noopener">vue-template-loader</a>. Công cụ này cũng sẽ chuyển hoá các file template thành hàm render của JavaScript trong quá trình build.</p>
+</body>
+</html>
