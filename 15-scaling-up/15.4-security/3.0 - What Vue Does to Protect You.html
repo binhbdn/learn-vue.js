@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Security - What Vue Does to Protect You</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Security</h1>
+    <h2>What Vue Does to Protect You</h2>
+    <h3 id="HTML-content"><a href="#HTML-content" class="headerlink" title="HTML content" data-scroll="">HTML content</a></h3>
+    <pre>
+        <b>HTML:</b>
+        &lt;h1&gt;{{ userProvidedString }}&lt;/h1&gt;
+    </pre>
+    <p>if <code>userProvidedString</code> contained:</p>
+    <pre>
+        <b>JS:</b>
+        '&lt;script&gt;&gt;alert("hi")&lt;/script&gt;'
+    </pre>
+    <p>then it would be escaped to the following HTML:</p>
+    <pre>
+        <b>HTML:</b>
+        &amp;lt;script&amp;gt;alert(&amp;quot;hi&amp;quot;)&amp;lt;/script&amp;gt;
+    </pre>
+    <p>thus preventing the script injection. This escaping is done using native browser APIs, like <code>textContent</code>, so a vulnerability can only exist if the browser itself is vulnerable.</p>
+
+    <h3 id="Attribute-bindings"><a href="#Attribute-bindings" class="headerlink" title="Attribute bindings" data-scroll="">Attribute bindings</a></h3>
+    <p>Similarly, dynamic attribute bindings are also automatically escaped. That means in this template:</p>
+    <pre>
+        <b>HTML:</b>
+        &lt;h1 v-bind:title="userProvidedString"&gt;
+            hello
+        &lt;/h1&gt;
+    </pre>
+    <p>if <code>userProvidedString</code> contained:</p>
+    <pre>
+        <b>JS:</b>
+        '" onclick="alert(\'hi\')'
+    </pre>
+    <p>then it would be escaped to the following HTML:</p>
+    <pre>
+        <b>HTML:</b>
+        &amp;quot; onclick=&amp;quot;alert('hi')
+    </pre>
+    <p>thus preventing the close of the <code>title</code> attribute to inject new, arbitrary HTML. This escaping is done using native browser APIs, like <code>setAttribute</code>, so a vulnerability can only exist if the browser itself is vulnerable.</p>
+</body>
+</html>
