@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Security - Injecting URLs</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Security</h1>
+    <h2>Potential Dangers</h2>
+
+    <h3 id="Injecting-URLs"><a href="#Injecting-URLs" class="headerlink" title="Injecting URLs" data-scroll="">Injecting URLs</a></h3>
+    <p>In a URL like this:</p>
+    <pre>
+        &lt;a v-bind:href="userProvidedUrl"&gt;
+            click me
+        &lt;/a&gt;
+    </pre>
+    <p>There’s a potential security issue if the URL has not been “sanitized” to prevent JavaScript execution using <code>javascript:</code>. There are libraries such as <a href="https://www.npmjs.com/package/@braintree/sanitize-url" target="_blank" rel="noopener">sanitize-url</a> to help with this, but note:</p>
+    <p class="tip">If you’re ever doing URL sanitization on the frontend, you already have a security issue. User-provided URLs should always be sanitized by your backend before even being saved to a database. Then the problem is avoided for <em>every</em> client connecting to your API, including native mobile apps. Also note that even with sanitized URLs, Vue cannot help you guarantee that they lead to safe destinations.</p>
+</body>
+</html>
