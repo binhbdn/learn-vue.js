@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Security - Best Practices</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Security</h1>
+    <h2>Best Practices</h2>
+    <p>The general rule is that if you allow unsanitized, user-provided content to be executed (as either HTML, JavaScript, or even CSS), you might be opening yourself up to attacks. This advice actually holds true whether using Vue, another framework, or even no framework.</p>
+    <p>Beyond the recommendations made above for <a href="#Potential-Dangers">Potential Dangers</a>, we also recommend familiarizing yourself with these resources:</p>
+    <ul>
+        <li><a href="https://html5sec.org/" target="_blank" rel="noopener">HTML5 Security Cheat Sheet</a></li>
+        <li><a href="https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html" target="_blank" rel="noopener">OWASP’s Cross Site Scripting (XSS) Prevention Cheat Sheet</a></li>
+    </ul>
+    <p>Then use what you learn to also review the source code of your dependencies for potentially dangerous patterns, if any of them include 3rd-party components or otherwise influence what’s rendered to the DOM.</p>
+</body>
+</html>
