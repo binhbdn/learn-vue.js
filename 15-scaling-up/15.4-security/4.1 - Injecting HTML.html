@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Security - Injecting HTML</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Security</h1>
+    <h2>Potential Dangers</h2>
+
+    <h3 id="Injecting-HTML"><a href="#Injecting-HTML" class="headerlink" title="Injecting HTML" data-scroll="">Injecting HTML</a></h3>
+    <p>As you learned earlier, Vue automatically escapes HTML content, preventing you from accidentally injecting executable HTML into your application. However, in cases where you know the HTML is safe, you can explicitly render HTML content:</p>
+    <ul>
+        <li><p>Using a template:</p>
+            <pre>
+                <code>
+                    &lt;div v-html="userProvidedHtml"&gt;&lt;/div&gt;
+                </code>
+            </pre>
+        </li>
+        <li><p>Using a render function:</p>
+            <pre>
+                <code>
+                    h('div', {
+                        domProps: {
+                            innerHTML: this.userProvidedHtml
+                        }
+                    })
+                </code>
+            </pre>
+        </li>
+        <li><p>Using a render function with JSX:</p>
+            <pre>
+                <code>
+                    &lt;div domPropsInnerHTML={this.userProvidedHtml}&gt;&lt;/div&gt;
+                </code>
+            </pre>
+        </li>
+    </ul>
+    <p class="tip">Note that user-provided HTML can never be considered 100% safe unless it’s in a sandboxed iframe or in a part of the app where only the user who wrote that HTML can ever be exposed to it. Additionally, allowing users to write their own Vue templates brings similar dangers.</p>
+</body>
+</html>
