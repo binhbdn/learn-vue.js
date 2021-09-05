@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Routing - Simple Routing From Scratch</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Routing</h1>
+    <p class="tip">Một số tài liệu kĩ thuật dịch “routing” thành “định tuyến” và “router” thành “bộ định tuyến.” Chúng tôi cho rằng cách dịch này nghe khá lạ tai và khiên cưỡng, nên sẽ giữ nguyên bản tiếng Anh của hai từ này.</p>
+    <h2>Simple Routing From Scratch / Routing đơn giản</h2>
+    <p>Nếu chỉ cần routing đơn giản và không muốn sử dụng một thư viện đầy đủ tính năng, bạn có thể render động một component ở cấp toàn trang (page-level) như sau:</p>
+    <pre>
+        <b>JS:</b>
+        const NotFound = { template: '<p>Không tìm thấy</p>' }
+        const Home = { template: '<p>Trang chủ</p>' }
+        const About = { template: '<p>Giới thiệu</p>' }
+        
+        const routes = {
+          '/': Home,
+          '/about': About
+        }
+        
+        new Vue({
+          el: '#app',
+          data: {
+            currentRoute: window.location.pathname
+          },
+          computed: {
+            ViewComponent () {
+              return routes[this.currentRoute] || NotFound
+            }
+          },
+          render (h) { return h(this.ViewComponent) }
+        })
+    </pre>
+    <p>Bằng việc kết hợp với HTML5 History API, bạn có thể xây dựng cho mình một router phía client hoàn toàn có thể dùng được mặc dù còn rất cơ bản. Đây là <a href="https://github.com/chrisvfritz/vue-2.0-simple-routing-example" target="_blank" rel="noopener">một ví dụ</a> của router dạng này.</p>
+</body>
+</html>
