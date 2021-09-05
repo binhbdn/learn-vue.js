@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Security - Injecting Styles</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Security</h1>
+    <h2>Potential Dangers</h2>
+
+    <h3 id="Injecting-Styles"><a href="#Injecting-Styles" class="headerlink" title="Injecting Styles" data-scroll="">Injecting Styles</a></h3>
+    <p>Looking at this example:</p>
+    <pre>
+        &lt;a
+            v-bind:href="sanitizedUrl"
+            v-bind:style="userProvidedStyles"
+        &gt;
+            click me
+        &lt;/a&gt;
+    </pre>
+    <p>let’s assume that <code>sanitizedUrl</code> has been sanitized, so that it’s definitely a real URL and not JavaScript. With the <code>userProvidedStyles</code>, malicious users could still provide CSS to “click jack”, e.g. styling the link into a transparent box over the “Log in” button. Then if <code>https://user-controlled-website.com/</code> is built to resemble the login page of your application, they might have just captured a user’s real login information.</p>
+    <p>You may be able to imagine how allowing user-provided content for a <code>&lt;style&gt;</code> element would create an even greater vulnerability, giving that user full control over how to style the entire page. That’s why Vue prevents rendering of style tags inside templates, such as:</p>
+    <pre>
+        &lt;style&gt;{{ userProvidedStyles }}&lt;/style&gt;
+    </pre>
+    <p>To keep your users fully safe from click jacking, we recommend only allowing full control over CSS inside a sandboxed iframe. Alternatively, when providing user control through a style binding, we recommend using its <a href="class-and-style.html#Object-Syntax-1">object syntax</a> and only allowing users to provide values for specific properties it’s safe for them to control, like this:</p>
+    <pre>
+        &lt;a
+            v-bind:href="sanitizedUrl"
+            v-bind:style="{
+                color: userProvidedColor,
+                background: userProvidedBackground
+            }"
+        &gt;
+            click me
+        &lt;/a&gt;
+    </pre>
+</body>
+</html>
