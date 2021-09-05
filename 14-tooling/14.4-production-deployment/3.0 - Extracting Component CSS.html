@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Production Deployment - Extracting Component CSS</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Production Deployment / Triển khai cho môi trường production</h1>
+    <blockquote>
+        <p>Most of the tips below are enabled by default if you are using <a href="https://cli.vuejs.org" target="_blank" rel="noopener">Vue CLI</a>. This section is only relevant if you are using a custom build setup.</p>
+    </blockquote>
+
+    <h2>Extracting Component CSS / Trích xuất CSS của component</h2>
+    <p>Khi sử dụng Single-File Component, CSS bên trong component được chèn động vào các thẻ <code>&lt;style&gt;</code> bằng JavaScript. Cách này có chi phí vận hành không đáng kể, và nếu bạn sử dụng server-side rendering (SSR – render từ phía server) thì sẽ gây ra hiện tượng “flash of unstyled content” (FOUC – hiển thị nội dung không có định dạng trong giây lát). Trích xuất CSS ở tất cả các components và gom vào một file sẽ tránh được những vấn đề nêu trên, ngoài ra việc caching và thu nhỏ CSS cũng sẽ tốt hơn.</p>
+    <p>Tham khảo tài liệu của từng build tool dưới đây để hiểu cách thức hoạt động:</p>
+    <ul>
+        <li><a href="https://vue-loader.vuejs.org/en/configurations/extract-css.html" target="_blank" rel="noopener">Webpack + vue-loader</a> (template webpack của <code>vue-cli</code> đã cấu hình sẵn cho cách này)</li>
+        <li><a href="https://github.com/vuejs/vueify#css-extraction" target="_blank" rel="noopener">Browserify + vueify</a></li>
+        <li><a href="https://vuejs.github.io/rollup-plugin-vue/#/en/2.3/?id=custom-handler" target="_blank" rel="noopener">Rollup + rollup-plugin-vue</a></li>
+    </ul>
+</body>
+</html>
