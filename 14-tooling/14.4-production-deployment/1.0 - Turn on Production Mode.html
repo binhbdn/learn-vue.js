@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Production Deployment - Turn on Production Mode</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Production Deployment / Triển khai cho môi trường production</h1>
+    <blockquote>
+        <p>Most of the tips below are enabled by default if you are using <a href="https://cli.vuejs.org" target="_blank" rel="noopener">Vue CLI</a>. This section is only relevant if you are using a custom build setup.</p>
+    </blockquote>
+
+    <h2>Turn on Production Mode / Bật chế độ production</h2>
+    <p>Trong quá trình phát triển, Vue cung cấp rất nhiều cảnh báo nhằm giúp bạn tránh những lỗi và nguy cơ tiềm ẩn thường gặp. Tuy nhiên, những dòng cảnh báo này lại trở nên vô ích trong môi trường production và làm phình to kích thước ứng dụng. Thêm vào đó, một vài trong số những kiểm tra cảnh báo này có phí tổn vận hành (runtime cost, bao gồm bộ nhớ và CPU) mà chúng ta có thể tránh được trong chế độ production.</p>
+
+    <h3 id="Without-Build-Tools"><a href="#Without-Build-Tools" class="headerlink" title="Without Build Tools" data-scroll="">Without Build Tools</a></h3>
+    <h3 id="Khong-su-dung-build-tool"><a href="#Khong-su-dung-build-tool" class="headerlink" title="Không sử dụng build tool" data-scroll="">Không sử dụng build tool</a></h3>
+    <p>Nếu bạn đang sử dụng bản đầy đủ, nghĩa là chèn trực tiếp Vue bằng thẻ script thay vì sử dụng build tool (công cụ build), hãy đảm bảo đó là <code>vue.min.js</code> – bản đã được minify (thu nhỏ) cho môi trường production. Bạn có thể tìm thấy cả hai phiên bản ở phần <a href="https://vi.vuejs.org/v2/guide/installation.html#Direct-lt-script-gt-Include">Hướng dẫn cài đặt</a>.</p>
+
+    <h3 id="With-Build-Tools"><a href="#With-Build-Tools" class="headerlink" title="With Build Tools" data-scroll="">With Build Tools</a></h3>
+    <h3 id="Su-dung-build-tool"><a href="#Su-dung-build-tool" class="headerlink" title="Sử dụng build tool" data-scroll="">Sử dụng build tool</a></h3>
+    <p>Nếu bạn đang sử dụng một build tool như Webpack hoặc Browserify, chế độ production sẽ được xác định bởi biến môi trường <code>process.env.NODE_ENV</code> bên trong mã nguồn của Vue, với giá trị mặc định là <code>development</code> (đang phát triển). Cả hai build tool đều cung cấp các cách thức để ghi đè giá trị của biến này nhằm bật chế độ production của Vue, khi đó các plugin minify sẽ bỏ đi các cảnh báo trong quá trình build. Tất cả các template của <code>vue-cli</code> đều đã được cấu hình sẵn theo cách này, dù vậy vẫn sẽ có ích nếu bạn hiểu cách thức hoạt động, như mô tả dưới đây:</p>
+
+    <h4 id="Webpack"><a href="#Webpack" class="headerlink" title="Webpack"></a>Webpack</h4>
+    <p>In Webpack 4+, you can use the <code>mode</code> option:</p>
+    <pre>
+        <b>JS:</b>
+        module.exports = {
+            mode: 'production'
+        }
+    </pre>
+    <p>But in Webpack 3 and earlier, you’ll need to use <a href="https://webpack.js.org/plugins/define-plugin/" target="_blank" rel="noopener">DefinePlugin</a>:</p>
+    <pre>
+        <b>JS:</b>
+        var webpack = require('webpack')
+
+        module.exports = {
+          // ...
+          plugins: [
+            // ...
+            new webpack.DefinePlugin({
+              'process.env.NODE_ENV': JSON.stringify('production')
+            })
+            /*
+            new webpack.DefinePlugin({
+                'process.env': {
+                  NODE_ENV: '"production"'
+                }
+            })
+            */
+          ]
+        }
+    </pre>
+    <p>Sử dụng <a href="https://webpack.js.org/plugins/define-plugin/" target="_blank" rel="noopener">DefinePlugin</a> của Webpack để xác định môi trường production, những dòng cảnh báo sẽ được UglifyJS tự động bỏ đi trong quá trình minify.</p>
+
+    <h4 id="Browserify"><a href="#Browserify" class="headerlink" title="Browserify"></a>Browserify</h4>
+    <ul>
+        <li><p>Chạy lệnh bundle (đóng gói) với giá trị biến môi trường <code>NODE_ENV</code> là <code>"production"</code>. Cách này sẽ thông báo để <code>vueify</code> bỏ qua hot-reload và các phần mã liên quan đến chế độ development.</p>
+        </li>
+        <li><p>Áp dụng <a href="https://github.com/hughsk/envify" target="_blank" rel="noopener">envify</a> ở cấp global (toàn cục) cho bundle. Cách này sẽ giúp plugin minify lược đi toàn bộ những cảnh báo trong mã nguồn của Vue được gói trong các conditional block (khối điều kiện) dùng để kiểm tra biến môi trường. Ví dụ:</p>
+            <pre>
+                NODE_ENV=production browserify -g envify -e main.js | uglifyjs -c -m &gt; build.js
+            </pre>
+        </li>
+        <li><p>Hoặc, khi dùng <a href="https://github.com/hughsk/envify" target="_blank" rel="noopener">envify</a> với Gulp:</p>
+            <pre>
+                // dùng module envify/custom để chỉ định biến môi trường
+                var envify = require('envify/custom')
+                
+                browserify(browserifyOptions)
+                  .transform(vueify)
+                  .transform(
+                    // cần thiết để xử lí các file trong node_modules
+                    { global: true },
+                    envify({ NODE_ENV: 'production' })
+                  )
+                  .bundle()
+            </pre>
+        </li>
+        <li><p>Or, using <a href="https://github.com/hughsk/envify" target="_blank" rel="noopener">envify</a> with Grunt and <a href="https://github.com/jmreidy/grunt-browserify" target="_blank" rel="noopener">grunt-browserify</a>:</p>
+            <pre>
+                // Use the envify custom module to specify environment variables
+                var envify = require('envify/custom')
+                
+                browserify: {
+                  dist: {
+                    options: {
+                      // Function to deviate from grunt-browserify's default order
+                      configure: b =&gt; b
+                        .transform('vueify')
+                        .transform(
+                          // Required in order to process node_modules files
+                          { global: true },
+                          envify({ NODE_ENV: 'production' })
+                        )
+                        .bundle()
+                    }
+                  }
+                }
+            </pre>
+        </li>
+    </ul>
+
+    <h4 id="Rollup"><a href="#Rollup" class="headerlink" title="Rollup"></a>Rollup</h4>
+    <p>Use <a href="https://github.com/rollup/plugins/tree/master/packages/replace" target="_blank" rel="noopener">@rollup/plugin-replace</a>:</p>
+    <pre>
+        const replace = require('@rollup/plugin-replace')
+
+        rollup({
+          // ...
+          plugins: [
+            replace({
+              'process.env.NODE_ENV': JSON.stringify( 'production' )
+            })
+          ]
+        }).then(...)
+    </pre>
+    <p>Dùng <a href="https://github.com/rollup/rollup-plugin-replace" target="_blank" rel="noopener">rollup-plugin-replace</a>:</p>
+    <pre>
+        const replace = require('rollup-plugin-replace')
+
+        rollup({
+          // ...
+          plugins: [
+            replace({
+              'process.env.NODE_ENV': JSON.stringify('production')
+            })
+          ]
+        }).then(...)
+    </pre>
+</body>
+</html>
