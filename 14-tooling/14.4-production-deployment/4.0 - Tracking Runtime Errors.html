@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Production Deployment - Tracking Runtime Errors</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Production Deployment / Triển khai cho môi trường production</h1>
+    <blockquote>
+        <p>Most of the tips below are enabled by default if you are using <a href="https://cli.vuejs.org" target="_blank" rel="noopener">Vue CLI</a>. This section is only relevant if you are using a custom build setup.</p>
+    </blockquote>
+
+    <h2>Tracking Runtime Errors / Theo dõi lỗi vận hành</h2>
+    <p>Một lỗi vận hành (runtime error) xảy ra trong quá trình render component sẽ được truyền đến hàm global config (cấu hình toàn cục) <code>Vue.config.errorHandler</code> nếu hàm này đã được thiết lập từ trước. Chúng ta có thể kết hợp hook này với một dịch vụ theo dõi lỗi (error tracking service) như Sentry – dịch vụ này còn cung cấp sẵn một <a href="https://sentry.io/for/vue/" target="_blank" rel="noopener">giải pháp tích hợp chính thức dành cho Vue</a>.</p>
+</body>
+</html>
