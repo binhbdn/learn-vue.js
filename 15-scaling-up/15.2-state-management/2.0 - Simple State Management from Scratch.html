@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - State Management - Simple State Management from Scratch</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>State Management / Quản lí trạng thái</h1>
+    <h2>Simple State Management from Scratch / Xây dựng bộ quản lí trạng thái đơn giản</h2>
+    <p>Chúng ta thường quên rằng “source of truth” (nguồn chân lí, một khái niệm chỉ việc dữ liệu được truy xuất từ một nguồn duy nhất) trong một ứng dụng Vue là object <code>data</code> – một đối tượng Vue đơn giản chỉ proxy các truy xuất đến object này. Vì thế, nếu muốn có một trạng thái được chia sẻ giữa các đối tượng Vue khác nhau, bạn có thể làm như sau:  </p>
+    <pre>
+        <b>JS:</b>
+        const sourceOfTruth = {}
+
+        const vmA = new Vue({
+          data: sourceOfTruth
+        })
+        
+        const vmB = new Vue({
+          data: sourceOfTruth
+        })
+    </pre>
+    <p>Trong ví dụ này, mỗi khi <code>sourceOfTruth</code> được thay đổi, cả <code>vmA</code> và <code>vmB</code> đều sẽ cập nhật view một cách tự động. Các component bên trong hai đối tượng này cũng sẽ truy xuất được đến <code>sourceOfTruth</code> thông qua <code>this.$root.$data</code>. Bây giờ chúng ta đã có một “single source of truth,” tuy nhiên việc dò lỗi sẽ là ác mộng, vì bất cứ phần nào của ứng dụng cũng có thể chỉnh sửa được bất cứ dữ liệu nào vào bất kì lúc nào mà không để lại chút tung tích nào cả.</p>
+    <p>Để giải quyết vấn đề này, chúng ta sử dụng một <strong>store pattern</strong>:</p>
+    <pre>
+        <b>JS:</b>
+        var store = {
+            debug: true,
+            state: {
+                message: 'Xin chào!'
+            },
+            setMessageAction (newValue) {
+                if (this.debug) console.log('setMessageAction được gọi với giá trị', newValue)
+                this.state.message = newValue
+            },
+            clearMessageAction () {
+                if (this.debug) console.log('clearMessageAction được gọi')
+                this.state.message = ''
+            }
+        }
+    </pre>
+    <p>Lưu ý việc tất cả các hành động (action) làm thay đổi trạng thái của store được chứa trong chính store. Cách quản lí trạng thái theo kiểu tập trung này giúp chúng ta hiểu được dạng thay đổi nào có thể xảy ra và được chúng gọi đến như thế nào. Bây giờ nếu có gì bất ổn, chúng ta cũng sẽ có log.</p>
+    <p>Thêm vào đó, mỗi đối tượng / component cũng có thể sở hữu và quản lí trạng thái cho riêng mình: </p>
+    <pre>
+        <b>JS:</b>
+        var vmA = new Vue({
+            data: {
+                privateState: {},
+                sharedState: store.state
+            }
+        })
+          
+          var vmB = new Vue({
+            data: {
+                privateState: {},
+                sharedState: store.state
+            }
+        })
+    </pre>
+    <img src="https://vi.vuejs.org/images/state.png">
+    <p class="tip">Đừng bao giờ thay thế object trạng thái ban đầu trong các hành động – các component và store cần chia sẻ chung một tham chiếu đến object này để có thể theo dõi các thay đổi.</p>
+    <p>Khi tiếp tục phát triển quy ước không cho phép component được trực tiếp thay đổi trạng thái thuộc về store mà thay vào đó chỉ nên gửi sự kiện để thông báo cho store thực hiện các hành động, cuối cùng chúng ta sẽ tiến đến kiến trúc <a href="https://facebook.github.io/flux/" target="_blank" rel="noopener">Flux</a>. Lợi ích của quy ước này là chúng ta có thể ghi lại tất cả các thay đổi xảy ra với store và dựa vào đó phát triển các tính năng debug nâng cao như log, snapshot, time travel…</p>
+    <p>Điều này lại dẫn chúng ta quay lại với <a href="https://github.com/vuejs/vuex" target="_blank" rel="noopener">vuex</a>, vì thế nếu bạn đã đọc đến đây thì có lẽ đã đến lúc thử qua thư viện này.</p>
+</body>
+</html>
