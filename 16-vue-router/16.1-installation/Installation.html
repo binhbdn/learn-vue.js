@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Router - Installation</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Installation</h1>
+
+    <h2>Direct Download / CDN</h2>
+    <ul>
+        <li>
+            latest release on npm:<br>
+            <a href="https://unpkg.com/vue-router/dist/vue-router.js" target="_blank" rel="noopener noreferrer">https://unpkg.com/vue-router/dist/vue-router.js</a>
+        </li>
+        <li>
+            use a specific version/tag via URLs like:<br>
+            https://unpkg.com/vue-router@2.0.0/dist/vue-router.js
+        </li>
+    </ul>
+    <p>Include <code>vue-router</code> after Vue and it will install itself automatically:</p>
+    <pre>
+        &lt;script src="/path/to/vue.js"&gt;&lt;/script&gt;
+        &lt;script src="/path/to/vue-router.js"&gt;&lt;/script&gt;
+    </pre>
+
+    <h2>npm</h2>
+    <pre>
+        npm install vue-router
+    </pre>
+    <p>When used with a module system, you must explicitly install the router via <code>Vue.use()</code>:</p>
+    <pre>
+        import Vue from 'vue'
+        import VueRouter from 'vue-router'
+        
+        Vue.use(VueRouter)
+    </pre>
+    <p>You don't need to do this when using global script tags.</p>
+
+    <h2>Vue CLI</h2>
+    <pre>
+        vue add router
+    </pre>
+    <ul>
+        <li>add Vue Router as a plugin</li>
+        <li>generate global script tags</li>
+        <li>generate two sample routes</li>
+        <li><strong>overwrite your <code>App.vue</code></strong></li>
+    </ul>
+
+    <h2>Dev Build</h2>
+    <p>Clone from GitHub and build <code>vue-router</code> yourself</p>
+    <pre>
+        git clone https://github.com/vuejs/vue-router.git node_modules/vue-router
+        cd node_modules/vue-router
+        npm install
+        npm run build
+    </pre>
+</body>
+</html>
