@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Router - Getting Started</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Getting Started</h1>
+    <p>Create SPA with Vue + Vue Router</p>
+    <ul>
+        <li>Vue.js : compose our app with components</li>
+        <li>Vue Router : map our components to the routes and let Vue Router know where to render them</li>
+    </ul>
+    <p>inside of any component:</p>
+    <ul>
+        <li>router : <code>this.$router</code></li>
+        <li>current route : <code>this.$route</code></li>
+    </ul>
+    <pre>
+        <b>JS in : Home.vue</b>
+        export default {
+          computed: {
+            username() {
+              // We will see what `params` is shortly
+              return this.$route.params.username
+            }
+          },
+          methods: {
+            goBack() {
+              window.history.length &gt; 1 ? this.$router.go(-1) : this.$router.push('/')
+            }
+          }
+        }
+    </pre>
+
+    <p>Notice that a <code>&lt;router-link&gt;</code> automatically gets the <code>.router-link-active</code> class when its target route is matched. You can learn more about it in its <a href="https://router.vuejs.org/api/#router-link" class="">API reference</a>.</p>
+
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+
+    <div id="app">
+        <h2>Practice : Basic example use Vue Router</h2>
+        <p>
+          <!-- use router-link component for navigation. -->
+          <!-- specify the link by passing the `to` prop. -->
+          <!-- `<router-link>` will be rendered as an `<a>` tag by default -->
+          <router-link to="/foo">Go to Foo</router-link>
+          <router-link to="/bar">Go to Bar</router-link>
+        </p>
+        <!-- route outlet -->
+        <!-- component matched by the route will render here -->
+        <router-view></router-view>
+
+        <button @click="goBack">Go Back</button>
+    </div>
+
+    <script src="1.0.js"></script>
+</body>
+</html>
