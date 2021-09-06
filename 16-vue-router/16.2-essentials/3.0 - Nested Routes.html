@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Router - Nested Routes</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+    <style>
+        .router-link-exact-active {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Nested Routes</h1>
+    <div>
+        <pre>
+            <code>
+                /user/foo/profile                     /user/foo/posts
+                +------------------+                  +-----------------+
+                | User             |                  | User            |
+                | +--------------+ |                  | +-------------+ |
+                | | Profile      | |  +------------&gt;  | | Posts       | |
+                | |              | |                  | |             | |
+                | +--------------+ |                  | +-------------+ |
+                +------------------+                  +-----------------+
+            </code>
+        </pre>
+    </div>
+
+    <h2>Practice : Nested Routes</h2>    
+    <div id="app">
+        <p>
+            <router-link to="/user/foo">/user/foo</router-link>
+            <router-link to="/user/foo/profile">/user/foo/profile</router-link>
+            <router-link to="/user/foo/posts">/user/foo/posts</router-link>
+        </p>
+        <router-view></router-view>
+    </div>
+
+    <script src="3.0.js"></script>
+</body>
+</html>
