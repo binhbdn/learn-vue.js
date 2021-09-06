@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Router - Dynamic Route Matching</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+    <style>
+        .router-link-active {
+            color: red;
+        }
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0,0,0,0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dynamic Route Matching</h1>
+    <p>A dynamic segment is denoted by a colon <code>:</code>.<br>
+        When a route is matched, the value of the dynamic segments will be exposed as <code>this.$route.params</code> in every component.</p>
+    <table><thead><tr><th>pattern</th> <th>matched path</th> <th>$route.params</th></tr></thead> <tbody><tr><td>/user/:username</td> <td>/user/evan</td> <td><code>{ username: 'evan' }</code></td></tr> <tr><td>/user/:username/post/:post_id</td> <td>/user/evan/post/123</td> <td><code>{ username: 'evan', post_id: '123' }</code></td></tr></tbody></table>
+    
+    <h2>Reacting to Params Changes</h2>
+    <p>When the user navigates from <code>/user/foo</code> to <code>/user/bar</code>:</p>
+    <ul>
+        <li><strong>the same component instance will be reused</strong></li>
+        <li><strong>Lifecycle hooks of the component will not be called</strong></li>
+        <li>To react to params changes : simply watch the <code>$route</code> object<br>
+            Or, use the <code>beforeRouteUpdate</code> <a href="/guide/advanced/navigation-guards.html" class="">navigation guard</a> introduced in 2.2
+        </li>
+    </ul>
+
+    <h2>Catch all / 404 Not found Route</h2>
+    <p>Regular params will only match characters in between url fragments, separated by <code>/</code>. If we want to match <strong>anything</strong>, we can use the asterisk (<code>*</code>):</p>
+    <pre>
+        {
+            // will match everything
+            path: '*'
+        }
+        {
+            // will match anything starting with `/user-`
+            path: '/user-*'
+        }
+    </pre>
+    <p>When using an <em>asterisk</em>, a param named <code>pathMatch</code> is automatically added to <code>$route.params</code>. It contains the rest of the url matched by the <em>asterisk</em>:</p>
+
+    <h2>Advanced Matching Patterns</h2>
+    <p><code>vue-router</code> uses <a href="https://github.com/pillarjs/path-to-regexp/tree/v1.7.0" target="_blank" rel="noopener noreferrer">path-to-regexp<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a> as its path matching engine, so it supports many advanced matching patterns such as optional dynamic segments, zero or more / one or more requirements, and even custom regex patterns. Check out its <a href="https://github.com/pillarjs/path-to-regexp/tree/v1.7.0#parameters" target="_blank" rel="noopener noreferrer">documentation<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a> for these advanced patterns, and <a href="https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js" target="_blank" rel="noopener noreferrer">this example<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a> of using them in <code>vue-router</code>.</p>
+
+    <h2>Matching Priority</h2>
+    <p>Sometimes the same URL may be matched by multiple routes. In such a case the matching priority is determined by the order of route definition: the earlier a route is defined, the higher priority it gets.</p>
+
+    <div id="app">
+        <h2>Practice : Dynamic Route Matching</h2>
+        <h3>Dynamic segment</h3>
+        <p><code>{ path: '/user/:id', component: User }</code></p>
+        <p>
+          <router-link to="/user/foo">Go to /user/foo</router-link>
+          <router-link to="/user/bar">Go to /user/bar</router-link>
+          <router-link to="/user-admin">Go to /user-admin</router-link>
+          <router-link to="/non-existing">Go to /non-existing</router-link>
+        </p>
+
+        <router-view></router-view>
+
+        <button @click="goBack">Go Back</button>
+    </div>
+
+    <script src="2.0.js"></script>
+</body>
+</html>
