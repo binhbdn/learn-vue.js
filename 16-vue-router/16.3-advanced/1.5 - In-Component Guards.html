@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Router - In-Component Guards</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Navigation Guards</h1>
+    <h2>In-Component Guards</h2>
+    <p>Finally, you can directly define route navigation guards inside route components (the ones passed to the router configuration) with the following options:</p>
+    <ul>
+        <li><code>beforeRouteEnter</code></li>
+        <li><code>beforeRouteUpdate</code></li>
+        <li><code>beforeRouteLeave</code></li>
+    </ul>
+    <pre>
+        const Foo = {
+            template: `...`,
+            beforeRouteEnter(to, from, next) {
+                // called before the route that renders this component is confirmed.
+                // does NOT have access to `this` component instance,
+                // because it has not been created yet when this guard is called!
+            },
+            beforeRouteUpdate(to, from, next) {
+                // called when the route that renders this component has changed.
+                // This component being reused (by using an explicit `key`) in the new route or not doesn't change anything.
+                // For example, for a route with dynamic params `/foo/:id`, when we
+                // navigate between `/foo/1` and `/foo/2`, the same `Foo` component instance
+                // will be reused (unless you provided a `key` to `&lt;router-view&gt;`), and this hook will be called when that happens.
+                // has access to `this` component instance.
+            },
+            beforeRouteLeave(to, from, next) {
+                // called when the route that renders this component is about to
+                // be navigated away from.
+                // has access to `this` component instance.
+            }
+          }
+    </pre>
+    <p>The <code>beforeRouteEnter</code> guard does <strong>NOT</strong> have access to <code>this</code>, because the guard is called before the navigation is confirmed, thus the new entering component has not even been created yet.</p>
+    <p>However, you can access the instance by passing a callback to <code>next</code>. The callback will be called when the navigation is confirmed, and the component instance will be passed to the callback as the argument:</p>
+    <pre>
+        beforeRouteEnter (to, from, next) {
+            next(vm =&gt; {
+                // access to component instance via `vm`
+            })
+        }
+    </pre>
+    <p>Note that <code>beforeRouteEnter</code> is the only guard that supports passing a callback to <code>next</code>. For <code>beforeRouteUpdate</code> and <code>beforeRouteLeave</code>, <code>this</code> is already available, so passing a callback is unnecessary and therefore <em>not supported</em>:</p>
+    <pre>
+        beforeRouteUpdate (to, from, next) {
+            // just use `this`
+            this.name = to.params.name
+            next()
+        }
+    </pre>
+    <p>The <strong>leave guard</strong> is usually used to prevent the user from accidentally leaving the route with unsaved edits. The navigation can be canceled by calling <code>next(false)</code>.</p>
+    <pre>
+        beforeRouteLeave (to, from, next) {
+            const answer = window.confirm('Do you really want to leave? you have unsaved changes!')
+            if (answer) {
+                next()
+            } else {
+                next(false)
+            }
+        }
+    </pre>
+    <p>If you are using mixins that add in-component navigation guards, make sure to add the mixin <strong>after installing the router plugin</strong>:</p>
+    <pre>
+        Vue.use(Router)
+
+        Vue.mixin({
+            beforeRouteUpdate(to, from, next) {
+                // ...
+            }
+        })
+    </pre>
+</body>
+</html>
