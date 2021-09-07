@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Router - Redirect and Alias</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Redirect and Alias</h1>
+
+    <h2>Alias</h2>
+    <p>A redirect means when the user visits <code>/a</code>, the URL will be replaced by <code>/b</code>, and then matched as <code>/b</code>. But what is an alias?</p>
+    <p><strong>An alias of <code>/a</code> as <code>/b</code> means when the user visits <code>/b</code>, the URL remains <code>/b</code>, but it will be matched as if the user is visiting <code>/a</code>.</strong></p>
+    <p>The above can be expressed in the route configuration as:</p>
+    <pre>
+        const router = new VueRouter({
+            routes: [
+                { path: '/a', component: A, alias: '/b' }
+            ]
+        })
+    </pre>
+    <p>An alias gives you the freedom to map a UI structure to an arbitrary URL, instead of being constrained by the configuration's nesting structure.</p>
+
+    <div id="app"></div>
+
+    <script src="7.2.js"></script>
+</body>
+</html>
