@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Router - Redirect and Alias</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Redirect and Alias</h1>
+
+    <h2>Redirect</h2>
+    <p>Redirecting is also done in the <code>routes</code> configuration. To redirect from <code>/a</code> to <code>/b</code>:</p>
+    <pre>
+        const router = new VueRouter({
+            routes: [
+                { path: '/a', redirect: '/b' }
+            ]
+        })
+    </pre>
+    <p>The redirect can also be targeting a named route:</p>
+    <pre>
+        const router = new VueRouter({
+            routes: [
+                { path: '/a', redirect: { name: 'foo' }}
+            ]
+        })
+    </pre>
+    <p>Or even use a function for dynamic redirecting:</p>
+    <pre>
+        const router = new VueRouter({
+            routes: [
+                { path: '/a', redirect: to =&gt; {
+                        // the function receives the target route as the argument
+                        // return redirect path/location here.
+                }}
+            ]
+        })
+    </pre>
+    <p>Note that <a href="https://router.vuejs.org/guide/advanced/navigation-guards.html" class="">Navigation Guards</a> are not applied on the route that redirects, only on its target. In the example below, adding a <code>beforeEnter</code> guard to the <code>/a</code> route would not have any effect.</p>
+
+    <div id="app">
+        <h1>Nested Named Views</h1>
+        <router-view></router-view>
+    </div>
+
+    <script src="7.1.js"></script>
+</body>
+</html>
