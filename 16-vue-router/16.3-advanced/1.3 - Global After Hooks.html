@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Router - Global After Hooks</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Navigation Guards</h1>
+    <h2>Global After Hooks</h2>
+    <p>You can also register global after hooks, however unlike guards, these hooks do not get a <code>next</code> function and cannot affect the navigation:</p>
+    <pre>
+        router.afterEach((to, from) =&gt; {
+            // ...
+        })
+    </pre>
+</body>
+</html>
