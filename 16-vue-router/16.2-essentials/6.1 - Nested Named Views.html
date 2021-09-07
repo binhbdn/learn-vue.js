@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Router - Nested Named Views</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+    <style>
+        .router-link-exact-active {
+            color: red;
+        }
+        .us {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            grid-template-rows: auto;
+            grid-template-areas: 
+                "header header"
+                "nav content"
+                "nav helper"
+                ;
+        }
+
+        h2 {
+            grid-area: header;
+        }
+
+        .us__nav {
+            grid-area: nav;
+            border: 1px dotted;
+            margin-right: .75rem;
+            padding: .3rem;
+        }
+        .us__content {
+            grid-area: content;
+        }
+        .us__content--helper {
+            grid-area: helper;
+        }
+    </style>
+</head>
+<body>
+    <pre>
+        /settings/emails                                       /settings/profile
+        +-----------------------------------+                  +------------------------------+
+        | UserSettings                      |                  | UserSettings                 |
+        | +-----+-------------------------+ |                  | +-----+--------------------+ |
+        | | Nav | UserEmailsSubscriptions | |  +------------&gt;  | | Nav | UserProfile        | |
+        | |     +-------------------------+ |                  | |     +--------------------+ |
+        | |     |                         | |                  | |     | UserProfilePreview | |
+        | +-----+-------------------------+ |                  | +-----+--------------------+ |
+        +-----------------------------------+                  +------------------------------+
+    </pre>
+    <ul>
+        <li><code>Nav</code> is just a regular component</li>
+        <li><code>UserSettings</code> is the view component</li>
+        <li><code>UserEmailsSubscriptions</code>, <code>UserProfile</code>, <code>UserProfilePreview</code> are nested view components</li>
+    </ul>
+
+    <div id="app">
+        <h1>Nested Named Views</h1>
+        <router-view></router-view>
+    </div>
+
+    <script src="6.1.js"></script>
+</body>
+</html>
