@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Router - The Full Navigation Resolution Flow</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Navigation Guards</h1>
+    <h2>The Full Navigation Resolution Flow</h2>
+    <ol>
+        <li>Navigation triggered.</li>
+        <li>Call <code>beforeRouteLeave</code> guards in deactivated components.</li>
+        <li>Call global <code>beforeEach</code> guards.</li>
+        <li>Call <code>beforeRouteUpdate</code> guards in reused components.</li>
+        <li>Call <code>beforeEnter</code> in route configs.</li>
+        <li>Resolve async route components.</li>
+        <li>Call <code>beforeRouteEnter</code> in activated components.</li>
+        <li>Call global <code>beforeResolve</code> guards.</li>
+        <li>Navigation confirmed.</li>
+        <li>Call global <code>afterEach</code> hooks.</li>
+        <li>DOM updates triggered.</li>
+        <li>Call callbacks passed to <code>next</code> in <code>beforeRouteEnter</code> guards with instantiated instances.</li>
+    </ol>
+</body>
+</html>
