@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Router - Per-Route Guard</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Navigation Guards</h1>
+    <h2>Per-Route Guard</h2>
+    <p>You can define <code>beforeEnter</code> guards directly on a route's configuration object:</p>
+    <pre>
+        const router = new VueRouter({
+            routes: [
+                {
+                    path: '/foo',
+                    component: Foo,
+                    beforeEnter: (to, from, next) =&gt; {
+                    // ...
+                    }
+                }
+            ]
+        })
+    </pre>
+    <p>These guards have the exact same signature as global before guards.</p>
+</body>
+</html>
