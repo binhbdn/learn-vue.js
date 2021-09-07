@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Router - Navigation Guards</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Navigation Guards</h1>
+    <p>As the name suggests, the navigation guards provided by <code>vue-router</code> are primarily used to guard navigations either by redirecting it or canceling it. There are a number of ways to hook into the route navigation process: globally, per-route, or in-component.</p>
+    <p>Remember that <strong>params or query changes won't trigger enter/leave navigation guards</strong>. You can either <a href="/guide/essentials/dynamic-matching.html#reacting-to-params-changes" class="">watch the <code>$route</code> object</a> to react to those changes, or use the <code>beforeRouteUpdate</code> in-component guard.</p>
+</body>
+</html>
