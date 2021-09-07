@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Router - Global Resolve Guards</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Navigation Guards</h1>
+    <h2>Global Resolve Guards</h2>
+    <p>You can register a global guard with <code>router.beforeResolve</code>. This is similar to <code>router.beforeEach</code>, with the difference that resolve guards will be called right before the navigation is confirmed, <strong>after all in-component guards and async route components are resolved</strong>.</p>
+</body>
+</html>
