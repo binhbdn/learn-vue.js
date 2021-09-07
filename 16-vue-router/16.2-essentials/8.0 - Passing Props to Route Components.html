@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Router - Passing Props to Route Components</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Passing Props to Route Components</h1>
+    <p><strong>Instead of coupling to <code>$route</code>:</strong></p>
+    <pre>
+        const User = {
+            template: '<div>User {{ $route.params.id }}</div>'
+        }
+        const router = new VueRouter({
+            routes: [{ path: '/user/:id', component: User }]
+        })
+    </pre>
+    <p><strong>Decouple it by using <code>props</code></strong></p>
+    <pre>
+        const User = {
+            props: ['id'],
+            template: '<div>User {{ id }}</div>'
+        }
+        const router = new VueRouter({
+            routes: [
+                { path: '/user/:id', component: User, props: true },
+            
+                // for routes with named views, you have to define the `props` option for each named view:
+                {
+                    path: '/user/:id',
+                    components: {
+                        default: User,
+                        sidebar: Sidebar
+                    },
+                    props: {
+                    default: true,
+                        // function mode, more about it below
+                        sidebar: route =&gt; ({ search: route.query.q })
+                    }
+                }
+            ]
+        })
+    </pre>
+    <p>This allows you to use the component anywhere, which makes the component easier to reuse and test.</p>
+    
+    <h2 id="boolean-mode"><a href="#boolean-mode" class="header-anchor">#</a> Boolean mode</h2>
+    <p>When <code>props</code> is set to <code>true</code>, the <code>route.params</code> will be set as the component props.</p>
+
+    <h2 id="object-mode"><a href="#object-mode" class="header-anchor">#</a> Object mode</h2>
+    <p>When <code>props</code> is an object, this will be set as the component props as-is. Useful for when the props are static.</p>
+    <pre>
+        const router = new VueRouter({
+            routes: [
+                {
+                    path: '/promotion/from-newsletter',
+                    component: Promotion,
+                    props: { newsletterPopup: false }
+                }
+            ]
+        })
+    </pre>
+
+    <h2 id="function-mode"><a href="#function-mode" class="header-anchor">#</a> Function mode</h2>
+    <p>You can create a function that returns props. This allows you to cast parameters into other types, combine static values with route-based values, etc.</p>
+    <pre>
+        const router = new VueRouter({
+            routes: [
+                {
+                    path: '/search',
+                    component: SearchUser,
+                    props: route =&gt; ({ query: route.query.q })
+                }
+            ]
+        })
+    </pre>
+    <p>The URL <code>/search?q=vue</code> would pass <code>{query: 'vue'}</code> as props to the <code>SearchUser</code> component.</p>
+    <p>Try to keep the <code>props</code> function stateless, as it's only evaluated on route changes. Use a wrapper component if you need state to define the props, that way vue can react to state changes.</p>
+
+    <div id="app"></div>
+
+    <script src="8.0.js"></script>
+</body>
+</html>
