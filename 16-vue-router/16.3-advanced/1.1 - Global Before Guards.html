@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Router - Global Before Guards</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Navigation Guards</h1>
+    <h2>Global Before Guards</h2>
+    <p>You can register global before guards using <code>router.beforeEach</code>:</p>
+    <pre>
+        const router = new VueRouter({ ... })
+
+        router.beforeEach((to, from, next) =&gt; {
+          // ...
+        })
+    </pre>
+    <p>Global before guards are called in creation order, whenever a navigation is triggered. Guards may be resolved asynchronously, and the navigation is considered <strong>pending</strong> before all hooks have been resolved.</p>
+    <p>Every guard function receives three arguments:</p>
+    <ul>
+        <li><p><strong><code>to: Route</code></strong>: the target <a href="/api/#the-route-object" class="">Route Object</a> being navigated to.</p></li>
+        <li><p><strong><code>from: Route</code></strong>: the current route being navigated away from.</p></li>
+        <li><p><strong><code>next: Function</code></strong>: this function must be called to <strong>resolve</strong> the hook. The action depends on the arguments provided to <code>next</code>:</p>
+            <ul>
+                <li><p><strong><code>next()</code></strong>: move on to the next hook in the pipeline. If no hooks are left, the navigation is <strong>confirmed</strong>.</p></li>
+                <li><p><strong><code>next(false)</code></strong>: abort the current navigation. If the browser URL was changed (either manually by the user or via back button), it will be reset to that of the <code>from</code> route.</p></li>
+                <li><p><strong><code>next('/')</code> or <code>next({ path: '/' })</code></strong>: redirect to a different location. The current navigation will be aborted and a new one will be started. You can pass any location object to <code>next</code>, which allows you to specify options like <code>replace: true</code>, <code>name: 'home'</code> and any option used in <a href="/api/#to" class=""><code>router-link</code>'s <code>to</code> prop</a> or <a href="/api/#router-push" class=""><code>router.push</code></a></p></li>
+                <li><p><strong><code>next(error)</code></strong>: (2.4.0+) if the argument passed to <code>next</code> is an instance of <code>Error</code>, the navigation will be aborted and the error will be passed to callbacks registered via <a href="/api/#router-onerror" class=""><code>router.onError()</code></a>.</p></li>
+            </ul>
+        </li>
+    </ul>
+    <pre>
+        // BAD
+        router.beforeEach((to, from, next) =&gt; {
+            if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' })
+            // if the user is not authenticated, `next` is called twice
+            next()
+        })
+    </pre>
+    <pre>
+        // GOOD
+        router.beforeEach((to, from, next) =&gt; {
+            if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' })
+            else next()
+        })
+    </pre>
+</body>
+</html>
