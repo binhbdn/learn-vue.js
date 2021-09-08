@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Router - Async Scrolling</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+
+<body>
+    <h1>Scroll Behavior</h1>
+    <h2>Async Scrolling</h2>
+    <blockquote><p>New in 2.8.0</p></blockquote>
+    <pre>
+        <b>JS:</b>
+        scrollBehavior (to, from, savedPosition) {
+            return new Promise((resolve, reject) =&gt; {
+                setTimeout(() =&gt; {
+                    resolve({ x: 0, y: 0 })
+                }, 500)
+            })
+        }
+    </pre>
+    <p>It's possible to hook this up with events from a page-level transition component to make the scroll behavior play nicely with your page transitions, but due to the possible variance and complexity in use cases, we simply provide this primitive to enable specific userland implementations.</p>
+</body>
+</html>
