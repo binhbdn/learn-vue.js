@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Router - NavigationFailureType</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+
+<body>
+    <h1>Navigation Failures</h1>
+    <h2>NavigationFailureType</h2>
+    <p><code>NavigationFailureType</code> help developers to differentiate between the various types of <em>Navigation Failures</em>. There are four different types:</p>
+    <ul>
+        <li><code>redirected</code>: <code>next(newLocation)</code> was called inside of a navigation guard to redirect somewhere else.</li>
+        <li><code>aborted</code>: <code>next(false)</code> was called inside of a navigation guard to the navigation.</li>
+        <li><code>cancelled</code>: A new navigation completely took place before the current navigation could finish. e.g. <code>router.push</code> was called while waiting inside of a navigation guard.</li>
+        <li><code>duplicated</code>: The navigation was prevented because we are already at the target location.</li>
+    </ul>
+</body>
+</html>
