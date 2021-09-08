@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Router - Lazy Loading Routes</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+    <style>
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0,0,0,0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Lazy Loading Routes</h1>
+    <p>When building apps with a bundler, the JavaScript bundle can become quite large, and thus affect the page load time. It would be more efficient if we can split each route's components into a separate chunk, and only load them when the route is visited.</p>
+    <p>Combining Vue's <a href="https://vuejs.org/guide/components.html#Async-Components" target="_blank" rel="noopener noreferrer">async component feature<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a> and webpack's <a href="https://webpack.js.org/guides/code-splitting-async/" target="_blank" rel="noopener noreferrer">code splitting feature<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a>, it's trivially easy to lazy-load route components.</p>
+    <p>First, an async component can be defined as a factory function that returns a Promise (which should resolve to the component itself):</p>
+    <pre>
+        <b>JS:</b>
+        const Foo = () =&gt;
+            Promise.resolve({
+                /* component definition */
+            })
+    </pre>
+    <p>Second, in webpack 2, we can use the <a href="https://github.com/tc39/proposal-dynamic-import" target="_blank" rel="noopener noreferrer">dynamic import<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a> syntax to indicate a code-split point:</p>
+    <pre>
+        <b>JS:</b>
+        import('./Foo.vue') // returns a Promise
+    </pre>
+    <div class="custom-block tip"><p class="custom-block-title">Note</p> <p>if you are using Babel, you will need to add the <a href="https://babeljs.io/docs/plugins/syntax-dynamic-import/" target="_blank" rel="noopener noreferrer">syntax-dynamic-import<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a> plugin so that Babel can properly parse the syntax.</p></div>
+    <p>Combining the two, this is how to define an async component that will be automatically code-split by webpack:</p>
+    <pre>
+        <b>JS:</b>
+        const Foo = () =&gt; import('./Foo.vue')
+    </pre>
+    <p>Nothing needs to change in the route config, just use <code>Foo</code> as usual:</p>
+    <pre>
+        <b>JS:</b>
+        const router = new VueRouter({
+            routes: [{ path: '/foo', component: Foo }]
+        })
+    </pre>
+
+    <h2>Grouping Components in the Same Chunk</h2>
+    <p>Sometimes we may want to group all the components nested under the same route into the same async chunk. To achieve that we need to use <a href="https://webpack.js.org/api/module-methods/#magic-comments" target="_blank" rel="noopener noreferrer">named chunks<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a> by providing a chunk name using a special comment syntax (requires webpack &gt; 2.4):</p>
+    <pre>
+        <b>JS:</b>
+        const Foo = () =&gt; import(/* webpackChunkName: "group-foo" */ './Foo.vue')
+        const Bar = () =&gt; import(/* webpackChunkName: "group-foo" */ './Bar.vue')
+        const Baz = () =&gt; import(/* webpackChunkName: "group-foo" */ './Baz.vue')
+    </pre>
+    <p>webpack will group any async module with the same chunk name into the same async chunk.</p>
+</body>
+</html>
