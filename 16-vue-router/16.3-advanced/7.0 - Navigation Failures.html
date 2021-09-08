@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Router - Navigation Failures</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+
+<body>
+    <h1>Navigation Failures</h1>
+    <blockquote><p>New in 3.4.0</p></blockquote>
+    <p>When using <code>router-link</code>, Vue Router calls <code>router.push</code> to trigger a navigation. While the expected behavior for most links is to navigate a user to a new page, there are a few situations where users will remain on the same page:</p>
+    <ul>
+        <li>Users are already on the page that they are trying to navigate to</li>
+        <li>A <a href="/guide/advanced/navigation-guards.html" class="">navigation guard</a> aborts the navigation by calling <code>next(false)</code></li>
+        <li>A <a href="/guide/advanced/navigation-guards.html" class="">navigation guard</a> throws an error or calls <code>next(new Error())</code></li>
+    </ul>
+    <p>When using a <code>router-link</code> component, <strong>none of these failures will log an error</strong>. However, if you are using <code>router.push</code> or <code>router.replace</code>, you might come across an <em>"Uncaught (in promise) Error"</em> message followed by a more specific message in your console. Let's understand how to differentiate <em>Navigation Failures</em>.</p>
+    <div class="custom-block tip"><p class="custom-block-title">Background story</p> <p>In v3.2.0, <em>Navigation Failures</em> were exposed through the two optional callbacks of <code>router.push</code>: <code>onComplete</code> and <code>onAbort</code>. Since version 3.1.0, <code>router.push</code> and <code>router.replace</code> return a <em>Promise</em> if no <code>onComplete</code>/<code>onAbort</code> callback is provided. This <em>Promise</em> resolves instead of invoking <code>onComplete</code> and rejects instead of invoking <code>onAbort</code>.</p></div>
+</body>
+</html>
