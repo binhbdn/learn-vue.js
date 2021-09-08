@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Router - Scroll Behavior</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+    <style>
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0,0,0,0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+        html, body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            color: #2c3e50;
+            }
+
+        #app {
+            padding: 0 20px;
+        }
+
+        ul {
+            line-height: 1.5em;
+            padding-left: 1.5em;
+        }
+
+        a {
+            color: #7f8c8d;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #4fc08d;
+        }
+        .fade-enter-active,
+        .fade-leave-active {
+            transition: opacity 0.5s ease;
+        }
+        .fade-enter,
+        .fade-leave-active {
+            opacity: 0;
+        }
+        .view {
+            border: 1px solid red;
+            height: 4500px;
+            position: relative;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Scroll Behavior</h1>
+    <p>When using client-side routing, we may want to scroll to top when navigating to a new route, or preserve the
+        scrolling position of history entries just like real page reload does. <code>vue-router</code> allows you to
+        achieve these and even better, allows you to completely customize the scroll behavior on route navigation.</p>
+    <p><strong>Note: this feature only works if the browser supports <code>history.pushState</code>.</strong></p>
+    <p>When creating the router instance, you can provide the <code>scrollBehavior</code> function:</p>
+    <pre>
+        <b>JS:</b>
+        const router = new VueRouter({
+            routes: [...],
+            scrollBehavior (to, from, savedPosition) {
+              // return desired position
+            }
+        })
+    </pre>
+    <p>The <code>scrollBehavior</code> function receives the <code>to</code> and <code>from</code> route objects. The
+        third argument, <code>savedPosition</code>, is only available if this is a <code>popstate</code> navigation
+        (triggered by the browser's back/forward buttons).</p>
+    <p>The function can return a scroll position object. The object could be in the form of:</p>
+    <ul>
+        <li><code>{ x: number, y: number }</code></li>
+        <li><code>{ selector: string, offset? : { x: number, y: number }}</code> (offset only supported in 2.6.0+)</li>
+    </ul>
+    <p>If a falsy value or an empty object is returned, no scrolling will happen.</p>
+    <p>For example:</p>
+    <pre>
+        <b>JS:</b>
+        scrollBehavior (to, from, savedPosition) {
+            return { x: 0, y: 0 }
+        }
+    </pre>
+    <p>This will simply make the page scroll to top for all route navigations.</p>
+    <p>Returning the <code>savedPosition</code> will result in a native-like behavior when navigating with back/forward buttons:</p>
+    <pre>
+        <b>JS:</b>
+        scrollBehavior (to, from, savedPosition) {
+            if (savedPosition) {
+                return savedPosition
+            } else {
+                return { x: 0, y: 0 }
+            }
+        }
+    </pre>
+    <p>If you want to simulate the "scroll to anchor" behavior:</p>
+    <pre>
+        <b>JS:</b>
+        scrollBehavior (to, from, savedPosition) {
+            if (to.hash) {
+                return {
+                    selector: to.hash
+                    // , offset: { x: 0, y: 10 }
+                }
+            }
+        }
+    </pre>
+    <p>We can also use <a href="https://router.vuejs.org/guide/advanced/meta.html" class="">route meta fields</a> to implement fine-grained scroll behavior control. Check out a full example <a href="https://github.com/vuejs/vue-router/blob/dev/examples/scroll-behavior/app.js" target="_blank" rel="noopener noreferrer">here<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a>.</p>
+
+    <div id="app"></div>
+    
+    <script src="5.0.js"></script>
+</body>
+</html>
