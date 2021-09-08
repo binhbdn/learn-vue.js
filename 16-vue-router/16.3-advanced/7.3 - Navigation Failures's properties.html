@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Router - Navigation Failures's properties</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+
+<body>
+    <h1>Navigation Failures</h1>
+    <h2>Navigation Failures's properties</h2>
+    <p>All navigation failures expose <code>to</code> and <code>from</code> properties to reflect the target and current location respectively for the navigation that failed:</p>
+    <pre>
+        <b>JS:</b>
+        // trying to access the admin page
+        router.push('/admin').catch(failure => {
+            if (isNavigationFailure(failure, NavigationFailureType.redirected)) {
+                failure.to.path // '/admin'
+                failure.from.path // '/'
+            }
+        })
+    </pre>
+    <p>In all cases, <code>to</code> and <code>from</code> are normalized route locations.</p>
+</body>
+</html>
