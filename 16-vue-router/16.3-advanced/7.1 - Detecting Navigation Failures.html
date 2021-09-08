@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Router - Detecting Navigation Failures</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+
+<body>
+    <h1>Navigation Failures</h1>
+    <h2>Detecting Navigation Failures</h2>
+    <p><em>Navigation Failures</em> are <code>Error</code> instances with a few extra properties. To check if an error comes from the Router, use the <code>isNavigationFailure</code> function:</p>
+    <pre>
+        <b>JS:</b>
+        import VueRouter from 'vue-router'
+        const { isNavigationFailure, NavigationFailureType } = VueRouter
+        
+        // trying to access the admin page
+        router.push('/admin').catch(failure =&gt; {
+            if (isNavigationFailure(failure, NavigationFailureType.redirected)) {
+                // show a small notification to the user
+                showToast('Login in order to access the admin panel')
+            }
+        })
+    </pre>
+    <div class="custom-block tip"><p class="custom-block-title">TIP</p> <p>If you omit the second parameter: <code>isNavigationFailure(failure)</code>, it will only check if the error is a <em>Navigation Failure</em>.</p></div>   
+</body>
+</html>
