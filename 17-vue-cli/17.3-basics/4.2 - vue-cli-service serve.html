@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue CLI - CLI Service</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Basics</h1>
+    <h2>CLI Service</h2>
+
+    <h3>vue-cli-service serve</h3>
+    <pre>
+        Usage: vue-cli-service serve [options] [entry]
+
+        Options:
+        
+          --open         open browser on server start
+          --copy         copy url to clipboard on server start
+          --mode         specify env mode (default: development)
+          --host         specify host (default: 0.0.0.0)
+          --port         specify port (default: 8080)
+          --https        use https (default: false)
+          --public       specify the public network URL for the HMR client
+          --skip-plugins comma-separated list of plugin names to skip for this run
+    </pre>
+    <p>The <code>vue-cli-service serve</code> command starts a dev server (based on <a href="https://github.com/webpack/webpack-dev-server" target="_blank" rel="noopener noreferrer">webpack-dev-server</a>) that comes with Hot-Module-Replacement (HMR) working out of the box.</p>
+    <p>In addition to the command line flags, you can also configure the dev server using the <a href="https://cli.vuejs.org/config/#devserver" class="">devServer</a> field in <code>vue.config.js</code>.</p>
+    <p><code>[entry]</code> in the CLI command is defined as <em>the entry file</em> (default: <code>src/main.js</code> or <code>src/main.ts</code> in TypeScript project), not <em>an additional entry file</em>. If you overwrite the entry in the CLI, then the entries from <code>config.pages</code> are no longer considered, which may cause an error.</p>
+</body>
+</html>
