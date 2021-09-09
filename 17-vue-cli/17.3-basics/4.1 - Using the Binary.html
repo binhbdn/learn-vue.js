@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue CLI - CLI Service</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Basics</h1>
+    <h2>CLI Service</h2>
+
+    <h3>Using the Binary</h3>
+    <p>Inside a Vue CLI project, <code>@vue/cli-service</code> installs a binary named <code>vue-cli-service</code>. You can access the binary directly as <code>vue-cli-service</code> in npm scripts, or as <code>./node_modules/.bin/vue-cli-service</code> from the terminal.</p>
+    <p>This is what you will see in the <code>package.json</code> of a project using the default preset:</p>
+    <pre>
+        {
+            "scripts": {
+                "serve": "vue-cli-service serve",
+                "build": "vue-cli-service build"
+            }
+        }
+    </pre>
+    <p>You can invoke these scripts using either npm or Yarn:</p>
+    <pre>
+        npm run serve
+        # OR
+        yarn serve
+        # OR
+        npx vue-cli-service serve
+    </pre>
+    <p>You can run scripts with additional features using the GUI with the <code>vue ui</code> command.</p>
+</body>
+</html>
