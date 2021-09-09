@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue CLI - Plugins and Presets</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Basics</h1>
+    <h2>Plugins and Presets</h2>
+
+    <h3>Plugins</h3>
+    <p>You can install and manage Plugins using the GUI with the <code>vue ui</code> command.</p>
+    
+    <h4>Installing Plugins in an Existing Project</h4>
+    <pre>
+        vue add eslint
+        # or
+        vue add cli-plugin-eslint
+    </pre>
+    <p>Each CLI plugin ships with a generator (which creates files) and a runtime plugin (which tweaks the core webpack config and injects commands).</p>
+    <p><code>vue add</code> is specifically designed for installing and invoking Vue CLI plugins. It is not meant as a replacement for normal npm packages. For normal npm packages, you should still use your package manager of choice.</p>
+    <p>It is recommended to commit your project's current state before running <code>vue add</code>, since the command will invoke the plugin's file generator and potentially make changes to your existing files.</p>
+    <p>The command resolves <code>@vue/eslint</code> to the full package name <code>@vue/cli-plugin-eslint</code>, installs it from npm, and invokes its generator.</p>
+    <p>Without the <code>@vue</code> prefix, the command will resolve to an unscoped package instead. For example, to install the 3rd party plugin <code>vue-cli-plugin-apollo</code>:</p>
+    <pre>
+        # installs and invokes vue-cli-plugin-apollo
+        vue add apollo
+    </pre>
+    <p>You can also use 3rd party plugins under a specific scope. For example, if a plugin is named <code>@foo/vue-cli-plugin-bar</code>, you can add it with:</p>
+    <pre>
+        vue add @foo/bar
+    </pre>
+    <p>You can pass generator options to the installed plugin (this will skip the prompts):</p>
+    <pre>
+        vue add eslint --config airbnb --lintOn save
+    </pre>
+    <p>If a plugin is already installed, you can skip the installation and only invoke its generator with the <code>vue invoke</code> command. The command takes the same arguments as <code>vue add</code>.</p>
+    <p>If for some reason your plugins are listed in a <code>package.json</code> file other than the one located in your project, you can set the <code>vuePlugins.resolveFrom</code> option in the project <code>package.json</code> with the path to the folder containing the other <code>package.json</code> file.</p>
+    <p>For example, if you have a <code>.config/package.json</code> file:</p>
+    <pre>
+        {
+            "vuePlugins": {
+                "resolveFrom": ".config"
+            }
+        }
+    </pre>
+
+    <h4>Project local plugin</h4>
+    <p>If you need access to the plugin API in your project and don't want to create a full plugin for it, you can use the <code>vuePlugins.service</code> option in your <code>package.json</code> file:</p>
+    <pre>
+        {
+            "vuePlugins": {
+                "service": ["my-commands.js"]
+            }
+        }
+    </pre>
+    <p>Each file will need to export a function taking the plugin API as the first argument. For more information about the plugin API, check out the <a href="/dev-guide/plugin-dev.html" class="">Plugin Development Guide</a>.</p>
+    <p>You can also add files that will behave like UI plugins with the <code>vuePlugins.ui</code> option:</p>
+    <pre>
+        {
+            "vuePlugins": {
+                "ui": ["my-ui.js"]
+            }
+        }
+    </pre>
+    <p>For more information, read the <a href="https://cli.vuejs.org/dev-guide/ui-api.html" class="">UI Plugin API</a>.</p>
+</body>
+</html>
