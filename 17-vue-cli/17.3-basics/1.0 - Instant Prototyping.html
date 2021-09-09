@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue CLI - Instant Prototyping</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Basics</h1>
+    <h2>Instant Prototyping</h2>
+    <p>You can rapidly prototype with just a single <code>*.vue</code> file with the <code>vue serve</code> and <code>vue build</code> commands, but they require a global addon to be installed along with the Vue CLI:</p>
+    <ul>
+        <li>npm install -g @vue/cli @vue/cli-service-global</li>
+        <li>yarn global add @vue/cli @vue/cli-service-global</li>
+    </ul>
+    <p>The drawback of <code>vue serve</code> is that it relies on globally installed dependencies which may be inconsistent on different machines. Therefore this is only recommended for rapid prototyping.</p>
+
+    <h3>vue serve</h3>
+    <pre>
+        Usage: serve [options] [entry]
+
+        serve a .js or .vue file in development mode with zero config
+        
+        
+        Options:
+        
+          -o, --open         Open browser
+          -c, --copy         Copy local url to clipboard
+          -p, --port &lt;port&gt;  Port used by the server (default: 8080 or next available port)
+          -h, --help         Output usage information
+    </pre>
+    <p>All you need is an <code>App.vue</code> file:</p>
+    <pre>
+        &lt;template&gt;
+            &lt;h1&gt;Hello!&lt;/h1&gt;
+        &lt;/template&gt;
+    </pre>
+    <p>Then in the directory with the <code>App.vue</code> file, run:</p>
+    <pre>
+        vue serve
+    </pre>
+    <p><code>vue serve</code> uses the same default setup (webpack, babel, postcss &amp; eslint) as projects created by <code>vue create</code>. It automatically infers the entry file in the current directory - the entry can be one of <code>main.js</code>, <code>index.js</code>, <code>App.vue</code> or <code>app.vue</code>. You can also explicitly specify the entry file:</p>
+    <pre>
+        vue serve MyComponent.vue
+    </pre>
+    <p>If needed, you can also provide an <code>index.html</code>, <code>package.json</code>, install and use local dependencies, or even configure babel, postcss &amp; eslint with corresponding config files.</p>
+
+    <h3>vue build</h3>
+    <pre>
+        Usage: build [options] [entry]
+
+        build a .js or .vue file in production mode with zero config
+        
+        
+        Options:
+        
+          -t, --target &lt;target&gt;  Build target (app | lib | wc | wc-async, default: app)
+          -n, --name &lt;name&gt;      name for lib or web-component (default: entry filename)
+          -d, --dest &lt;dir&gt;       output directory (default: dist)
+          -h, --help             output usage information
+    </pre>
+    <p>You can also build the target file into a production bundle for deployment with <code>vue build</code>:</p>
+    <pre>
+        vue build MyComponent.vue
+    </pre>
+    <p><code>vue build</code> also provides the ability to build the component as a library or a web component. See <a href="https://cli.vuejs.org/guide/build-targets.html" class="">Build Targets</a> for more details.</p>
+</body>
+</html>
