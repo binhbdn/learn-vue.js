@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue CLI - CLI Service</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Basics</h1>
+    <h2>CLI Service</h2>
+
+    <h3>Git Hooks</h3>
+    <p>When installed, <code>@vue/cli-service</code> also installs <a href="https://github.com/yyx990803/yorkie" target="_blank" rel="noopener noreferrer">yorkie</a>, which allows you to easily specify Git hooks using the <code>gitHooks</code> field in your <code>package.json</code>:</p>
+    <pre>
+        {
+            "gitHooks": {
+                "pre-commit": "lint-staged"
+            },
+            "lint-staged": {
+                "*.{js,vue}": [
+                    "vue-cli-service lint",
+                    "git add"
+                ]
+            }
+        }
+    </pre>
+    <p><code>yorkie</code> is a fork of <a href="https://github.com/typicode/husky" target="_blank" rel="noopener noreferrer"><code>husky</code></a> and is not compatible with the latter.</p>
+</body>
+</html>
