@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue CLI - Creating a Project</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Basics</h1>
+    <h2>Creating a Project</h2>
+
+    <h3>vue create</h3>
+    <pre>
+        vue create hello-world
+    </pre>
+    <ul>
+        <li>default preset which comes with a basic Babel + ESLint setup</li>
+        <li>manually select features</li>
+        <li>File <code>~/.vuerc</code>: save your presets</li>
+        <li><code>vue create --help</code></li>
+    </ul>
+
+    <h3>Using the GUI</h3>
+    <pre>
+        vue ui
+    </pre>
+
+    <h3>Pulling 2.x Templates (Legacy)</h3>
+    <p>Vue CLI &gt;= 3 uses the same <code>vue</code> binary, so it overwrites Vue CLI 2 (<code>vue-cli</code>). If you still need the legacy <code>vue init</code> functionality, you can install a global bridge:</p>
+    <pre>
+        npm install -g @vue/cli-init
+        # vue init now works exactly the same as vue-cli@2.x
+        vue init webpack my-project
+    </pre>
+</body>
+</html>
