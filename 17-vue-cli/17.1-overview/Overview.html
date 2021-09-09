@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue CLI - Overview</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Overview</h1>
+    <ul>
+        <li>Cũ : <code>vue-cli</code></li>
+        <li>Mới : <code>@vue/cli</code></li>
+    </ul>
+    <ul>
+        <li>Dùng <code>@vue/cli</code> để tạo project scaffolding.</li>
+        <li>Dùng <code>@vue/cli</code> + <code>@vue/cli-service-global</code> để tạo nhanh prototyping không cần cấu hình.</li>
+        <li>Runtime dependency (<code>@vue/cli-service</code>):
+            <ul>
+                <li>Có thể nâng cấp;</li>
+                <li>Built on top of webpack, với các giá trị mặc định (defaults) hợp lý;</li>
+                <li>Có thể định cấu hình thông qua tệp cấu hình trong dự án;</li>
+                <li>Có thể mở rộng thông qua các plugin</li>
+            </ul>
+        </li>
+        <li>Một bộ sưu tập phong phú các plugin chính thức được tích hợp các công cụ tốt nhất trong hệ sinh thái giao diện người dùng.</li>
+        <li>Giao diện người dùng đồ họa đầy đủ để tạo và quản lý các dự án Vue.js.</li>
+    </ul>
+    
+    <h2>Components of the System</h2>
+    <h3>CLI <code>@vue/cli</code></h3>
+    <ul>
+        <li>a globally installed npm package</li>
+        <li><code>vue create</code> : quickly scaffold a new project</li>
+        <li><code>vue serve</code> : instantly prototype new ideas</li>
+        <li><code>vue ui</code> : manage your projects using a graphical user interface</li>
+        <li>...</li>
+    </ul>
+
+    <h3>CLI Service <code>@vue/cli-service</code></h3>
+    <ul>
+        <li>a development dependency</li>
+        <li>an npm package installed locally into every project created by <code>@vue/cli</code></li>
+        <li>is built on top of <a href="http://webpack.js.org/" target="_blank" rel="noopener noreferrer">webpack</a> and <a href="https://github.com/webpack/webpack-dev-server" target="_blank" rel="noopener noreferrer">webpack-dev-server</a></li>
+        <ul>
+            <li>core service : loads other CLI Plugins</li>
+            <li>An internal webpack config that is optimized for most apps</li>
+            <li>The <code>vue-cli-service</code> binary inside the project, which comes with the basic <code>serve</code>, <code>build</code> and <code>inspect</code> commands.</li>
+            <li></li>
+        </ul>
+    </ul>
+
+    <h3>CLI Plugins</h3>
+    <ul>
+        <li>are npm packages that provide optional features to your Vue CLI projects, such as Babel/TypeScript transpilation, ESLint integration, unit testing, and end-to-end testing...</li>
+        <li>names start with either <code>@vue/cli-plugin-</code> (for built-in plugins) or <code>vue-cli-plugin-</code> (for community plugins)</li>
+        <li>run <code>vue-cli-service</code> : it automatically resolves and loads all CLI Plugins listed in your project's <code>package.json</code></li>
+        <li>can be included as part of your project creation process or added into the project later</li>
+        <li>can also be grouped into reusable presets</li>
+    </ul>
+</body>
+</html>
