@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue CLI - CLI Service</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Basics</h1>
+    <h2>CLI Service</h2>
+
+    <h3>Skipping Plugins</h3>
+    <pre>
+        npx vue-cli-service build --skip-plugins pwa
+        npx vue-cli-service build --skip-plugins pwa,apollo
+    </pre>
+    <p>Plugin names are resolved the same way they are during install, as described <a href="https://cli.vuejs.org/guide/plugins-and-presets.html#installing-plugins-in-an-existing-project" class="">here</a></p>
+    <pre>
+        # these are all equivalent
+        npx vue-cli-service build --skip-plugins pwa
+        
+        npx vue-cli-service build --skip-plugins @vue/pwa
+        
+        npx vue-cli-service build --skip-plugins @vue/cli-plugin-pwa
+    </pre>
+</body>
+</html>
