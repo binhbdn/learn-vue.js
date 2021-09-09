@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue CLI - Plugins and Presets</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+<body>
+    <h1>Basics</h1>
+    <h2>Plugins and Presets</h2>
+
+    <h3>Presets</h3>
+    <pre>
+        {
+            "useConfigFiles": true,
+            "cssPreprocessor": "sass",
+            "plugins": {
+                "@vue/cli-plugin-babel": {},
+                "@vue/cli-plugin-eslint": {
+                    "config": "airbnb",
+                    "lintOn": ["save", "commit"]
+                },
+                "@vue/cli-plugin-router": {},
+                "@vue/cli-plugin-vuex": {}
+            }
+        }
+    </pre>
+    <pre>
+        {
+            "useConfigFiles": true,
+            "plugins": {...},
+            "configs": {
+                "vue": {...},
+                "postcss": {...},
+                "eslintConfig": {...},
+                "jest": {...}
+            }
+        }
+    </pre>
+    <p>These additional configurations will be merged into <code>package.json</code> or corresponding config files, depending on the value of <code>useConfigFiles</code>. For example, with <code>"useConfigFiles": true</code>, the value of <code>configs.vue</code> will be merged into <code>vue.config.js</code>.</p>
+    
+    <h4>Preset Plugin Versioning</h4>
+    <pre>
+        {
+                "plugins": {
+                "@vue/cli-plugin-eslint": {
+                    "version": "^3.0.0",
+                    // ... other options for this plugin
+                }
+            }
+        }
+    </pre>
+    <p><strong>it is recommended to provide a explicit version range for any 3rd party plugins listed in a preset</strong></p>
+
+    <h4>Allowing Plugin Prompts</h4>
+    <pre>
+        {
+            "plugins": {
+                "@vue/cli-plugin-eslint": {
+                    // let the users pick their own ESLint config
+                    "prompts": true
+                }
+            }
+        }
+    </pre>
+
+    <h4>Remote Presets</h4>
+    <p>You can share a preset with other developers by publishing it in a git repo. The repo can contain the following files:</p>
+    <ul>
+        <li><code>preset.json</code>: the main file containing the preset data (required).</li>
+        <li><code>generator.js</code>: a <a href="https://cli.vuejs.org/dev-guide/plugin-dev.html#generator" class="">Generator</a> that can inject or modify files in the project.</li>
+        <li><code>prompts.js</code>: a <a href="https://cli.vuejs.org/dev-guide/plugin-dev.html#prompts-for-3rd-party-plugins" class="">prompts file</a> that can collect options for the generator.</li>
+    </ul>
+    <p>Once the repo is published, you can then use the <code>--preset</code> option to use the remote preset when creating a project:</p>
+    <pre>
+        # use preset from GitHub repo
+        vue create --preset username/repo my-project
+    </pre>
+    <p>GitLab and BitBucket are also supported. Make sure to use the <code>--clone</code> option if fetching from private repos:</p>
+    <pre>
+        vue create --preset gitlab:username/repo --clone my-project
+        vue create --preset bitbucket:username/repo --clone my-project
+        
+        # self-hosted repos
+        vue create --preset gitlab:my-gitlab-server.com:group/projectname --clone my-project
+        vue create --preset direct:ssh://git@my-gitlab-server.com/group/projectname.git --clone my-project
+    </pre>
+
+    <h4>Local Filesystem Preset</h4>
+    <p>Vue CLI will load local presets if the value for the <code>--preset</code> option is a relative or absolute file path, or ends with <code>.json</code>:</p>
+    <pre>
+        # ./my-preset should be a directory containing preset.json
+        vue create --preset ./my-preset my-project
+        
+        # or directly use a json file in cwd:
+        vue create --preset my-preset.json my-project
+    </pre>
+</body>
+</html>
