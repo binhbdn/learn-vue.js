@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue CLI - Working with Webpack</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+
+<body>
+    <h1>Development</h1>
+    <h2>Working with Webpack</h2>
+
+    <h3>Inspecting the Project's Webpack Config</h3>
+    <p>Since <code>@vue/cli-service</code> abstracts away the webpack config, it may be more difficult to understand
+        what is included in the config, especially when you are trying to make tweaks yourself.</p>
+    <p><code>vue-cli-service</code> exposes the <code>inspect</code> command for inspecting the resolved webpack config.
+        The global <code>vue</code> binary also provides the <code>inspect</code> command, and it simply proxies to
+        <code>vue-cli-service inspect</code> in your project.</p>
+    <p>The command will print the resolved webpack config to stdout, which also contains hints on how to access rules
+        and plugins via chaining.</p>
+    <p>You can redirect the output into a file for easier inspection:</p>
+    <pre>
+        vue inspect &gt; output.js
+    </pre>
+    <p>By default, <code>inspect</code> command will show the output for development config. To see the production
+        configuration, you need to run</p>
+    <pre>
+        vue inspect --mode production &gt; output.prod.js
+    </pre>
+    <p>Note the output is not a valid webpack config file, it's a serialized format only meant for inspection.</p>
+    <p>You can also inspect a subset of the config by specifying a path:</p>
+    <pre>
+        # only inspect the first rule
+        vue inspect module.rules.0
+    </pre>
+    <p>Or, target a named rule or plugin:</p>
+    <pre>
+        vue inspect --rule vue
+        vue inspect --plugin html
+    </pre>
+    <p>Finally, you can list all named rules and plugins:</p>
+    <pre>
+        vue inspect --rules
+        vue inspect --plugins
+    </pre>
+</body>
+</html>
