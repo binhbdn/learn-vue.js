@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue CLI - Working with CSS</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+
+<body>
+    <h1>Development</h1>
+    <h2>Working with CSS</h2>
+
+    <h3>Pre-Processors</h3>
+    <p>You can select pre-processors (Sass/Less/Stylus) when creating the project. If you did not do so, the internal
+        webpack config is still pre-configured to handle all of them. You just need to manually install the
+        corresponding webpack loaders:</p>
+    <pre>
+        # Sass
+        npm install -D sass-loader sass
+        
+        # Less
+        npm install -D less-loader less
+        
+        # Stylus
+        npm install -D stylus-loader stylus
+    </pre>
+
+    <p>Note on webpack 4</p>
+    <p>When using <code>webpack</code> version 4, the default in Vue CLI 4, you need to make sure your loaders are
+        compatible with it. Otherwise you will get errors about confliciting peer dependencies. In this case you can use
+        an older version of the loader that is still compatible with <code>webpack</code> 4.</p>
+    <pre>
+        # Sass
+        npm install -D sass-loader@^10 sass
+    </pre>
+    <p>Then you can import the corresponding file types, or use them in <code>*.vue</code> files with:</p>
+    <pre>
+        &lt;style lang="scss"&gt;
+            $color: red;
+        &lt;/&style&gt;
+    </pre>
+
+    <p>A Tip on Sass Performance</p>
+    <p>Note that when using Dart Sass, <strong>synchronous compilation is twice as fast as asynchronous
+            compilation</strong> by default, due to the overhead of asynchronous callbacks. To avoid this overhead, you
+        can use the <a href="https://www.npmjs.com/package/fibers" target="_blank" rel="noopener noreferrer">fibers</a>
+        package to call asynchronous importers from the synchronous code path. To enable this, simply install
+        <code>fibers</code> as a project dependency:</p>
+    <pre>
+        npm install -D fibers
+    </pre>
+    <p>Please also be aware, as it's a native module, there may be compatibility issues vary on the OS and build
+        environment. In that case, please run <code>npm uninstall -D fibers</code> to fix the problem.</p>
+
+    <h4>Automatic imports</h4>
+    <p>If you want to automatically import files (for colors, variables, mixins...), you can use the <a
+            href="https://github.com/yenshih/style-resources-loader" target="_blank"
+            rel="noopener noreferrer">style-resources-loader</a>. Here is an example for stylus that imports
+        <code>./src/styles/imports.styl</code> in every SFC and every stylus files:</p>
+    <pre>
+        // vue.config.js
+        const path = require('path')
+        
+        module.exports = {
+          chainWebpack: config =&gt; {
+            const types = ['vue-modules', 'vue', 'normal-modules', 'normal']
+            types.forEach(type =&gt; addStyleResource(config.module.rule('stylus').oneOf(type)))
+          },
+        }
+        
+        function addStyleResource (rule) {
+          rule.use('style-resource')
+            .loader('style-resources-loader')
+            .options({
+              patterns: [
+                path.resolve(__dirname, './src/styles/imports.styl'),
+              ],
+            })
+        }
+    </pre>
+    <p>You can also use the <a href="https://www.npmjs.com/package/vue-cli-plugin-style-resources-loader"
+            target="_blank" rel="noopener noreferrer">vue-cli-plugin-style-resources-loader</a>.</p>
+</body>
+</html>
