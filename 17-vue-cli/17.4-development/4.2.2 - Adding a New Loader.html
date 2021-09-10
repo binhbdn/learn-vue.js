@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue CLI - Working with Webpack</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+
+<body>
+    <h1>Development</h1>
+    <h2>Working with Webpack</h2>
+
+    <h3>Chaining (Advanced)</h3>
+
+    <h4>Adding a New Loader</h4>
+    <pre>
+        // vue.config.js
+        module.exports = {
+          chainWebpack: config =&gt; {
+            // GraphQL Loader
+            config.module
+              .rule('graphql')
+              .test(/\.graphql$/)
+              .use('graphql-tag/loader')
+                .loader('graphql-tag/loader')
+                .end()
+              // Add another loader
+              .use('other-loader')
+                .loader('other-loader')
+                .end()
+          }
+        }
+    </pre>
+</body>
+</html>
