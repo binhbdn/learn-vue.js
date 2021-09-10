@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue CLI - Working with Webpack</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+
+<body>
+    <h1>Development</h1>
+    <h2>Working with Webpack</h2>
+
+    <h3>Chaining (Advanced)</h3>
+
+    <h4>Modifying Options of a Plugin</h4>
+    <pre>
+        // vue.config.js
+        module.exports = {
+          chainWebpack: config =&gt; {
+            config
+              .plugin('html')
+              .tap(args =&gt; {
+                return [/* new args to pass to html-webpack-plugin's constructor */]
+              })
+          }
+        }
+    </pre>
+    <p>You will need to familiarize yourself with <a
+            href="https://github.com/mozilla-neutrino/webpack-chain#getting-started" target="_blank"
+            rel="noopener noreferrer">webpack-chain's API</a> and <a
+            href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-service/lib/config" target="_blank"
+            rel="noopener noreferrer">read some source code</a> in order to understand how to leverage the full power of
+        this option, but it gives you a more expressive and safer way to modify the webpack config than directly mutate
+        values.</p>
+    <p>For example, say you want to change the default location of <code>index.html</code> from
+        <code>/Users/username/proj/public/index.html</code> to
+        <code>/Users/username/proj/app/templates/index.html</code>. By referencing <a
+            href="https://github.com/jantimon/html-webpack-plugin#options" target="_blank"
+            rel="noopener noreferrer">html-webpack-plugin</a> you can see a list of options you can pass in. To change
+        our template path we can pass in a new template path with the following config:</p>
+    <pre>
+        // vue.config.js
+        module.exports = {
+          chainWebpack: config =&gt; {
+            config
+              .plugin('html')
+              .tap(args =&gt; {
+                args[0].template = '/Users/username/proj/app/templates/index.html'
+                return args
+              })
+          }
+        }
+    </pre>
+    <p>You can confirm that this change has taken place by examining the vue webpack config with the <code>vue
+            inspect</code> utility, which we will discuss next.</p>
+</body>
+</html>
