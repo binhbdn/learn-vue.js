@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue CLI - Browser Compatibility</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+
+<body>
+    <h1>Development</h1>
+    <h2>Browser Compatibility</h2>
+
+    <h3>browserslist</h3>
+    <p>You will notice a <code>browserslist</code> field in <code>package.json</code> (or a separate
+        <code>.browserslistrc</code> file) specifying a range of browsers the project is targeting. This value will be
+        used by <a href="https://new.babeljs.io/docs/en/next/babel-preset-env.html" target="_blank"
+            rel="noopener noreferrer">@babel/preset-env</a> and <a href="https://github.com/postcss/autoprefixer"
+            target="_blank" rel="noopener noreferrer">autoprefixer</a> to automatically determine the JavaScript
+        features that need to be transpiled and the CSS vendor
+        prefixes needed.</p>
+    <p>See <a href="https://github.com/ai/browserslist" target="_blank" rel="noopener noreferrer">here</a> for how to
+        specify browser ranges.</p>
+
+    <h3>Polyfills</h3>
+    <p>A default Vue CLI project uses <a
+            href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/babel-preset-app" target="_blank"
+            rel="noopener noreferrer">@vue/babel-preset-app</a>, which uses <code>@babel/preset-env</code> and the
+        <code>browserslist</code> config to determine
+        the Polyfills needed for your project.</p>
+
+    <h4>useBuiltIns: 'usage'</h4>
+    <p>By default, it passes <a href="https://new.babeljs.io/docs/en/next/babel-preset-env.html#usebuiltins-usage"
+            target="_blank" rel="noopener noreferrer"><code>useBuiltIns: 'usage'</code></a> to
+        <code>@babel/preset-env</code> which automatically detects the polyfills needed based on the
+        language features used in your source code. This ensures only the minimum amount of polyfills are included in
+        your final bundle. However, this also means <strong>if one of your dependencies has specific requirements on
+            polyfills, by default Babel won't be able to detect it.</strong></p>
+    <p>If one of your dependencies need polyfills, you have a few options:</p>
+    <ol>
+        <li>
+            <p><strong>If the dependency is written in an ES version that your target environments do not
+                    support:</strong> Add that dependency to the <a
+                    href="https://cli.vuejs.org/config/#transpiledependencies"><code>transpileDependencies</code></a>
+                option in
+                <code>vue.config.js</code>. This would
+                enable both syntax transforms and usage-based polyfill detection for that dependency.</p>
+        </li>
+        <li>
+            <p><strong>If the dependency ships ES5 code and explicitly lists the polyfills needed:</strong> you can
+                pre-include the needed polyfills using the <a
+                    href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/babel-preset-app#polyfills"
+                    target="_blank" rel="noopener noreferrer">polyfills</a> option for
+                <code>@vue/babel-preset-app</code>. <strong>Note that <code>es.promise</code>
+                    is included by default because it's very common for libs to depend on Promises.</strong></p>
+            <div>
+                <pre><code>
+                    // babel.config.js
+                    module.exports = {
+                      presets: [
+                        ['@vue/app', {
+                          polyfills: [
+                            'es.promise',
+                            'es.symbol'
+                          ]
+                        }]
+                      ]
+                    }
+                </code></pre>
+            </div>
+            <div>
+                <p>TIP</p>
+                <p>It's recommended to add polyfills this way instead of directly importing them in your source code,
+                    because polyfills listed here can be automatically excluded if your <code>browserslist</code>
+                    targets don't need them.</p>
+            </div>
+        </li>
+        <li>
+            <p><strong>If the dependency ships ES5 code, but uses ES6+ features without explicitly listing polyfill
+                    requirements (e.g. Vuetify):</strong> Use <code>useBuiltIns: 'entry'</code> and then add
+                <code>import 'core-js/stable'; import 'regenerator-runtime/runtime';</code> to your entry file. This
+                will import <strong>ALL</strong> polyfills based on your <code>browserslist</code> targets so that you
+                don't need to worry about dependency polyfills anymore, but will likely increase your final bundle size
+                with some unused polyfills.</p>
+        </li>
+    </ol>
+    <p>See <a href="https://new.babeljs.io/docs/en/next/babel-preset-env.html#usebuiltins-usage" target="_blank"
+            rel="noopener noreferrer">@babel/preset-env docs</a> for more details.</p>
+
+    <h4>Polyfills when Building as Library or Web Components</h4>
+    <p>When using Vue CLI to <a href="https://cli.vuejs.org/guide/build-targets.html">build a library or Web
+            Components</a>, it is recommended to pass <code>useBuiltIns: false</code> to
+        <code>@vue/babel-preset-app</code> to disable automatic
+        polyfill injection. This ensures you don't include unnecessary polyfills in your code, as it should be the
+        responsibility of the consuming app to include polyfills.</p>
+
+    <h3>Modern Mode</h3>
+    <p>With Babel we are able to leverage all the newest language features in ES2015+, but that also means we have to
+        ship transpiled and polyfilled bundles in order to support older browsers. These transpiled bundles are often
+        more verbose than the original native ES2015+ code, and also parse and run slower. Given that today a good
+        majority of the modern browsers have decent support for native ES2015, it is a waste that we have to ship
+        heavier and less efficient code to those browsers just because we have to support older ones.</p>
+    <p>Vue CLI offers a "Modern Mode" to help you solve this problem. When building for production with the following
+        command:</p>
+    <pre>
+        vue-cli-service build --modern
+    </pre>
+    <p>Vue CLI will produce two versions of your app: one modern bundle targeting modern browsers that support <a
+            href="https://jakearchibald.com/2017/es-modules-in-browsers/" target="_blank" rel="noopener noreferrer">ES
+            modules</a>, and one legacy bundle targeting older browsers that do not.</p>
+    <p>The cool part though is that there are no special deployment requirements. The generated HTML file automatically
+        employs the techniques discussed in <a
+            href="https://philipwalton.com/articles/deploying-es2015-code-in-production-today/" target="_blank"
+            rel="noopener noreferrer">Phillip Walton's excellent post</a>:</p>
+    <ul>
+        <li>
+            <p>The modern bundle is loaded with <code>&lt;script type="module"&gt;</code>, in browsers that support it; they
+                are also preloaded using <code>&lt;link rel="modulepreload"&gt;</code> instead.</p>
+        </li>
+        <li>
+            <p>The legacy bundle is loaded with <code>&lt;script nomodule&gt;</code>, which is ignored by browsers that
+                support ES modules.</p>
+        </li>
+        <li>
+            <p>A fix for <code>&lt;script nomodule&gt;</code> in Safari 10 is also automatically injected.</p>
+        </li>
+    </ul>
+    <p>TIP</p>
+    <p><code>&lt;script type="module"&gt;</code> is loaded <a
+            href="https://jakearchibald.com/2017/es-modules-in-browsers/#always-cors" target="_blank"
+            rel="noopener noreferrer">with CORS always enabled</a>. This means your server must return valid CORS
+        headers such as <code>Access-Control-Allow-Origin: *</code>. If you want to fetch the scripts with credentials,
+        set the <a href="https://cli.vuejs.org/config/#crossorigin" class="">crossorigin</a> option to
+        <code>use-credentials</code>.</p>
+    <p>Also, modern mode uses an inline script to avoid Safari 10 loading both bundles, so if you are using a strict
+        CSP, you will need to explicitly allow the inline script with:</p>
+    <pre>
+        Content-Security-Policy: script-src 'self' 'sha256-4RS22DYeB7U14dra4KcQYxmwt5HkOInieXK1NUMBmQI='
+    </pre>
+    <p>Detecting the Current Mode in Config</p>
+    <p>Sometimes you may need to change the webpack config only for the legacy build, or only for the modern build.</p>
+    <p>Vue CLI uses two environment variables to communicate this:</p>
+    <ul>
+        <li><code>VUE_CLI_MODERN_MODE</code>: The build was started with the <code>--modern</code> flag</li>
+        <li><code>VUE_CLI_MODERN_BUILD</code>: when true, the current config is for the modern build. Otherwise it's for
+            the legacy build.</li>
+    </ul>
+    <p><strong>Important:</strong> These variables are only accessible when/after <code>chainWebpack()</code> and
+        <code>configureWebpack()</code> functions are evaluated, (so not directly in the <code>vue.config.js</code>
+        module's root scope). That means it's also available in the postcss config file.</p>
+    <p>Caveat: Adjusting webpack plugins</p>
+    <p>Some Plugins, i.e. <code>html-webpack-plugin</code>, <code>preload-plugin</code> etc. are only included in the
+        config for modern mode. Trying to tap into their options in the legacy config can throw an error as the plugins
+        don't exist.</p>
+    <p>Use the above tip about <em>Detecting the Current Mode</em> to manipulate plugins in the right mode only, and/or
+        check if the plugin actually exists in the current mode's config before trying to tap into their options.</p>
+</body>
+</html>
