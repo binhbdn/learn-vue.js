@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue CLI - Working with Webpack</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+
+<body>
+    <h1>Development</h1>
+    <h2>Working with Webpack</h2>
+
+    <h3>Simple Configuration</h3>
+    <p>The easiest way to tweak the webpack config is providing an object to the <code>configureWebpack</code> option in
+        <code>vue.config.js</code>:</p>
+    <pre>
+        // vue.config.js
+        module.exports = {
+          configureWebpack: {
+            plugins: [
+              new MyAwesomeWebpackPlugin()
+            ]
+          }
+        }
+    </pre>
+    <p>The object will be merged into the final webpack config using <a
+            href="https://github.com/survivejs/webpack-merge" target="_blank"
+            rel="noopener noreferrer">webpack-merge</a>.</p>
+    <p>WARNING</p>
+    <p>Some webpack options are set based on values in <code>vue.config.js</code> and should not be mutated directly.
+        For example, instead of modifying <code>output.path</code>, you should use the <code>outputDir</code> option in
+        <code>vue.config.js</code>; instead of modifying <code>output.publicPath</code>, you should use the
+        <code>publicPath</code> option in <code>vue.config.js</code>. This is because the values in
+        <code>vue.config.js</code> will be used in multiple places inside the config to ensure everything works properly
+        together.</p>
+    <p>If you need conditional behavior based on the environment, or want to directly mutate the config, use a function
+        (which will be lazy evaluated after the env variables are set). The function receives the resolved config as the
+        argument. Inside the function, you can either mutate the config directly, OR return an object which will be
+        merged:</p>
+    <pre>
+        // vue.config.js
+        module.exports = {
+          configureWebpack: config =&gt; {
+            if (process.env.NODE_ENV === 'production') {
+              // mutate config for production...
+            } else {
+              // mutate for development...
+            }
+          }
+        }
+    </pre>
+</body>
+</html>
