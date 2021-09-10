@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue CLI - Working with Webpack</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+
+<body>
+    <h1>Development</h1>
+    <h2>Working with Webpack</h2>
+
+    <h3>Chaining (Advanced)</h3>
+
+    <h4>Replacing Loaders of a Rule</h4>
+    <p>If you want to replace an existing <a
+            href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-service/lib/config/base.js"
+            target="_blank" rel="noopener noreferrer">Base Loader</a>, for example using <code>vue-svg-loader</code> to
+        inline SVG files instead of loading the file:</p>
+    <pre>
+        // vue.config.js
+        module.exports = {
+          chainWebpack: config =&gt; {
+            const svgRule = config.module.rule('svg')
+        
+            // clear all existing loaders.
+            // if you don't do this, the loader below will be appended to
+            // existing loaders of the rule.
+            svgRule.uses.clear()
+        
+            // add replacement loader(s)
+            svgRule
+              .use('vue-svg-loader')
+                .loader('vue-svg-loader')
+          }
+        }
+    </pre>
+</body>
+</html>
