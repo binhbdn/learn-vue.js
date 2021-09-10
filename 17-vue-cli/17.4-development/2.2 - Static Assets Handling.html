@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue CLI - HTML and Static Assets</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+
+<body>
+    <h1>Development</h1>
+    <h2>HTML and Static Assets</h2>
+    <h3>Static Assets Handling</h3>
+    <p>Static assets can be handled in two different ways:</p>
+    <ul>
+        <li>
+            <p>Imported in JavaScript or referenced in templates/CSS via relative paths. Such references will be handled
+                by webpack.</p>
+        </li>
+        <li>
+            <p>Placed in the <code>public</code> directory and referenced via absolute paths. These assets will simply
+                be copied and not go through webpack.</p>
+        </li>
+    </ul>
+
+    <h4>Relative Path Imports</h4>
+    <p>When you reference a static asset using relative path (must start with <code>.</code>) inside JavaScript, CSS or
+        <code>*.vue</code> files, the asset will be included into webpack's dependency graph. During this compilation
+        process, all asset URLs such as <code>&lt;img src="..."&gt;</code>, <code>background: url(...)</code> and CSS
+        <code>@import</code> are <strong>resolved as module dependencies</strong>.</p>
+    <p>For example, <code>url(./image.png)</code> will be translated into <code>require('./image.png')</code>, and</p>
+    <pre>
+        <b>HTML:</b>
+        &lt;img src="./image.png"&gt;
+    </pre>
+    <p>will be compiled into:</p>
+    <pre>
+        <b>JS:</b>
+        h('img', { attrs: { src: require('./image.png') }})
+    </pre>
+    <p>Internally, we use <code>file-loader</code> to determine the final file location with version hashes and correct
+        public base paths, and use <code>url-loader</code> to conditionally inline assets that are smaller than 4kb,
+        reducing the amount of HTTP requests.</p>
+    <p>You can adjust the inline file size limit via <a href="https://cli.vuejs.org/config/#chainwebpack">chainWebpack</a>.
+        For example, to set the limit to 10kb instead:</p>
+    <pre>
+        // vue.config.js
+        module.exports = {
+          chainWebpack: config =&gt; {
+            config.module
+              .rule('images')
+                .use('url-loader')
+                  .loader('url-loader')
+                  .tap(options =&gt; Object.assign(options, { limit: 10240 }))
+          }
+        }
+    </pre>
+
+    <h4>URL Transform Rules</h4>
+    <ul>
+        <li>
+            <p>If the URL is an absolute path (e.g. <code>/images/foo.png</code>), it will be preserved as-is.</p>
+        </li>
+        <li>
+            <p>If the URL starts with <code>.</code>, it's interpreted as a relative module request and resolved based
+                on the folder structure on your file system.</p>
+        </li>
+        <li>
+            <p>If the URL starts with <code>~</code>, anything after it is interpreted as a module request. This means
+                you can even reference assets inside node modules:</p>
+            <pre>
+    <b>HTML:</b>
+    &lt;img src="~some-npm-package/foo.png"&gt;
+            </pre>
+        </li>
+        <li>
+            <p>If the URL starts with <code>@</code>, it's also interpreted as a module request. This is useful because
+                Vue CLI by default aliases <code>@</code> to <code>&lt;projectRoot&gt;/src</code>. <strong>(templates
+                    only)</strong></p>
+        </li>
+    </ul>
+
+    <h4>The <code>public</code> Folder</h4>
+    <p>Any static assets placed in the <code>public</code> folder will simply be copied and not go through webpack. You
+        need to reference them using absolute paths.</p>
+    <p>Note we recommend importing assets as part of your module dependency graph so that they will go through webpack
+        with the following benefits:</p>
+    <ul>
+        <li>Scripts and stylesheets get minified and bundled together to avoid extra network requests.</li>
+        <li>Missing files cause compilation errors instead of 404 errors for your users.</li>
+        <li>Result filenames include content hashes so you don’t need to worry about browsers caching their old
+            versions.</li>
+    </ul>
+    <p>The <code>public</code> directory is provided as an <strong>escape hatch</strong>, and when you reference it via
+        absolute path, you need to take into account where your app will be deployed. If your app is not deployed at the
+        root of a domain, you will need to prefix your URLs with the <a
+            href="https://cli.vuejs.org/config/#publicpath">publicPath</a>:</p>
+    <ul>
+        <li>
+            <p>In <code>public/index.html</code> or other HTML files used as templates by
+                <code>html-webpack-plugin</code>, you need to prefix the link with <code>&lt;%= BASE_URL %&gt;</code>:
+            </p>
+            <pre>
+    <b>HTML:</b>
+    &lt;link rel="icon" href="&lt;%= BASE_URL %&gt;favicon.ico"&gt;
+            </pre>
+        </li>
+        <li>
+            <p>In templates, you will need to first pass the base URL to your component:</p>
+            <pre>
+    <b>JS:</b>
+    data () {
+        return {
+            publicPath: process.env.BASE_URL
+        }
+    }
+            </pre>
+            <p>Then:</p>
+            <pre>
+    <b>HTML:</b>
+    &lt;img :src="`${publicPath}my-image.png`"&gt;
+            </pre>
+        </li>
+    </ul>
+
+    <h4>When to use the <code>public</code> folder</h4>
+    <ul>
+        <li>You need a file with a specific name in the build output.</li>
+        <li>You have thousands of images and need to dynamically reference their paths.</li>
+        <li>Some library may be incompatible with Webpack and you have no other option but to include it as a
+            <code>&lt;script&gt;</code> tag.</li>
+    </ul>
+</body>
+</html>
