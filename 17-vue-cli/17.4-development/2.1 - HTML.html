@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue CLI - HTML and Static Assets</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+
+<body>
+    <h1>Development</h1>
+    <h2>HTML and Static Assets</h2>
+    <h3>HTML</h3>
+
+    <h4>The Index File</h4>
+    <p>The file <code>public/index.html</code> is a template that will be processed with <a
+            href="https://github.com/jantimon/html-webpack-plugin" target="_blank"
+            rel="noopener noreferrer">html-webpack-plugin</a>. During build, asset links will be injected automatically.
+        In addition, Vue CLI also automatically injects resource hints (<code>preload/prefetch</code>), manifest/icon
+        links (when PWA plugin is used), and the asset links for the JavaScript and CSS files produced during the build.
+    </p>
+
+    <h4>Interpolation</h4>
+    <p>Since the index file is used as a template, you can use the <a href="https://lodash.com/docs/4.17.10#template"
+            target="_blank" rel="noopener noreferrer">lodash template</a> syntax to interpolate values in it:</p>
+    <ul>
+        <li><code>&lt;%= VALUE %&gt;</code> for unescaped interpolation;</li>
+        <li><code>&lt;%- VALUE %&gt;</code> for HTML-escaped interpolation;</li>
+        <li><code>&lt;% expression %&gt;</code> for JavaScript control flows.</li>
+    </ul>
+    <p>In addition to the <a href="https://github.com/jantimon/html-webpack-plugin#writing-your-own-templates"
+        target="_blank" rel="noopener noreferrer">default values exposed by <code>html-webpack-plugin</code></a>,
+        all <a href="https://cli.vuejs.org/guide/mode-and-env.html#using-env-variables-in-client-side-code">
+        client-side env variables</a> are also available directly. For example, to use the <code>BASE_URL</code> value:</p>
+    <pre>
+        &lt;link rel="icon" href="&lt;%= BASE_URL vfavicon.ico"&gt;
+    </pre>
+    <p>See also:</p>
+    <ul>
+        <li><a href="https://cli.vuejs.org/config/#publicpath" class="">publicPath</a></li>
+    </ul>
+
+    <h4>Preload</h4>
+    <p><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Preloading_content" target="_blank"
+            rel="noopener noreferrer"><code>&lt;link rel="preload"&gt;</code></a> is a type of resource hint that is
+        used to specify resources that your pages will need very soon after loading, which you therefore want to start
+        preloading early in the lifecycle of a page load, before the browser's main rendering machinery kicks in.</p>
+    <p>By default, a Vue CLI app will automatically generate preload hints for all files that are needed for the initial
+        rendering of your app.</p>
+    <p>The hints are injected using <a href="https://github.com/vuejs/preload-webpack-plugin" target="_blank"
+            rel="noopener noreferrer">@vue/preload-webpack-plugin</a> and can be modified / deleted via
+        <code>chainWebpack</code> as <code>config.plugin('preload')</code>.</p>
+
+    <h4>Prefetch</h4>
+    <p><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Link_prefetching_FAQ" target="_blank"
+            rel="noopener noreferrer"><code>&lt;link rel="prefetch"&gt;</code></a> is a type of resource hint that tells
+        the browser to prefetch content that the user may visit in the near future in the browser's idle time, after the
+        page finishes loading.</p>
+    <p>By default, a Vue CLI app will automatically generate prefetch hints for all JavaScript files generated for async
+        chunks (as a result of <a href="https://webpack.js.org/guides/code-splitting/#dynamic-imports" target="_blank"
+            rel="noopener noreferrer">on-demand code splitting via dynamic <code>import()</code></a>).</p>
+    <p>The hints are injected using <a href="https://github.com/vuejs/preload-webpack-plugin" target="_blank"
+            rel="noopener noreferrer">@vue/preload-webpack-plugin</a> and can be modified / deleted via
+        <code>chainWebpack</code> as <code>config.plugin('prefetch')</code>.</p>
+    <p>Note for multi page setups</p>
+    <p>When using a multipage setup, the plugin name above should be changed to match the structure
+        'prefetch-{pagename}', for example 'prefetch-app'.</p>
+    <p>Example:</p>
+    <pre>
+        // vue.config.js
+        module.exports = {
+          chainWebpack: config =&gt; {
+            // remove the prefetch plugin
+            config.plugins.delete('prefetch')
+        
+            // or:
+            // modify its options:
+            config.plugin('prefetch').tap(options =&gt; {
+              options[0].fileBlacklist = options[0].fileBlacklist || []
+              options[0].fileBlacklist.push(/myasyncRoute(.)+?\.js$/)
+              return options
+            })
+          }
+        }
+    </pre>
+    <p>When the prefetch plugin is disabled, you can manually select specific chunks to prefetch using webpack's inline
+        comments:</p>
+    <pre>
+        import(/* webpackPrefetch: true */ './someAsyncComponent.vue')
+    </pre>
+    <p>webpack's runtime will inject prefetch links when the parent chunk is loaded.</p>
+    <p>TIP</p>
+    <p>Prefetch links will consume bandwidth. If you have a large app with many async chunks and your users are
+        primarily mobile and thus bandwidth-aware, you may want to disable prefetch links and manually select chunks to
+        prefetch.</p>
+
+    <h4>Disable Index Generation</h4>
+    <p>When using Vue CLI with an existing backend, you may need to disable the generation of <code>index.html</code> so
+        that the generated assets can be used in a server-rendered page. To do so, the following can be added to <a
+            href="https://cli.vuejs.org/config/#vue-config-js" class=""><code>vue.config.js</code></a>:</p>
+    <pre>
+        // vue.config.js
+        module.exports = {
+          // disable hashes in filenames
+          filenameHashing: false,
+          // delete HTML related webpack plugins
+          chainWebpack: config =&gt; {
+            config.plugins.delete('html')
+            config.plugins.delete('preload')
+            config.plugins.delete('prefetch')
+          }
+        }
+    </pre>
+    <p>However, this is not really recommended because:</p>
+    <ul>
+        <li>Hard-coded file names makes it more difficult to implement efficient cache control.</li>
+        <li>Hard-coded file names also do not play well with code-splitting, which generates additional JavaScript files
+            with varying filenames.</li>
+        <li>Hard-coded file names do not work with <a
+                href="https://cli.vuejs.org/guide/browser-compatibility.html#modern-mode" class="">Modern Mode</a>.</li>
+    </ul>
+    <p>Instead, you should consider using the <a href="https://cli.vuejs.org/config/#indexpath" class="">indexPath</a>
+        option to use the generated HTML as a view template in your server-side framework.</p>
+    
+    <h4>Building a Multi-Page App</h4>
+    <p>Not every app has to be an SPA. Vue CLI supports building a multi-paged app using the <a
+            href="https://cli.vuejs.org/config/#pages" class=""><code>pages</code> option in
+            <code>vue.config.js</code></a>. The built app will efficiently share common chunks between multiple entries
+        for optimal loading performance.</p>
+</body>
+</html>
