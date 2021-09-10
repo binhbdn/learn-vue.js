@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue CLI - Working with CSS</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+
+<body>
+    <h1>Development</h1>
+    <h2>Working with CSS</h2>
+
+    <h3>CSS Modules</h3>
+    <p>You can <a href="https://vue-loader.vuejs.org/en/features/css-modules.html" target="_blank"
+            rel="noopener noreferrer">use CSS Modules in <code>*.vue</code> files</a> out of the box with
+        <code>&lt;style module&gt;</code>.</p>
+    <p>To import CSS or other pre-processor files as CSS Modules in JavaScript, the filename should end with
+        <code>.module.(css|less|sass|scss|styl)</code>:</p>
+    <pre>
+        import styles from './foo.module.css'
+        // works for all supported pre-processors as well
+        import sassStyles from './foo.module.scss'
+    </pre>
+    <p>If you want to drop the <code>.module</code> in the filenames, set <code>css.requireModuleExtension</code> to
+        <code>false</code> in <code>vue.config.js</code>:</p>
+    <pre>
+        // vue.config.js
+        module.exports = {
+          css: {
+            requireModuleExtension: false
+          }
+        }
+    </pre>
+    <p>If you wish to customize the generated CSS modules class names, you can do so via
+        <code>css.loaderOptions.css</code> in <code>vue.config.js</code>. All <code>css-loader</code> options are
+        supported here, for example <code>localIdentName</code> and <code>camelCase</code>:</p>
+    <pre>
+        // vue.config.js
+        module.exports = {
+          css: {
+            loaderOptions: {
+              css: {
+                // Note: the following config format is different between Vue CLI v4 and v3
+                // For Vue CLI v3 users, please refer to css-loader v1 documentations
+                // https://github.com/webpack-contrib/css-loader/tree/v1.0.1
+                modules: {
+                  localIdentName: '[name]-[hash]'
+                },
+                localsConvention: 'camelCaseOnly'
+              }
+            }
+          }
+        }
+    </pre>
+</body>
+</html>
