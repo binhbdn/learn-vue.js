@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue CLI - Working with Webpack</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+
+<body>
+    <h1>Development</h1>
+    <h2>Working with Webpack</h2>
+
+    <h3>Chaining (Advanced)</h3>
+
+    <h4>Modifying Options of a Loader</h4>
+    <pre>
+        // vue.config.js
+        module.exports = {
+          chainWebpack: config =&gt; {
+            config.module
+              .rule('vue')
+              .use('vue-loader')
+                .tap(options =&gt; {
+                  // modify the options...
+                  return options
+                })
+          }
+        }
+    </pre>
+    <p>TIP</p>
+    <p>For CSS related loaders, it's recommended to use <a href="https://cli.vuejs.org/config/#css-loaderoptions"
+            class="">css.loaderOptions</a> instead of directly targeting loaders via chaining. This is because there are
+        multiple rules for each CSS file type and <code>css.loaderOptions</code> ensures you can affect all rules in one
+        single place.</p>
+</body>
+</html>
