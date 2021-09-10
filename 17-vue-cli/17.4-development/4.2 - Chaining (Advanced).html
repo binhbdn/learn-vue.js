@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue CLI - Working with Webpack</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+
+<body>
+    <h1>Development</h1>
+    <h2>Working with Webpack</h2>
+
+    <h3>Chaining (Advanced)</h3>
+    <p>The internal webpack config is maintained using <a href="https://github.com/mozilla-neutrino/webpack-chain"
+            target="_blank" rel="noopener noreferrer">webpack-chain</a>. The library provides an abstraction over the
+        raw webpack config, with the ability to define named loader rules and named plugins, and later "tap" into those
+        rules and modify their options.</p>
+    <p>This allows us finer-grained control over the internal config. Below you will see some examples of common
+        modifications done via the <code>chainWebpack</code> option in <code>vue.config.js</code>.</p>
+    <p>TIP</p>
+    <p><a href="https://cli.vuejs.org/guide/webpack.html#inspecting-the-project-s-webpack-config">vue inspect</a> will
+        be extremely helpful when you are trying to access specific loaders via chaining.</p>
+</body>
+</html>
