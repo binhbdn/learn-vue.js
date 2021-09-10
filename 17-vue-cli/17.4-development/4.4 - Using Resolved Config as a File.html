@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue CLI - Working with Webpack</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+
+<body>
+    <h1>Development</h1>
+    <h2>Working with Webpack</h2>
+
+    <h3>Using Resolved Config as a File</h3>
+    <p>Some external tools may need access to the resolved webpack config as a file, for example IDEs or command line
+        tools that expect a webpack config path. In that case you can use the following path:</p>
+    <pre>
+        &lt;projectRoot&gt;/node_modules/@vue/cli-service/webpack.config.js
+    </pre>
+    <p>This file dynamically resolves and exports the exact same webpack config used in <code>vue-cli-service</code>
+        commands, including those from plugins and even your custom configurations.</p>
+</body>
+</html>
