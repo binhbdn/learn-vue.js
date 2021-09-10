@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue CLI - Working with CSS</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+
+<body>
+    <h1>Development</h1>
+    <h2>Working with CSS</h2>
+
+    <h3>Passing Options to Pre-Processor Loaders</h3>
+    <p>Sometimes you may want to pass options to the pre-processor's webpack loader. You can do that using the
+        <code>css.loaderOptions</code> option in <code>vue.config.js</code>. For example, to pass some shared global
+        variables to all your Sass/Less styles:</p>
+    <pre>
+        // vue.config.js
+        module.exports = {
+          css: {
+            loaderOptions: {
+              // pass options to sass-loader
+              // @/ is an alias to src/
+              // so this assumes you have a file named `src/variables.sass`
+              // Note: this option is named as "prependData" in sass-loader v8
+              sass: {
+                additionalData: `@import "~@/variables.sass"`
+              },
+              // by default the `sass` option will apply to both syntaxes
+              // because `scss` syntax is also processed by sass-loader underlyingly
+              // but when configuring the `prependData` option
+              // `scss` syntax requires an semicolon at the end of a statement, while `sass` syntax requires none
+              // in that case, we can target the `scss` syntax separately using the `scss` option
+              scss: {
+                additionalData: `@import "~@/variables.scss";`
+              },
+              // pass Less.js Options to less-loader
+              less:{
+                // http://lesscss.org/usage/#less-options-strict-units `Global Variables`
+                // `primary` is global variables fields name
+                globalVars: {
+                  primary: '#fff'
+                }
+              }
+            }
+          }
+        }
+    </pre>
+    <p>Loaders which can be configured via <code>loaderOptions</code> include:</p>
+    <ul>
+        <li><a href="https://github.com/webpack-contrib/css-loader" target="_blank"
+                rel="noopener noreferrer">css-loader</a></li>
+        <li><a href="https://github.com/postcss/postcss-loader" target="_blank"
+                rel="noopener noreferrer">postcss-loader</a></li>
+        <li><a href="https://github.com/webpack-contrib/sass-loader" target="_blank"
+                rel="noopener noreferrer">sass-loader</a></li>
+        <li><a href="https://github.com/webpack-contrib/less-loader" target="_blank"
+                rel="noopener noreferrer">less-loader</a></li>
+        <li><a href="https://github.com/shama/stylus-loader" target="_blank" rel="noopener noreferrer">stylus-loader</a>
+        </li>
+    </ul>
+    <p>TIP</p>
+    <p>This is preferred over manually tapping into specific loaders using <code>chainWebpack</code>, because these
+        options need to be applied in multiple locations where the corresponding loader is used.</p>
+</body>
+</html>
