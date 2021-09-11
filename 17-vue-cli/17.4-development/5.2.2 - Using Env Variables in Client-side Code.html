@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue CLI - Modes and Environment Variables</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+
+<body>
+    <h1>Development</h1>
+    <h2>Modes and Environment Variables</h2>
+    <h3>Environment Variables</h3>
+
+    <h4>Using Env Variables in Client-side Code</h4>
+    <p>You can access env variables in your application code:</p>
+    <pre>
+        console.log(process.env.VUE_APP_NOT_SECRET_CODE)
+    </pre>
+    <p>During build, <code>process.env.VUE_APP_NOT_SECRET_CODE</code> will be replaced by the corresponding value. In
+        the case of <code>VUE_APP_NOT_SECRET_CODE=some_value</code>, it will be replaced by <code>"some_value"</code>.
+    </p>
+    <p>In addition to <code>VUE_APP_*</code> variables, there are also two special variables that will always be
+        available in your app code:</p>
+    <ul>
+        <li><code>NODE_ENV</code> - this will be one of <code>"development"</code>, <code>"production"</code> or
+            <code>"test"</code> depending on the <a href="https://cli.vuejs.org/guide/mode-and-env.html#modes">mode</a>
+            the app is running in.</li>
+        <li><code>BASE_URL</code> - this corresponds to the <code>publicPath</code> option in <code>vue.config.js</code>
+            and is the base path your app is deployed at.</li>
+    </ul>
+    <p>All resolved env variables will be available inside <code>public/index.html</code> as discussed in <a
+            href="https://cli.vuejs.org/guide/html-and-static-assets.html#interpolation">HTML - Interpolation</a>.</p>
+    
+    <p><strong>TIP</strong></p>
+    <p>You can have computed env vars in your <code>vue.config.js</code> file. They still need to be prefixed with
+        <code>VUE_APP_</code>. This is useful for version info</p>
+    <pre>
+        process.env.VUE_APP_VERSION = require('./package.json').version
+
+        module.exports = {
+          // config
+        }
+    </pre>
+</body>
+</html>
