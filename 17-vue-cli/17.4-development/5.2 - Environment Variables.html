@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue CLI - Modes and Environment Variables</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+
+<body>
+    <h1>Development</h1>
+    <h2>Modes and Environment Variables</h2>
+
+    <h3>Environment Variables</h3>
+    <p>You can specify env variables by placing the following files in your project root:</p>
+    <pre>
+        .env                # loaded in all cases
+        .env.local          # loaded in all cases, ignored by git
+        .env.[mode]         # only loaded in specified mode
+        .env.[mode].local   # only loaded in specified mode, ignored by git
+    </pre>
+    <p>An env file simply contains key=value pairs of environment variables:</p>
+    <pre>
+        FOO=bar
+        VUE_APP_NOT_SECRET_CODE=some_value
+    </pre>
+    <p><strong>WARNING</strong></p>
+    <p>Do not store any secrets (such as private API keys) in your app!</p>
+    <p>Environment variables are embedded into the build, meaning anyone can view them by inspecting your app's files.
+    </p>
+    <p>Note that only <code>NODE_ENV</code>, <code>BASE_URL</code>, and variables that start with <code>VUE_APP_</code>
+        will be statically embedded into the <em>client bundle</em> with <code>webpack.DefinePlugin</code>. It is to
+        avoid accidentally exposing a private key on the machine that could have the same name.</p>
+    <p>For more detailed env parsing rules, please refer to <a href="https://github.com/motdotla/dotenv#rules"
+            target="_blank" rel="noopener noreferrer">the documentation of <code>dotenv</code></a>. We also use <a
+            href="https://github.com/motdotla/dotenv-expand" target="_blank" rel="noopener noreferrer">dotenv-expand</a>
+        for variable expansion (available in Vue CLI 3.5+). For example:</p>
+    <pre>
+        FOO=foo
+        BAR=bar
+        
+        CONCAT=$FOO$BAR # CONCAT=foobar
+    </pre>
+    <p>Loaded variables will become available to all <code>vue-cli-service</code> commands, plugins and dependencies.</p>
+
+    <p><strong>Env Loading Priorities</strong></p>
+    <p>An env file for a specific mode (e.g. <code>.env.production</code>) will take higher priority than a generic one
+        (e.g. <code>.env</code>).</p>
+    <p>In addition, environment variables that already exist when Vue CLI is executed have the highest priority and will
+        not be overwritten by <code>.env</code> files.</p>
+    <p><code>.env</code> files are loaded at the start of <code>vue-cli-service</code>. Restart the service after making
+        changes.</p>
+</body>
+</html>
