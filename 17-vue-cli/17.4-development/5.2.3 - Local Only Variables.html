@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue CLI - Modes and Environment Variables</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+
+<body>
+    <h1>Development</h1>
+    <h2>Modes and Environment Variables</h2>
+    <h3>Environment Variables</h3>
+
+    <h4>Local Only Variables</h4>
+    <p>Sometimes you might have env variables that should not be committed into the codebase, especially if your project
+        is hosted in a public repository. In that case you should use an <code>.env.local</code> file instead. Local env
+        files are ignored in <code>.gitignore</code> by default.</p>
+    <p><code>.local</code> can also be appended to mode-specific env files, for example
+        <code>.env.development.local</code> will be loaded during development, and is ignored by git.</p>
+</body>
+</html>
