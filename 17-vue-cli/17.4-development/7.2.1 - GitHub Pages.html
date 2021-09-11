@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue CLI - Deployment</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+
+<body>
+    <h1><a href="https://cli.vuejs.org/guide/deployment.html#deployment">#</a> Deployment</h1>
+    <h2><a href="https://cli.vuejs.org/guide/deployment.html#platform-guides">#</a> Platform Guides</h2>
+    <h3><a href="https://cli.vuejs.org/guide/deployment.html#github-pages">#</a> GitHub Pages</h3>
+
+    <h4><a href="https://cli.vuejs.org/guide/deployment.html#pushing-updates-manually">#</a> Pushing updates manually</h4>
+    <ol>
+        <li>
+            <p>Set correct <code>publicPath</code> in <code>vue.config.js</code>.</p>
+            <p>If you are deploying to <code>https://&lt;USERNAME&gt;.github.io/</code> or to a custom domain, you can
+                omit <code>publicPath</code> as it defaults to <code>"/"</code>.</p>
+            <p>If you are deploying to <code>https://&lt;USERNAME&gt;.github.io/&lt;REPO&gt;/</code>, (i.e. your
+                repository is at <code>https://github.com/&lt;USERNAME&gt;/&lt;REPO&gt;</code>), set
+                <code>publicPath</code> to <code>"/&lt;REPO&gt;/"</code>. For example, if your repo name is
+                "my-project", your <code>vue.config.js</code> should look like this:</p>
+            <pre>
+    // vue.config.js file to be place in the root of your repository
+
+    module.exports = {
+        publicPath: process.env.NODE_ENV === 'production'
+        ? '/my-project/'
+        : '/'
+    }
+            </pre>
+        </li>
+        <li>
+            <p>Inside your project, create <code>deploy.sh</code> with the following content (with highlighted lines uncommented appropriately) and run it to deploy:</p>
+            <pre>
+    #!/usr/bin/env sh
+
+    # abort on errors
+    set -e
+    
+    # build
+    npm run build
+    
+    # navigate into the build output directory
+    cd dist
+    
+    # if you are deploying to a custom domain
+    <mark># echo 'www.example.com' &gt; CNAME</mark>
+    
+    git init
+    git add -A
+    git commit -m 'deploy'
+    
+    # if you are deploying to https://&lt;USERNAME&gt;.github.io
+    <mark># git push -f git@github.com:&lt;USERNAME&gt;/&lt;USERNAME&gt;.github.io.git main</mark>
+    
+    # if you are deploying to https://&lt;USERNAME&gt;.github.io/&lt;REPO&gt;
+    <mark># git push -f git@github.com:&lt;USERNAME&gt;/&lt;REPO&gt;.git main:gh-pages</mark>
+    
+    cd -
+            </pre>
+        </li>
+    </ol>
+
+    <h4><a href="https://cli.vuejs.org/guide/deployment.html#using-travis-ci-for-automatic-updates">#</a> Using Travis CI for automatic updates</h4>
+    <ol>
+        <li>
+            <p>Set correct <code>publicPath</code> in <code>vue.config.js</code> as explained above.</p>
+        </li>
+        <li>
+            <p>Install the Travis CLI client: <code>gem install travis &amp;&amp; travis --login</code></p>
+        </li>
+        <li>
+            <p>Generate a GitHub <a
+                    href="https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line"
+                    target="_blank" rel="noopener noreferrer">access token
+
+                </a>
+                with repo permissions.</p>
+        </li>
+        <li>
+            <p>Grant the Travis job access to your repository: <code>travis env set GITHUB_TOKEN xxx</code>
+                (<code>xxx</code> is the personal access token from step 3.)</p>
+        </li>
+        <li>
+            <p>Create a <code>.travis.yml</code> file in the root of your project.</p>
+            <pre>
+    language: node_js
+    node_js:
+        - "node"
+    
+    cache: npm
+    
+    script: npm run build
+    
+    deploy:
+        provider: pages
+        skip_cleanup: true
+        github_token: $GITHUB_TOKEN
+        local_dir: dist
+        on:
+        branch: main
+            </pre>
+        </li>
+        <li>
+            <p>Push the <code>.travis.yml</code> file to your repository to trigger the first build.</p>
+        </li>
+    </ol>
+</body>
+</html>
