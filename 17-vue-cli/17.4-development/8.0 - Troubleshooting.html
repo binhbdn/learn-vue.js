@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue CLI - Deployment</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+
+<body>
+    <h1><a href="https://cli.vuejs.org/guide/troubleshooting.html#troubleshooting">#</a> Troubleshooting</h1>
+    <p>This document covers some common Vue CLI issues and how to resolve them. You should always follow these steps
+        before opening a new issue.</p>
+
+    <h2><a href="https://cli.vuejs.org/guide/troubleshooting.html#running-installation-with-sudo-or-as-root">#</a>
+        Running installation with <code>sudo</code> or as <code>root</code></h2>
+    <p>If you install <code>@vue/cli-service</code> as <code>root</code> user or with <code>sudo</code>, there might be
+        issues when running package <code>postinstall</code> scripts.</p>
+    <p>This is a security feature of npm. You should always avoid running npm with root privileges because install
+        scripts can be unintentionally malicious.</p>
+    <p>If you must however, you can workaround this error by setting the <code>--unsafe-perm</code> flag of npm. This
+        can be done by prefixing the command with an environment variable, i.e.</p>
+    <pre>
+        npm_config_unsafe_perm=true vue create my-project
+    </pre>
+
+    <h2><a href="https://cli.vuejs.org/guide/troubleshooting.html#symbolic-links-in-node-modules">#</a> Symbolic Links
+        in <code>node_modules</code></h2>
+    <p>If there're dependencies installed by <code>npm link</code> or <code>yarn link</code>, ESLint (and sometimes
+        Babel as well) may not work properly for those symlinked dependencies. It is because <a
+            href="https://webpack.js.org/configuration/resolve/#resolvesymlinks" target="_blank"
+            rel="noopener noreferrer">webpack resolves symlinks to their real locations by default</a>, thus breaks
+        ESLint / Babel config lookup.</p>
+    <p>A workaround for this issue is to manually disable symlinks resolution in webpack:</p>
+    <pre>
+        // vue.config.js
+        module.exports = {
+          chainWebpack: (config) =&gt; {
+            config.resolve.symlinks(false)
+          }
+        }
+    </pre>
+    <p>
+        <mark><strong>WARNING</strong></mark>
+    </p>
+    <p>Disabling <code>resolve.symlinks</code> may break hot module reloading if your dependencies are installed by
+        third-party npm clients that utilized symbolic links, such as<code>cnpm</code> or <code>pnpm</code>.</p>
+</body>
+</html>
