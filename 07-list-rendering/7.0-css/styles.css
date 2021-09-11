@@ -42,3 +42,7 @@ p.tip:before {
     user-select: none;
     overflow-x: auto;
 }
+pre {
+    background-color: black;
+    color: #eee;
+}
