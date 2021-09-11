@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue CLI - Deployment</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+
+<body>
+    <h1><a href="https://cli.vuejs.org/guide/deployment.html#deployment">#</a> Deployment</h1>
+    <h2><a href="https://cli.vuejs.org/guide/deployment.html#general-guidelines">#</a> General Guidelines</h2>
+    <p>If you are using Vue CLI along with a backend framework that handles static assets as part of its deployment, all
+        you need to do is make sure Vue CLI generates the built files in the correct location, and then follow the
+        deployment instruction of your backend framework.</p>
+    <p>If you are developing your frontend app separately from your backend - i.e. your backend exposes an API for your
+        frontend to talk to, then your frontend is essentially a purely static app. You can deploy the built content in
+        the <code>dist</code> directory to any static file server, but make sure to set the correct <a
+            href="https://cli.vuejs.org/config/#publicpath">publicPath</a>.</p>
+
+    <h3><a href="https://cli.vuejs.org/guide/deployment.html#previewing-locally">#</a> Previewing Locally</h3>
+    <p>The <code>dist</code> directory is meant to be served by an HTTP server (unless you've configured
+        <code>publicPath</code> to be a relative value), so it will not work if you open <code>dist/index.html</code>
+        directly over <code>file://</code> protocol. The easiest way to preview your production build locally is using a
+        Node.js static file server, for example <a href="https://github.com/zeit/serve" target="_blank"
+            rel="noopener noreferrer">serve</a>:</p>
+    <pre>
+        npm install -g serve
+        # -s flag means serve it in Single-Page Application mode
+        # which deals with the routing problem below
+        serve -s dist
+    </pre>
+
+    <h3><a href="https://cli.vuejs.org/guide/deployment.html#routing-with-history-pushstate">#</a> Routing with <code>history.pushState</code></h3>
+    <p>If you are using Vue Router in <code>history</code> mode, a simple static file server will fail. For example, if
+        you used Vue Router with a route for <code>/todos/42</code>, the dev server has been configured to respond to
+        <code>localhost:3000/todos/42</code> properly, but a simple static server serving a production build will
+        respond with a 404 instead.</p>
+    <p>To fix that, you will need to configure your production server to fallback to <code>index.html</code> for any
+        requests that do not match a static file. The Vue Router docs provides <a
+            href="https://router.vuejs.org/guide/essentials/history-mode.html" target="_blank"
+            rel="noopener noreferrer">configuration instructions for common server setups</a>.</p>
+
+    <h3><a href="https://cli.vuejs.org/guide/deployment.html#cors">#</a> CORS</h3>
+    <p>If your static frontend is deployed to a different domain from your backend API, you will need to properly
+        configure <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS" target="_blank"
+            rel="noopener noreferrer">CORS</a>.</p>
+
+    <h3><a href="https://cli.vuejs.org/guide/deployment.html#pwa">#</a> PWA</h3>
+    <p>If you are using the PWA plugin, your app must be served over HTTPS so that <a
+            href="https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API" target="_blank"
+            rel="noopener noreferrer">Service Worker</a> can be properly registered.</p>
+</body>
+</html>
