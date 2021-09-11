@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue CLI - Build Targets</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+
+<body>
+    <h1>Development</h1>
+    <h2>Build Targets</h2>
+
+    <h3>Using vuex in builds</h3>
+    <p>When building a <a href="https://cli.vuejs.org/guide/build-targets.html#web-component">Webcomponent</a> or <a
+            href="https://cli.vuejs.org/guide/build-targets.html#library">Library</a>, the entry point is not
+        <code>main.js</code>, but an <code>entry-wc.js</code> file, generated here: <a
+            href="https://github.com/vuejs/vue-cli/blob/dev/packages/%40vue/cli-service/lib/commands/build/resolveWcEntry.js"
+            target="_blank"
+            rel="noopener noreferrer">https://github.com/vuejs/vue-cli/blob/dev/packages/%40vue/cli-service/lib/commands/build/resolveWcEntry.js</a>
+    </p>
+    <p>So to use vuex in web component target, you need to initialize the store in <code>App.vue</code>:</p>
+    <pre>
+        import store from './store'
+
+        // ...
+        
+        export default {
+          store,
+          name: 'App',
+          // ...
+        }
+    </pre>
+</body>
+</html>
