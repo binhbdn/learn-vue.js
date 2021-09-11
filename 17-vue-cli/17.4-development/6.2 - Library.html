@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue CLI - Build Targets</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+
+<body>
+    <h1>Development</h1>
+    <h2>Build Targets</h2>
+
+    <h3>Library</h3>
+    <p><strong>Note on Vue Dependency</strong></p>
+    <p>In lib mode, Vue is <em>externalized</em>. This means the bundle will not bundle Vue even if your code imports
+        Vue. If the lib is used via a bundler, it will attempt to load Vue as a dependency through the bundler;
+        otherwise, it falls back to a global <code>Vue</code> variable.</p>
+    <p>To avoid this behavior provide <code>--inline-vue</code> flag to <code>build</code> command.</p>
+    <pre>
+        vue-cli-service build --target lib --inline-vue
+    </pre>
+    <p>You can build a single entry as a library using</p>
+    <pre>
+        vue-cli-service build --target lib --name myLib [entry]
+    </pre>
+    <pre>
+        File                     Size                     Gzipped
+
+        dist/myLib.umd.min.js    13.28 kb                 8.42 kb
+        dist/myLib.umd.js        20.95 kb                 10.22 kb
+        dist/myLib.common.js     20.57 kb                 10.09 kb
+        dist/myLib.css           0.33 kb                  0.23 kb
+    </pre>
+    <p>The entry can be either a <code>.js</code> or a <code>.vue</code> file. If no entry is specified,
+        <code>src/App.vue</code> will be used.</p>
+    <p>A lib build outputs:</p>
+    <ul>
+        <li>
+            <p><code>dist/myLib.common.js</code>: A CommonJS bundle for consuming via bundlers (unfortunately, webpack
+                currently does not support ES modules output format for bundles yet)</p>
+        </li>
+        <li>
+            <p><code>dist/myLib.umd.js</code>: A UMD bundle for consuming directly in browsers or with AMD loaders</p>
+        </li>
+        <li>
+            <p><code>dist/myLib.umd.min.js</code>: Minified version of the UMD build.</p>
+        </li>
+        <li>
+            <p><code>dist/myLib.css</code>: Extracted CSS file (can be forced into inlined by setting <code>css: {
+                    extract: false }</code> in <code>vue.config.js</code>)</p>
+        </li>
+    </ul>
+
+    <p><strong>WARNING</strong></p>
+    <p>If you are developing a library or in a monorepo, please be aware that CSS imports <strong>are side
+            effects</strong>. Make sure to <strong>remove</strong> <code>"sideEffects": false</code> in the
+        <code>package.json</code>, otherwise CSS chunks will be dropped by webpack in production builds.</p>
+    
+    <h4>Vue vs. JS/TS Entry Files</h4>
+    <p>When using a <code>.vue</code> file as entry, your library will directly expose the Vue component itself, because
+        the component is always the default export.</p>
+    <p>However, when you are using a <code>.js</code> or <code>.ts</code> file as your entry, it may contain named
+        exports, so your library will be exposed as a Module. This means the default export of your library must be
+        accessed as <code>window.yourLib.default</code> in UMD builds, or as <code>const myLib =
+            require('mylib').default</code> in CommonJS builds. If you don't have any named exports and wish to directly
+        expose the default export, you can use the following webpack configuration in <code>vue.config.js</code>:</p>
+    <pre>
+        module.exports = {
+            configureWebpack: {
+                output: {
+                    libraryExport: 'default'
+                }
+            }
+        }
+    </pre>
+</body>
+</html>
