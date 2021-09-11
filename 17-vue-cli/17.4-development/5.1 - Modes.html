@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue CLI - Modes and Environment Variables</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+
+<body>
+    <h1>Development</h1>
+    <h2>Modes and Environment Variables</h2>
+
+    <h3>Modes</h3>
+    <p><strong>Mode</strong> is an important concept in Vue CLI projects. By default, there are three modes:</p>
+    <ul>
+        <li><code>development</code> is used by <code>vue-cli-service serve</code></li>
+        <li><code>test</code> is used by <code>vue-cli-service test:unit</code></li>
+        <li><code>production</code> is used by <code>vue-cli-service build</code> and <code>vue-cli-service test:e2e</code></li>
+    </ul>
+    <p>You can overwrite the default mode used for a command by passing the <code>--mode</code> option flag. For
+        example, if you want to use development variables in the build command:</p>
+    <pre>
+        vue-cli-service build --mode development
+    </pre>
+    <p>When running <code>vue-cli-service</code>, environment variables are loaded from all <a
+            href="https://cli.vuejs.org/guide/mode-and-env.html#environment-variables">corresponding files</a>. If they
+        don't contain a <code>NODE_ENV</code>
+        variable, it will be set accordingly. For example, <code>NODE_ENV</code> will be set to
+        <code>"production"</code> in production mode, <code>"test"</code> in test mode, and defaults to
+        <code>"development"</code> otherwise.</p>
+    <p>Then <code>NODE_ENV</code> will determine the primary mode your app is running in - development, production or
+        test - and consequently, what kind of webpack config will be created.</p>
+    <p>With <code>NODE_ENV</code> set to "test" for example, Vue CLI creates a webpack config that is intended to be
+        used and optimized for unit tests. It doesn't process images and other assets that are unnecessary for unit
+        tests.</p>
+    <p>Similarly, <code>NODE_ENV=development</code> creates a webpack configuration which enables HMR, doesn't hash
+        assets or create vendor bundles in order to allow for fast re-builds when running a dev server.</p>
+    <p>When you are running <code>vue-cli-service build</code>, your <code>NODE_ENV</code> should always be set to
+        "production" to obtain an app ready for deployment, regardless of the environment you're deploying to.</p>
+    <p>NODE_ENV</p>
+    <p>If you have a default <code>NODE_ENV</code> in your environment, you should either remove it or explicitly set
+        <code>NODE_ENV</code> when running <code>vue-cli-service</code> commands.</p>
+</body>
+</html>
