@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue CLI - Build Targets</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+
+<body>
+    <h1>Development</h1>
+    <h2>Build Targets</h2>
+    <p>When you run <code>vue-cli-service build</code>, you can specify different build targets via the
+        <code>--target</code> option. This allows you to use the same code base to produce different builds for
+        different use cases.</p>
+
+    <h3>App</h3>
+    <p>App is the default build target. In this mode:</p>
+    <ul>
+        <li><code>index.html</code> with asset and resource hints injection</li>
+        <li>vendor libraries split into a separate chunk for better caching</li>
+        <li>static assets under 4kb are inlined into JavaScript</li>
+        <li>static assets in <code>public</code> are copied into output directory</li>
+    </ul>
+</body>
+</html>
