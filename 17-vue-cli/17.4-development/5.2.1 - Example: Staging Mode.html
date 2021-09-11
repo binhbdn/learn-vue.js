@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue CLI - Modes and Environment Variables</title>
+    <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+
+<body>
+    <h1>Development</h1>
+    <h2>Modes and Environment Variables</h2>
+    <h3>Environment Variables</h3>
+
+    <h4>Example: Staging Mode</h4>
+    <p>Assuming we have an app with the following <code>.env</code> file:</p>
+    <pre>
+        VUE_APP_TITLE=My App
+    </pre>
+    <p>And the following <code>.env.staging</code> file:</p>
+    <pre>
+        NODE_ENV=production
+        VUE_APP_TITLE=My Staging App
+    </pre>
+    <ul>
+        <li>
+            <p><code>vue-cli-service build</code> builds a production app, loading <code>.env</code>,
+                <code>.env.production</code> and <code>.env.production.local</code> if they are present;</p>
+        </li>
+        <li>
+            <p><code>vue-cli-service build --mode staging</code> builds a production app in staging mode, using
+                <code>.env</code>, <code>.env.staging</code> and <code>.env.staging.local</code> if they are present.
+            </p>
+        </li>
+    </ul>
+    <p>In both cases, the app is built as a production app because of the <code>NODE_ENV</code>, but in the staging
+        version, <code>process.env.VUE_APP_TITLE</code> is overwritten with a different value.</p>
+</body>
+</html>
