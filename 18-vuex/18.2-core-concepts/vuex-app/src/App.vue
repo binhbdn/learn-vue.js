@@ -3,6 +3,7 @@
     <HelloWorld msg="VueX Core Concepts" />
     <TheMapStateHelper />
     <ObjectSpreadOperator />
+    <Getters />
   </div>
 </template>
 
@@ -10,6 +11,7 @@
 import HelloWorld from "./components/HelloWorld.vue";
 import TheMapStateHelper from "./components/TheMapStateHelper.vue";
 import ObjectSpreadOperator from "./components/ObjectSpreadOperator.vue";
+import Getters from "./components/Getters.vue";
 
 export default {
   name: "App",
@@ -17,6 +19,7 @@ export default {
     HelloWorld,
     TheMapStateHelper,
     ObjectSpreadOperator,
+    Getters,
   },
 };
 </script>
