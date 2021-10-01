@@ -6,6 +6,7 @@
     <Getters />
     <Mutations />
     <Actions />
+    <Modules />
   </div>
 </template>
 
@@ -16,6 +17,7 @@ import ObjectSpreadOperator from "./components/ObjectSpreadOperator.vue";
 import Getters from "./components/Getters.vue";
 import Mutations from "./components/Mutations.vue";
 import Actions from "./components/Actions.vue";
+import Modules from "./components/Modules.vue";
 
 export default {
   name: "App",
@@ -26,6 +28,7 @@ export default {
     Getters,
     Mutations,
     Actions,
+    Modules,
   },
 };
 </script>

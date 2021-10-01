@@ -9,7 +9,148 @@ import {
 Vue.use(Vuex)
 Vue.config.productionTip = false
 
+const moduleA = {
+  state: () => ({
+    count: 3,
+  }),
+
+  getters: {
+    // `state` is the local module state
+    doubleCount: state => state.count * 2,
+  },
+
+  mutations: {
+    // `state` is the local module state
+    increment: state => state.count++,
+  },
+
+  actions: {
+    // inside module actions, context.state will expose the local state
+    incrementIfOdd({
+      state,
+      commit
+    }) {
+      if (state.count % 2 === 1) {
+        commit('increment')
+      }
+    },
+  },
+}
+
+const moduleB = {
+  state: {
+    count: 7,
+  },
+
+  getters: {
+    sumWithRootCount(state, getters, rootState) {
+      return state.count + rootState.count
+    },
+  },
+
+  mutations: {
+    // `state` is the local module state
+    increment: state => state.count++,
+  },
+
+  actions: {
+    // inside module actions, context.state will expose the local state
+    // and root state will be exposed as context.rootState
+    incrementIfOddOnRootSum({
+      state,
+      commit,
+      rootState
+    }) {
+      if ((state.count + rootState.count) % 2 === 1) {
+        commit('increment')
+      }
+    },
+  },
+}
+
+const moduleC = {
+  namespaced: true,
+
+  modules: {
+    subModule: {
+      namespaced: true,
+
+      state: {
+        count: 33,
+      },
+    }
+  },
+
+  state: {
+    count: 55,
+  },
+
+  getters: {
+    // `state` is the local module state
+    doubleCount: state => state.count * 2,
+
+    /*
+    someGetter(state, getters, rootState, rootGetters) {
+      rootGetters.count;
+      state.count;
+
+      getters.someOtherGetter;
+      rootGetters.someOtherGetter;
+    }
+    */
+  },
+
+  mutations: {
+    increment: state => state.count++,
+  },
+
+  actions: {
+    // inside module actions, context.state will expose the local state
+    incrementIfOdd({
+      state,
+      commit
+    }) {
+      if (state.count % 2 === 1) {
+        commit('increment')
+      }
+    },
+
+    someGlobalAction: {
+      root: true,
+      handler({
+        commit
+      }) {
+        commit('increment')
+      }
+    },
+
+    /*
+    someAction({
+      dispatch,
+      commit,
+      getters,
+      rootGetters
+    }) {
+      getters.someOtherGetter;
+      rootGetters.someOtherGetter;
+
+      dispatch('someOtherAction');
+      dispatch('someOtherAction', null, { root: true });
+
+      commit('someMutation');
+      commit('someMutation', null, { root: true });
+    },
+    */
+  },
+}
+
 const store = new Vuex.Store({
+  modules: {
+    a: moduleA,
+    b: moduleB,
+    c: moduleC,
+  },
+
   state: {
     count: 0,
 
