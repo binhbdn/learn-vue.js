@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import App from './App.vue'
+import {
+  MY_SQUARE_MUTATION
+} from './js/mutation-types'
 
 Vue.use(Vuex)
 Vue.config.productionTip = false
@@ -38,6 +41,17 @@ const store = new Vuex.Store({
 
   mutations: {
     increment: state => state.count++,
+    incrementBy(state, n) {
+      state.count += n
+    },
+    incrementPayload(state, payload) {
+      state.count += payload.amount
+    },
+    // we can use the ES2015 computed property name feature
+    // to use a constant as the function name
+    [MY_SQUARE_MUTATION](state) {
+      state.count *= state.count
+    },
     decrement: state => state.count--
   },
 })

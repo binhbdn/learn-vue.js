@@ -4,6 +4,7 @@
     <TheMapStateHelper />
     <ObjectSpreadOperator />
     <Getters />
+    <Mutations />
   </div>
 </template>
 
@@ -12,6 +13,7 @@ import HelloWorld from "./components/HelloWorld.vue";
 import TheMapStateHelper from "./components/TheMapStateHelper.vue";
 import ObjectSpreadOperator from "./components/ObjectSpreadOperator.vue";
 import Getters from "./components/Getters.vue";
+import Mutations from "./components/Mutations.vue";
 
 export default {
   name: "App",
@@ -20,6 +22,7 @@ export default {
     TheMapStateHelper,
     ObjectSpreadOperator,
     Getters,
+    Mutations,
   },
 };
 </script>
