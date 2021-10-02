@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Strict Mode</title>
+  <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+
+<body>
+  <h1>Strict Mode</h1>
+  <p>To enable strict mode, simply pass in <code>strict: true</code> when creating a Vuex store:</p>
+  <pre>
+    const store = new Vuex.Store({
+      // ...
+      strict: true
+    })
+  </pre>
+  <p>In strict mode, whenever Vuex state is mutated outside of mutation handlers, an error will be thrown. This ensures
+    that all state mutations can be explicitly tracked by debugging tools.</p>
+  <h2>Development vs. Production</h2>
+  <p><strong>Do not enable strict mode when deploying for production!</strong> Strict mode runs a synchronous deep
+    watcher on the state tree for detecting inappropriate mutations, and it can be quite expensive when you make large
+    amount of mutations to the state. Make sure to turn it off in production to avoid the performance cost.</p>
+  <p>Similar to plugins, we can let the build tools handle that:</p>
+  <pre>
+    const store = new Vuex.Store({
+      // ...
+      strict: process.env.NODE_ENV !== 'production'
+    })
+  </pre>
+</body>
+
+</html>
