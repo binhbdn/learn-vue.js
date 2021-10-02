@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Application Structure</title>
+  <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+
+<body>
+  <p>Vuex doesn't really restrict how you structure your code. Rather, it enforces a set of high-level principles:</p>
+  <ol>
+    <li>
+      <p>Application-level state is centralized in the store.</p>
+    </li>
+    <li>
+      <p>The only way to mutate the state is by committing <strong>mutations</strong>, which are synchronous
+        transactions.</p>
+    </li>
+    <li>
+      <p>Asynchronous logic should be encapsulated in, and can be composed with <strong>actions</strong>.</p>
+    </li>
+  </ol>
+  <p>As long as you follow these rules, it's up to you how to structure your project. If your store file gets too big,
+    simply start splitting the actions, mutations and getters into separate files.</p>
+  <p>For any non-trivial app, we will likely need to leverage modules. Here's an example project structure:</p>
+  <pre>
+  ├── index.html
+  ├── main.js
+  ├── api
+  │   └── ... # abstractions for making API requests
+  ├── components
+  │   ├── App.vue
+  │   └── ...
+  └── store
+      ├── index.js          # where we assemble modules and export the store
+      ├── actions.js        # root actions
+      ├── mutations.js      # root mutations
+      └── modules
+          ├── cart.js       # cart module
+          └── products.js   # products module
+  </pre>
+</body>
+
+</html>
