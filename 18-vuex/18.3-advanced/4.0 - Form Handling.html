@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form Handling</title>
+  <link rel="stylesheet" href="../../07-list-rendering/7.0-css/styles.css">
+</head>
+
+<body>
+  <h1>Form Handling</h1>
+  <p>When using Vuex in strict mode, it could be a bit tricky to use <code>v-model</code> on a piece of state that
+    belongs to Vuex:</p>
+  <pre>
+    &lt;input v-model="obj.message"&gt;
+  </pre>
+  <p>Assuming <code>obj</code> is a computed property that returns an Object from the store, the <code>v-model</code>
+    here will attempt to directly mutate <code>obj.message</code> when the user types in the input. In strict mode, this
+    will result in an error because the mutation is not performed inside an explicit Vuex mutation handler.</p>
+  <p>The "Vuex way" to deal with it is binding the <code>&lt;input&gt;</code>'s value and call a method on the
+    <code>input</code> or <code>change</code> event:</p>
+  <pre>
+    &lt;input :value="message" @input="updateMessage"&gt;
+  </pre>
+  <pre>
+    // ...
+    computed: {
+      ...mapState({
+        message: state =&gt; state.obj.message
+      })
+    },
+    methods: {
+      updateMessage (e) {
+        this.$store.commit('updateMessage', e.target.value)
+      }
+    }
+  </pre>
+  <p>And here's the mutation handler:</p>
+  <pre>
+    // ...
+    mutations: {
+      updateMessage (state, message) {
+        state.obj.message = message
+      }
+    }
+  </pre>
+
+  <h2>Two-way Computed Property</h2>
+  <p>Admittedly, the above is quite a bit more verbose than <code>v-model</code> + local state, and we lose some of the
+    useful features from <code>v-model</code> as well. An alternative approach is using a two-way computed property with
+    a setter:</p>
+  <pre>
+    &lt;input v-model="obj.message"&gt;
+  </pre>
+  <pre>
+    // ...
+    computed: {
+      message: {
+        get () {
+          return this.$store.state.obj.message
+        },
+        set (value) {
+          this.$store.commit('updateMessage', value)
+        }
+      }
+    }
+  </pre>
+</body>
+
+</html>
